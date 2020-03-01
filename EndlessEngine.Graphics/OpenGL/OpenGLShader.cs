@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EndlessEngine.Core;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 
@@ -9,7 +10,7 @@ namespace EndlessEngine.Graphics.OpenGL
     public class OpenGLShader : IShader
     {
         private readonly uint _id;
-        private IDictionary<string, int> _uniforms;
+        private readonly IDictionary<string, int> _uniforms;
 
         public OpenGLShader(string[] vertexSource, string[] fragmentSource)
         {
@@ -101,6 +102,26 @@ namespace EndlessEngine.Graphics.OpenGL
         {
             var location = GetUniformLocation(name);
             Gl.Uniform4(location, v1, v2, v3, v4);
+        }
+
+        public void SetUniform(string name, MatrixUniformType type, bool transposed, float[] data)
+        {
+            var location = GetUniformLocation(name);
+            switch (type)
+            {
+                case MatrixUniformType.Matrix2:
+                    Gl.UniformMatrix2(location, transposed, data);
+                    break;
+                case MatrixUniformType.Matrix3:
+                    Gl.UniformMatrix3(location, transposed, data);
+                    break;
+                case MatrixUniformType.Matrix4:
+                    Gl.UniformMatrix4(location, transposed, data);
+                    break;
+                default:
+                    Log.Instance.Error("Unknown ShaderDataType");
+                    throw new ArgumentOutOfRangeException("Unknown ShaderDataType");
+            }
         }
 
         private int GetUniformLocation(string name)

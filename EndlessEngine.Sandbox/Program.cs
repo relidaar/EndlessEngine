@@ -1,4 +1,5 @@
-﻿using EndlessEngine.Graphics;
+﻿using System.IO;
+using EndlessEngine.Graphics;
 using EndlessEngine.Graphics.Interfaces;
 using EndlessEngine.Graphics.OpenGL;
 
@@ -6,30 +7,13 @@ namespace EndlessEngine.Sandbox
 {
     internal class Program
     {
-        private static readonly IGraphicsFactory _graphics = new OpenGLGraphicsFactory();
+        private static readonly IGraphicsFactory Graphics = new OpenGLGraphicsFactory();
 
         private static void Main(string[] args)
         {
-            string[] vertexSrc =
-            {
-                "#version 330 core\n",
-                "layout(location = 0) in vec3 aPosition;\n",
-                "layout(location = 1) in vec2 aTexture;\n",
-                "out vec2 vTexture;\n",
-                "void main() {\n",
-                "	vTexture = aTexture;\n",
-                "	gl_Position = vec4(aPosition, 1.0);\n",
-                "}\n"
-            };
-            string[] fragmentSrc =
-            {
-                "#version 330 core\n",
-                "layout(location = 0) out vec4 color;\n",
-                "in vec2 vTexture;\n",
-                "void main() {\n",
-                "	color = vec4(vTexture, 0.0, 1.0);\n",
-                "}\n"
-            };
+            var vertexSrc = File.ReadAllLines("resources/shaders/vertex.sh");
+            var fragmentSrc = File.ReadAllLines("resources/shaders/fragment.sh");
+            var shader = Graphics.CreateShader(vertexSrc, fragmentSrc);
 
             var props = new WindowProperties
             {
@@ -38,34 +22,35 @@ namespace EndlessEngine.Sandbox
                 Title = "EndlessEngine"
             };
 
-            using var window = _graphics.CreateWindow(props);
-            var renderer = _graphics.CreateRenderer();
+            using var window = Graphics.CreateWindow(props);
+            var renderer = Graphics.CreateRenderer();
 
             var vertices = new[]
             {
                 -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-                0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-                0.0f, 0.5f, 0.0f, 0.0f, 1.0f
+                 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+                 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+                -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
             };
+            var indices = new[] {0, 1, 2, 4};
+            
+            var vertexArray = Graphics.CreateVertexArray();
 
-            var shader = _graphics.CreateShader(vertexSrc, fragmentSrc);
-
-            var indices = new[] {0, 1, 2};
-
-            var vertexArray = _graphics.CreateVertexArray();
-
-            var vertexBuffer = _graphics.CreateVertexBuffer(vertices);
-            vertexBuffer.Layout = _graphics.CreateBufferLayout(
+            var vertexBuffer = Graphics.CreateVertexBuffer(vertices);
+            vertexBuffer.Layout = Graphics.CreateBufferLayout(
                 new BufferElement(ShaderDataType.Float3, "aPosition"),
                 new BufferElement(ShaderDataType.Float2, "aTexture"));
 
             vertexBuffer.Bind();
 
-            var indexBuffer = _graphics.CreateIndexBuffer(indices);
+            var indexBuffer = Graphics.CreateIndexBuffer(indices);
             indexBuffer.Bind();
 
             vertexArray.Add(vertexBuffer);
             vertexArray.Add(indexBuffer);
+
+            var texture = Graphics.CreateTexture("resources/images/Solya.jpg");
+            shader.SetUniform("uTexture", 0);
 
             while (window.IsOpen)
             {
@@ -74,6 +59,7 @@ namespace EndlessEngine.Sandbox
 
                 shader.Bind();
                 vertexArray.Bind();
+                texture.Bind();
 
                 renderer.DrawIndexed(vertexArray);
 

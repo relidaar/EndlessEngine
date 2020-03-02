@@ -5,6 +5,6 @@
         int Width { get; }
         int Height { get; }
 
-        void Bind();
+        void Bind(uint slot = 0);
     }
 }

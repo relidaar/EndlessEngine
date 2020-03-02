@@ -9,5 +9,6 @@
         IWindow CreateWindow(in WindowProperties properties);
         IRenderer CreateRenderer();
         IShader CreateShader(string[] vertexSource, string[] fragmentSource);
+        ITexture CreateTexture(string path);
     }
 }

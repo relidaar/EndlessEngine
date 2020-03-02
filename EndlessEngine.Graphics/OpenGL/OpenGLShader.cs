@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using EndlessEngine.Core;
 using EndlessEngine.Graphics.Interfaces;
@@ -12,8 +13,11 @@ namespace EndlessEngine.Graphics.OpenGL
         private readonly uint id;
         private readonly IDictionary<string, int> uniforms;
 
-        public OpenGLShader(string[] vertexSource, string[] fragmentSource)
+        public OpenGLShader(string vertexShaderPath, string fragmentShaderPath)
         {
+            var vertexSource = new[] {File.ReadAllText(vertexShaderPath)};
+            var fragmentSource = new[] {File.ReadAllText(fragmentShaderPath)};
+
             uniforms = new Dictionary<string, int>();
             var vertexShader = CreateShader(vertexSource, ShaderType.VertexShader);
             var fragmentShader = CreateShader(fragmentSource, ShaderType.FragmentShader);

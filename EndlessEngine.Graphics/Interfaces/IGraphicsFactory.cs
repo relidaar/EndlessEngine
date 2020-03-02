@@ -8,7 +8,7 @@
         IBufferLayout CreateBufferLayout(params BufferElement[] elements);
         IWindow CreateWindow(in WindowProperties properties);
         IRenderer CreateRenderer();
-        IShader CreateShader(string[] vertexSource, string[] fragmentSource);
+        IShader CreateShader(string vertexShaderPath, string fragmentShaderPath);
         ITexture CreateTexture(string path);
     }
 }

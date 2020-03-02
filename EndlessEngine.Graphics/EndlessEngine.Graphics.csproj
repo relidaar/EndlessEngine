@@ -12,6 +12,7 @@
     <PackageReference Include="glfw-net" Version="3.3.1" />
     <PackageReference Include="OpenGL.Net" Version="0.7.1" />
     <PackageReference Include="OpenGL.Net.Math" Version="0.7.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
   </ItemGroup>
 
   <ItemGroup>

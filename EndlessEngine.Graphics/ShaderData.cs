@@ -1,11 +1,9 @@
-﻿using System;
-using EndlessEngine.Core;
+﻿using EndlessEngine.Core;
 
 namespace EndlessEngine.Graphics
 {
     public static class ShaderData
     {
-
         public static int ShaderDataTypeSize(ShaderDataType type)
         {
             switch (type)

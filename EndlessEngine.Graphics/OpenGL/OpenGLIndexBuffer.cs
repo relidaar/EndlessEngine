@@ -6,28 +6,34 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLIndexBuffer : IIndexBuffer, IDisposable
     {
-        private readonly uint _id;
-        private readonly int[] _indices;
+        private readonly uint id;
+        private readonly int[] indices;
 
         public OpenGLIndexBuffer(int[] indices)
         {
-            _indices = indices;
-            var size = (uint)(indices.Length * sizeof(int));
+            this.indices = indices;
+            var size = (uint) (indices.Length * sizeof(int));
 
-            _id = Gl.GenBuffer();
-            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, _id);
+            id = Gl.GenBuffer();
+            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, id);
             Gl.BufferData(BufferTarget.ElementArrayBuffer, size, indices, BufferUsage.StaticDraw);
         }
 
-        public void Bind() =>
-            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, _id);
+        public void Dispose()
+        {
+            Gl.DeleteBuffers(id);
+        }
 
-        public void Unbind() =>
+        public int Count => indices.Length;
+
+        public void Bind()
+        {
+            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, id);
+        }
+
+        public void Unbind()
+        {
             Gl.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-
-        public void Dispose() =>
-            Gl.DeleteBuffers(_id);
-
-        public int Count => _indices.Length;
+        }
     }
 }

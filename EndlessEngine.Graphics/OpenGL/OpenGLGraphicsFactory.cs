@@ -1,30 +1,42 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using EndlessEngine.Graphics.Interfaces;
+﻿using EndlessEngine.Graphics.Interfaces;
 
 namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLGraphicsFactory : IGraphicsFactory
     {
-        public IVertexBuffer CreateVertexBuffer(params float[] vertices) => 
-            new OpenGLVertexBuffer(vertices);
+        public IVertexBuffer CreateVertexBuffer(params float[] vertices)
+        {
+            return new OpenGLVertexBuffer(vertices);
+        }
 
-        public IIndexBuffer CreateIndexBuffer(params int[] indices) => 
-            new OpenGLIndexBuffer(indices);
+        public IIndexBuffer CreateIndexBuffer(params int[] indices)
+        {
+            return new OpenGLIndexBuffer(indices);
+        }
 
-        public IVertexArray CreateVertexArray() => 
-            new OpenGLVertexArray();
+        public IVertexArray CreateVertexArray()
+        {
+            return new OpenGLVertexArray();
+        }
 
-        public IBufferLayout CreateBufferLayout(params BufferElement[] elements) => 
-            new OpenGLBufferLayout(elements);
+        public IBufferLayout CreateBufferLayout(params BufferElement[] elements)
+        {
+            return new OpenGLBufferLayout(elements);
+        }
 
-        public IWindow CreateWindow(in WindowProperties properties) => 
-            new OpenGLWindow(properties);
+        public IWindow CreateWindow(in WindowProperties properties)
+        {
+            return new OpenGLWindow(properties);
+        }
 
-        public IRenderer CreateRenderer() => 
-            new OpenGLRenderer();
+        public IRenderer CreateRenderer()
+        {
+            return new OpenGLRenderer();
+        }
 
-        public IShader CreateShader(string[] vertexSource, string[] fragmentSource) => 
-            new OpenGLShader(vertexSource, fragmentSource);
+        public IShader CreateShader(string[] vertexSource, string[] fragmentSource)
+        {
+            return new OpenGLShader(vertexSource, fragmentSource);
+        }
     }
 }

@@ -8,8 +8,6 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLWindow : IWindow
     {
-        public NativeWindow Instance { get; }
-
         public OpenGLWindow(in WindowProperties properties)
         {
             Instance = new NativeWindow(properties.Width, properties.Height, properties.Title);
@@ -26,6 +24,8 @@ namespace EndlessEngine.Graphics.OpenGL
                 properties.Title, properties.Width, properties.Height);
         }
 
+        public NativeWindow Instance { get; }
+
         public bool IsOpen => !Glfw.WindowShouldClose(Instance);
 
         public void Display()
@@ -40,6 +40,9 @@ namespace EndlessEngine.Graphics.OpenGL
             Glfw.Terminate();
         }
 
-        public void Dispose() => Close();
+        public void Dispose()
+        {
+            Close();
+        }
     }
 }

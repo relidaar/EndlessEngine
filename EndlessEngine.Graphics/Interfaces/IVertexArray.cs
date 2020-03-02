@@ -2,11 +2,10 @@
 {
     public interface IVertexArray
     {
+        IIndexBuffer IndexBuffer { get; }
         void Add(IVertexBuffer vertexBuffer);
         void Add(IIndexBuffer indexBuffer);
         void Bind();
         void Unbind();
-
-        IIndexBuffer IndexBuffer { get; }
     }
 }

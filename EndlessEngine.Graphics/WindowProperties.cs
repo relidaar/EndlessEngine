@@ -2,7 +2,6 @@
 {
     public struct WindowProperties
     {
-
         public int Width;
         public int Height;
         public string Title;

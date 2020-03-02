@@ -8,22 +8,26 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLVertexArray : IVertexArray
     {
-        private readonly uint _id;
-
-        public IIndexBuffer IndexBuffer { get; private set; }
-        private readonly IList<IVertexBuffer> _vertexBuffers;
+        private readonly uint id;
+        private readonly IList<IVertexBuffer> vertexBuffers;
 
         public OpenGLVertexArray()
         {
-            _vertexBuffers = new List<IVertexBuffer>();
-            _id = Gl.CreateVertexArray();
+            vertexBuffers = new List<IVertexBuffer>();
+            id = Gl.CreateVertexArray();
         }
 
-        public void Bind() => 
-            Gl.BindVertexArray(_id);
+        public IIndexBuffer IndexBuffer { get; private set; }
 
-        public void Unbind() =>
+        public void Bind()
+        {
+            Gl.BindVertexArray(id);
+        }
+
+        public void Unbind()
+        {
             Gl.BindVertexArray(0);
+        }
 
         public void Add(IVertexBuffer vertexBuffer)
         {
@@ -35,18 +39,18 @@ namespace EndlessEngine.Graphics.OpenGL
             {
                 Gl.EnableVertexAttribArray(index);
                 Gl.VertexAttribPointer(
-                    index, 
-                    ShaderData.GetCount(element.Type), 
-                    ToOpenGLDataType(element.Type), 
+                    index,
+                    ShaderData.GetCount(element.Type),
+                    ToOpenGLDataType(element.Type),
                     element.Normalized,
-                    vertexBuffer.Layout.Stride, 
+                    vertexBuffer.Layout.Stride,
                     new IntPtr(element.Offset)
-                    );
-                
+                );
+
                 index++;
             }
 
-            _vertexBuffers.Add(vertexBuffer);
+            vertexBuffers.Add(vertexBuffer);
         }
 
         public void Add(IIndexBuffer indexBuffer)
@@ -56,7 +60,6 @@ namespace EndlessEngine.Graphics.OpenGL
 
             IndexBuffer = indexBuffer;
         }
-
 
         private static VertexAttribType ToOpenGLDataType(ShaderDataType type)
         {

@@ -10,24 +10,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="resources\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
     <None Update="glfw.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    
-    <ContentWithTargetPath Include="vertex.sh">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>resources/shaders/vertex.sh</TargetPath>
-    </ContentWithTargetPath >
-    
-    <ContentWithTargetPath Include="fragment.sh">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>resources/shaders/fragment.sh</TargetPath>
-    </ContentWithTargetPath >
-    
-    <ContentWithTargetPath Include="Solya.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>resources/images/Solya.jpg</TargetPath>
-    </ContentWithTargetPath >
   </ItemGroup>
 
 </Project>

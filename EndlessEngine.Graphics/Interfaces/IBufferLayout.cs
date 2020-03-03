@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EndlessEngine.Graphics.DataTypes;
 
 namespace EndlessEngine.Graphics.Interfaces
 {

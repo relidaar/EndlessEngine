@@ -34,9 +34,14 @@ namespace EndlessEngine.Graphics.OpenGL
             return new OpenGLRenderer();
         }
 
-        public IShader CreateShader(string vertexShaderPath, string fragmentShaderPath)
+        public IShader CreateShader(string name, string vertexShaderPath, string fragmentShaderPath)
         {
-            return new OpenGLShader(vertexShaderPath, fragmentShaderPath);
+            return new OpenGLShader(name, vertexShaderPath, fragmentShaderPath);
+        }
+
+        public IShaderLibrary CreateShaderLibrary()
+        {
+            return new OpenGLShaderLibrary();
         }
 
         public ITexture CreateTexture(string path)

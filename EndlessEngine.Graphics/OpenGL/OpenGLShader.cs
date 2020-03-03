@@ -10,11 +10,18 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLShader : IShader
     {
+        public string Name { get; }
+
         private readonly uint id;
         private readonly IDictionary<string, int> uniforms;
 
-        public OpenGLShader(string vertexShaderPath, string fragmentShaderPath)
+        public OpenGLShader(string name, string vertexShaderPath, string fragmentShaderPath)
         {
+            if (name == null || vertexShaderPath == null || fragmentShaderPath == null)
+                throw new ArgumentNullException();
+
+            Name = name;
+
             var vertexSource = new[] {File.ReadAllText(vertexShaderPath)};
             var fragmentSource = new[] {File.ReadAllText(fragmentShaderPath)};
 
@@ -132,6 +139,9 @@ namespace EndlessEngine.Graphics.OpenGL
 
         private int GetUniformLocation(string name)
         {
+            if (name == null)
+                throw new ArgumentNullException();
+
             if (uniforms.ContainsKey(name))
                 return uniforms[name];
 

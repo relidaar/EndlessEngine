@@ -1,4 +1,5 @@
-﻿using EndlessEngine.Graphics.Interfaces;
+﻿using EndlessEngine.Graphics.DataTypes;
+using EndlessEngine.Graphics.Interfaces;
 
 namespace EndlessEngine.Graphics.OpenGL
 {

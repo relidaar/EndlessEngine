@@ -13,7 +13,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public OpenGLTexture(string path)
         {
-            this.path = path;
+            this.path = path ?? throw new ArgumentNullException();
 
             using (var stream = File.OpenRead(path))
             {

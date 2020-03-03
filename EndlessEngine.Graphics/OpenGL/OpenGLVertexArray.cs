@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EndlessEngine.Core;
+using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 
@@ -31,6 +32,9 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void Add(IVertexBuffer vertexBuffer)
         {
+            if (vertexBuffer == null)
+                throw new ArgumentNullException();
+
             Bind();
             vertexBuffer.Bind();
 
@@ -40,7 +44,7 @@ namespace EndlessEngine.Graphics.OpenGL
                 Gl.EnableVertexAttribArray(index);
                 Gl.VertexAttribPointer(
                     index,
-                    ShaderData.GetCount(element.Type),
+                    element.GetCount(),
                     ToOpenGLDataType(element.Type),
                     element.Normalized,
                     vertexBuffer.Layout.Stride,
@@ -55,6 +59,9 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void Add(IIndexBuffer indexBuffer)
         {
+            if (indexBuffer == null)
+                throw new ArgumentNullException();
+
             Bind();
             indexBuffer.Bind();
 

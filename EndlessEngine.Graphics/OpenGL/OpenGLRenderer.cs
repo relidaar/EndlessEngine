@@ -1,4 +1,5 @@
-﻿using EndlessEngine.Graphics.Interfaces;
+﻿using System;
+using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 
 namespace EndlessEngine.Graphics.OpenGL
@@ -28,6 +29,9 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void DrawIndexed(IVertexArray vertexArray)
         {
+            if (vertexArray == null)
+                throw new ArgumentNullException();
+
             Gl.DrawElements(
                 PrimitiveType.Triangles,
                 vertexArray.IndexBuffer.Count,

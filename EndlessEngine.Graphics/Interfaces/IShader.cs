@@ -4,6 +4,7 @@ namespace EndlessEngine.Graphics.Interfaces
 {
     public interface IShader
     {
+        string Name { get; }
         void Bind();
         void Unbind();
         void SetUniform(string name, float value);

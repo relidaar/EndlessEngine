@@ -1,6 +1,5 @@
-﻿using System.IO;
-using System.Linq;
-using EndlessEngine.Graphics;
+﻿using EndlessEngine.Graphics;
+using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using EndlessEngine.Graphics.OpenGL;
 
@@ -47,7 +46,10 @@ namespace EndlessEngine.Sandbox
             vertexArray.Add(vertexBuffer);
             vertexArray.Add(indexBuffer);
 
-            var shader = Graphics.CreateShader("resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl");
+            var shaderLibrary = Graphics.CreateShaderLibrary();
+            var textureTestShader = shaderLibrary.Load("TextureTest", "resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl");
+            textureTestShader.SetUniform("uTexture", 0);
+
             var texture = Graphics.CreateTexture("resources/images/test.jpg");
 
             while (window.IsOpen)
@@ -55,10 +57,9 @@ namespace EndlessEngine.Sandbox
                 renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);
                 renderer.Clear();
 
-                shader.Bind();
+                textureTestShader.Bind();
                 vertexArray.Bind();
                 texture.Bind();
-                shader.SetUniform("uTexture", 0);
 
                 renderer.DrawIndexed(vertexArray);
 

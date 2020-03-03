@@ -1,6 +1,6 @@
 ﻿using EndlessEngine.Core;
 
-namespace EndlessEngine.Graphics
+namespace EndlessEngine.Graphics.DataTypes
 {
     public struct BufferElement
     {
@@ -47,9 +47,9 @@ namespace EndlessEngine.Graphics
             }
         }
 
-        public static int GetCount(ShaderDataType type)
+        public int GetCount()
         {
-            switch (type)
+            switch (Type)
             {
                 case ShaderDataType.Bool:
                 case ShaderDataType.Int:

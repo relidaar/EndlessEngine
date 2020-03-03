@@ -1,4 +1,6 @@
-﻿namespace EndlessEngine.Graphics.Interfaces
+﻿using EndlessEngine.Graphics.DataTypes;
+
+namespace EndlessEngine.Graphics.Interfaces
 {
     public interface IShader
     {
@@ -14,13 +16,8 @@
         void SetUniform(string name, int v1, int v2, int v3);
         void SetUniform(string name, int v1, int v2, int v3, int v4);
 
-        void SetUniform(string name, MatrixUniformType type, bool transposed, float[] data);
-    }
-
-    public enum MatrixUniformType
-    {
-        Matrix2,
-        Matrix3,
-        Matrix4
+        void SetUniform(string name, bool transpose, Matrix2 matrix);
+        void SetUniform(string name, bool transpose, Matrix3 matrix);
+        void SetUniform(string name, bool transpose, Matrix4 matrix);
     }
 }

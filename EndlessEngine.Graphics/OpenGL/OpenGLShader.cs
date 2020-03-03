@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using EndlessEngine.Core;
+using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 
@@ -92,24 +92,22 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.Uniform4(location, v1, v2, v3, v4);
         }
 
-        public void SetUniform(string name, MatrixUniformType type, bool transposed, float[] data)
+        public void SetUniform(string name, bool transpose, Matrix2 matrix)
         {
             var location = GetUniformLocation(name);
-            switch (type)
-            {
-                case MatrixUniformType.Matrix2:
-                    Gl.UniformMatrix2(location, transposed, data);
-                    break;
-                case MatrixUniformType.Matrix3:
-                    Gl.UniformMatrix3(location, transposed, data);
-                    break;
-                case MatrixUniformType.Matrix4:
-                    Gl.UniformMatrix4(location, transposed, data);
-                    break;
-                default:
-                    Log.Instance.Error("Unknown ShaderDataType");
-                    throw new ArgumentOutOfRangeException("Unknown ShaderDataType");
-            }
+            Gl.UniformMatrix2(location, transpose, matrix.Data);
+        }
+
+        public void SetUniform(string name, bool transpose, Matrix3 matrix)
+        {
+            var location = GetUniformLocation(name);
+            Gl.UniformMatrix3(location, transpose, matrix.Data);
+        }
+
+        public void SetUniform(string name, bool transpose, Matrix4 matrix)
+        {
+            var location = GetUniformLocation(name);
+            Gl.UniformMatrix4(location, transpose, matrix.Data);
         }
 
         private static uint CreateShader(string[] source, ShaderType type)

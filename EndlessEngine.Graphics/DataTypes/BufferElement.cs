@@ -2,8 +2,23 @@
 
 namespace EndlessEngine.Graphics
 {
-    public static class ShaderData
+    public struct BufferElement
     {
+        public string Name;
+        public ShaderDataType Type;
+        public int Size;
+        public int Offset;
+        public bool Normalized;
+
+        public BufferElement(ShaderDataType type, string name, bool normalized = false)
+        {
+            Name = name;
+            Type = type;
+            Size = ShaderDataTypeSize(type);
+            Offset = 0;
+            Normalized = normalized;
+        }
+
         public static int ShaderDataTypeSize(ShaderDataType type)
         {
             switch (type)
@@ -62,8 +77,6 @@ namespace EndlessEngine.Graphics
 
     public enum ShaderDataType
     {
-        None,
-
         Float,
         Float2,
         Float3,

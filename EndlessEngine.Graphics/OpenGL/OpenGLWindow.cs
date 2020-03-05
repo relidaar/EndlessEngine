@@ -10,12 +10,22 @@ namespace EndlessEngine.Graphics.OpenGL
     {
         public OpenGLWindow(in WindowProperties properties)
         {
+            if (!Glfw.Init())
+            {
+                Log.Instance.Error("Could not initialize GLFW");
+                Glfw.Terminate();
+            }
+
             Instance = new NativeWindow(properties.Width, properties.Height, properties.Title);
             if (Instance == null)
             {
                 Log.Instance.Error("Could not create window");
                 throw new NullReferenceException("Could not create window");
             }
+            
+            Glfw.WindowHint(Hint.ContextVersionMajor, 3);
+            Glfw.WindowHint(Hint.ContextVersionMinor, 3);
+            Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
 
             Gl.Initialize();
             Glfw.MakeContextCurrent(Instance);

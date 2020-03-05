@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessEngine.Core", "Endle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessEngine.Sandbox", "EndlessEngine.Sandbox\EndlessEngine.Sandbox.csproj", "{63F268EF-96EF-48CA-A014-775BCD9B901E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0F44F3E8-990D-4F59-8CFF-125941C62826}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{83808C12-F53D-468A-AD21-3EE291651D69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessEngine.Graphics.Test", "EndlessEngine.Graphics.Test\EndlessEngine.Graphics.Test.csproj", "{BB2EB622-6797-434B-B215-C8F222E41176}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,11 +33,21 @@ Global
 		{63F268EF-96EF-48CA-A014-775BCD9B901E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63F268EF-96EF-48CA-A014-775BCD9B901E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63F268EF-96EF-48CA-A014-775BCD9B901E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB2EB622-6797-434B-B215-C8F222E41176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2EB622-6797-434B-B215-C8F222E41176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB2EB622-6797-434B-B215-C8F222E41176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB2EB622-6797-434B-B215-C8F222E41176}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C04764E6-E044-4454-AB61-2F58C67C2D9E}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5E99F64-0187-4D3C-8498-7CB6C5A71EE4} = {0F44F3E8-990D-4F59-8CFF-125941C62826}
+		{B7F63154-86AD-4676-A530-7A09BACFFA4F} = {0F44F3E8-990D-4F59-8CFF-125941C62826}
+		{BB2EB622-6797-434B-B215-C8F222E41176} = {83808C12-F53D-468A-AD21-3EE291651D69}
+		{63F268EF-96EF-48CA-A014-775BCD9B901E} = {83808C12-F53D-468A-AD21-3EE291651D69}
 	EndGlobalSection
 EndGlobal

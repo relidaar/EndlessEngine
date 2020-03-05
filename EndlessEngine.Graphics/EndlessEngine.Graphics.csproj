@@ -19,4 +19,10 @@
     <ProjectReference Include="..\EndlessEngine.Core\EndlessEngine.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="glfw.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

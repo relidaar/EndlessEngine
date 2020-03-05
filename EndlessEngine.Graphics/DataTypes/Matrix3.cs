@@ -1,4 +1,6 @@
-﻿namespace EndlessEngine.Graphics.DataTypes
+﻿using System.Linq;
+
+namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Matrix3
     {
@@ -50,15 +52,20 @@
         
         public Matrix3 Multiply(float x)
         {
-            var data = new float[Data.Length];
-            Data.CopyTo(data, 0);
-            
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = data[i] * x;
-            }
-            
-            return new Matrix3(data);
+            var result = Data.Select(a => a + x).ToArray();
+            return new Matrix3(result);
+        }
+
+        public Matrix3 Add(Matrix3 m)
+        {
+            var result = Data.Zip(m.Data, (a1, a2) => a1 + a2).ToArray();
+            return new Matrix3(result);
+        }
+
+        public Matrix3 Subtract(Matrix3 m)
+        {
+            var result = Data.Zip(m.Data, (a1, a2) => a1 - a2).ToArray();
+            return new Matrix3(result);
         }
     }
 }

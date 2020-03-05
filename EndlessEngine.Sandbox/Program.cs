@@ -18,52 +18,55 @@ namespace EndlessEngine.Sandbox
                 Title = "EndlessEngine"
             };
 
-            using var window = Graphics.CreateWindow(props);
-            var renderer = Graphics.CreateRenderer();
-            renderer.Init();
-
-            var vertices = new[]
+            using (var window = Graphics.CreateWindow(props))
             {
-                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-                0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-                0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-                -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
-            };
-            var indices = new[] {0, 1, 2, 2, 3, 0};
+                var renderer = Graphics.CreateRenderer();
+                renderer.Init();
 
-            var vertexArray = Graphics.CreateVertexArray();
+                var vertices = new[]
+                {
+                    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+                    0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+                    0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+                    -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
+                };
+                var indices = new[] {0, 1, 2, 2, 3, 0};
 
-            var vertexBuffer = Graphics.CreateVertexBuffer(vertices);
-            vertexBuffer.Layout = Graphics.CreateBufferLayout(
-                new BufferElement(ShaderDataType.Float3, "aPosition"),
-                new BufferElement(ShaderDataType.Float2, "TextureCoordinates"));
+                var vertexArray = Graphics.CreateVertexArray();
 
-            vertexBuffer.Bind();
+                var vertexBuffer = Graphics.CreateVertexBuffer(vertices);
+                vertexBuffer.Layout = Graphics.CreateBufferLayout(
+                    new BufferElement(ShaderDataType.Float3, "aPosition"),
+                    new BufferElement(ShaderDataType.Float2, "TextureCoordinates"));
 
-            var indexBuffer = Graphics.CreateIndexBuffer(indices);
-            indexBuffer.Bind();
+                vertexBuffer.Bind();
 
-            vertexArray.Add(vertexBuffer);
-            vertexArray.Add(indexBuffer);
+                var indexBuffer = Graphics.CreateIndexBuffer(indices);
+                indexBuffer.Bind();
 
-            var shaderLibrary = Graphics.CreateShaderLibrary();
-            var textureTestShader = shaderLibrary.Load("TextureTest", "resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl");
-            textureTestShader.SetUniform("uTexture", 0);
+                vertexArray.Add(vertexBuffer);
+                vertexArray.Add(indexBuffer);
 
-            var texture = Graphics.CreateTexture("resources/images/test.jpg");
+                var shaderLibrary = Graphics.CreateShaderLibrary();
+                var textureTestShader = shaderLibrary.Load("TextureTest", "resources/shaders/vertex.glsl",
+                    "resources/shaders/fragment.glsl");
+                textureTestShader.SetUniform("uTexture", 0);
 
-            while (window.IsOpen)
-            {
-                renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);
-                renderer.Clear();
+                var texture = Graphics.CreateTexture("resources/images/test.jpg");
 
-                textureTestShader.Bind();
-                vertexArray.Bind();
-                texture.Bind();
+                while (window.IsOpen)
+                {
+                    renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);
+                    renderer.Clear();
 
-                renderer.DrawIndexed(vertexArray);
+                    textureTestShader.Bind();
+                    vertexArray.Bind();
+                    texture.Bind();
 
-                window.Display();
+                    renderer.DrawIndexed(vertexArray);
+
+                    window.Display();
+                }
             }
         }
     }

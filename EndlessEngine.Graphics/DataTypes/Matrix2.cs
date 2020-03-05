@@ -40,5 +40,18 @@
                 1, 0,
                 0, 1
             );
+
+        public Matrix2 Multiply(float x)
+        {
+            var data = new float[Data.Length];
+            Data.CopyTo(data, 0);
+            
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = data[i] * x;
+            }
+            
+            return new Matrix2(data);
+        }
     }
 }

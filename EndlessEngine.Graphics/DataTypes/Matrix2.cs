@@ -33,5 +33,12 @@
                 a21, a22
             };
         }
+        
+        public static Matrix2 Identity =>
+            new Matrix2
+            (
+                1, 0,
+                0, 1
+            );
     }
 }

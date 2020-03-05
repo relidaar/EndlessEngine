@@ -39,5 +39,13 @@
                 a31, a32, a33
             };
         }
+        
+        public static Matrix3 Identity =>
+            new Matrix3
+            (
+                1, 0, 0,
+                0, 1, 0,
+                0, 0, 1
+            );
     }
 }

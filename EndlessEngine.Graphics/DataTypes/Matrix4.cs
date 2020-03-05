@@ -43,5 +43,36 @@
                 a41, a42, a43, a44
             };
         }
+
+        public static Matrix4 Scaled(float x, float y, float z)
+        {
+            return new Matrix4
+            (
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 1
+            );
+        }
+
+        public static Matrix4 Translated(float x, float y, float z)
+        {
+            return new Matrix4
+            (
+                1, 0, 0, x,
+                0, 1, 0, y,
+                0, 0, 1, z,
+                0, 0, 0, 1
+            );
+        }
+
+        public static Matrix4 Identity =>
+            new Matrix4
+            (
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            );
     }
 }

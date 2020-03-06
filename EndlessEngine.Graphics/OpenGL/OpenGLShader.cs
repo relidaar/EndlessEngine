@@ -114,7 +114,7 @@ namespace EndlessEngine.Graphics.OpenGL
         public void SetUniform(string name, bool transpose, Matrix4 matrix)
         {
             var location = GetUniformLocation(name);
-            Gl.UniformMatrix4(location, transpose, matrix.Data);
+            Gl.UniformMatrix4(location, transpose, matrix.ToArray());
         }
 
         private static uint CreateShader(string[] source, ShaderType type)

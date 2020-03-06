@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using OpenGL;
 
 namespace EndlessEngine.Graphics.DataTypes
 {
@@ -13,6 +14,11 @@ namespace EndlessEngine.Graphics.DataTypes
                 a11, a12,
                 a21, a22
             };
+        }
+
+        public Matrix2(in Matrix2 m)
+            : this(m.Data)
+        {
         }
 
         public Matrix2(params float[] data)

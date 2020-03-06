@@ -18,6 +18,11 @@ namespace EndlessEngine.Graphics.DataTypes
             };
         }
 
+        public Matrix3(in Matrix3 m)
+            : this(m.Data)
+        {
+        }
+
         public Matrix3(params float[] data)
         {
             Data = new float[9];

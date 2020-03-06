@@ -5,7 +5,7 @@ namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Vertex2
     {
-        public float[] Data { get; private set; }
+        public float[] Data { get; }
 
         public Vertex2(float a1, float a2)
         {
@@ -24,7 +24,7 @@ namespace EndlessEngine.Graphics.DataTypes
 
         public Vertex2 Add(in Vertex2 v)
         {
-            var result = Data.Zip(v.Data, (a1, a2) => a1 + a2);
+            var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
             return new Vertex2(result);
         }
 
@@ -35,7 +35,7 @@ namespace EndlessEngine.Graphics.DataTypes
 
         public Vertex2 Subtract(in Vertex2 v)
         {
-            var result = Data.Zip(v.Data, (a1, a2) => a1 - a2);
+            var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
             return new Vertex2(result);
         }
 

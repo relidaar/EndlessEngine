@@ -7,7 +7,7 @@ namespace EndlessEngine.Graphics.DataTypes
     {
         public IEnumerable<Vertex4> Data => _data;
         private readonly Vertex4[] _data;
-        
+
         public Matrix4(float a11, float a12, float a13, float a14,
             float a21, float a22, float a23, float a24,
             float a31, float a32, float a33, float a34,
@@ -26,7 +26,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             _data = new[] {v1, v2, v3, v4};
         }
-        
+
         public Matrix4(in Matrix4 m)
             : this(m.Data)
         {
@@ -60,7 +60,7 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         public Matrix4 Multiply(float x)
-        {            
+        {
             var result = Data.Select(a => a * x);
             return new Matrix4(result);
         }
@@ -88,10 +88,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public float[] ToArray()
         {
             var arr = new List<float>();
-            foreach (var vertex in _data)
-            {
-                arr.AddRange(vertex.Data);
-            }
+            foreach (var vertex in _data) arr.AddRange(vertex.Data);
 
             return arr.ToArray();
         }

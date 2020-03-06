@@ -1,4 +1,5 @@
 ﻿using System;
+using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 

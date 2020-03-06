@@ -6,15 +6,15 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLBufferLayout : IBufferLayout
     {
-        private readonly List<BufferElement> elements;
+        private readonly List<BufferElement> _elements;
 
         public OpenGLBufferLayout(params BufferElement[] elements)
         {
-            this.elements = new List<BufferElement>(elements);
+            _elements = new List<BufferElement>(elements);
             CalculateOffsetAndStride();
         }
 
-        public IEnumerable<BufferElement> Elements => elements;
+        public IEnumerable<BufferElement> Elements => _elements;
         public int Stride { get; private set; }
 
         private void CalculateOffsetAndStride()
@@ -22,11 +22,11 @@ namespace EndlessEngine.Graphics.OpenGL
             var offset = 0;
             Stride = 0;
 
-            for (var i = 0; i < elements.Count; i++)
+            for (var i = 0; i < _elements.Count; i++)
             {
-                var element = elements[i];
+                var element = _elements[i];
                 element.Offset = offset;
-                elements[i] = element;
+                _elements[i] = element;
 
                 offset += element.Size;
                 Stride += element.Size;

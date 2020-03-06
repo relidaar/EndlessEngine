@@ -17,7 +17,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             _data = data.ToArray();
         }
-            
+
         public Vertex3(in Vertex3 v)
         {
             _data = v.Data.ToArray();

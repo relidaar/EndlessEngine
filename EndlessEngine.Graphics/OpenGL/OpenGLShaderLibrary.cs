@@ -6,11 +6,11 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLShaderLibrary : IShaderLibrary
     {
-        private IDictionary<string, IShader> shaders;
+        private readonly IDictionary<string, IShader> _shaders;
 
         public OpenGLShaderLibrary()
         {
-            shaders = new Dictionary<string, IShader>();
+            _shaders = new Dictionary<string, IShader>();
         }
 
         public void Add(IShader shader)
@@ -18,10 +18,10 @@ namespace EndlessEngine.Graphics.OpenGL
             if (shader == null)
                 throw new ArgumentNullException();
 
-            if (shaders.ContainsKey(shader.Name))
+            if (_shaders.ContainsKey(shader.Name))
                 throw new Exception("Shader already exists");
 
-            shaders[shader.Name] = shader;
+            _shaders[shader.Name] = shader;
         }
 
         public IShader Load(string name, string vertexShaderPath, string fragmentShaderPath)
@@ -39,7 +39,7 @@ namespace EndlessEngine.Graphics.OpenGL
             if (name == null)
                 throw new ArgumentNullException();
 
-            return shaders[name];
+            return _shaders[name];
         }
     }
 }

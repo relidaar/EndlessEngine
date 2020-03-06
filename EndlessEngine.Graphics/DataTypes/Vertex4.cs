@@ -4,7 +4,7 @@ using System.Linq;
 namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Vertex4
-    {        
+    {
         public IEnumerable<float> Data => _data;
         private readonly float[] _data;
 
@@ -17,7 +17,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             _data = data.ToArray();
         }
-            
+
         public Vertex4(in Vertex4 v)
         {
             _data = v.Data.ToArray();

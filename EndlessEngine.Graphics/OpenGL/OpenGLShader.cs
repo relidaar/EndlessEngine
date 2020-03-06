@@ -10,10 +10,8 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLShader : IShader
     {
-        public string Name { get; }
-
-        private readonly uint id;
-        private readonly IDictionary<string, int> uniforms;
+        private readonly uint _id;
+        private readonly IDictionary<string, int> _uniforms;
 
         public OpenGLShader(string name, string vertexShaderPath, string fragmentShaderPath)
         {
@@ -25,25 +23,27 @@ namespace EndlessEngine.Graphics.OpenGL
             var vertexSource = new[] {File.ReadAllText(vertexShaderPath)};
             var fragmentSource = new[] {File.ReadAllText(fragmentShaderPath)};
 
-            uniforms = new Dictionary<string, int>();
+            _uniforms = new Dictionary<string, int>();
             var vertexShader = CreateShader(vertexSource, ShaderType.VertexShader);
             var fragmentShader = CreateShader(fragmentSource, ShaderType.FragmentShader);
 
-            id = Gl.CreateProgram();
+            _id = Gl.CreateProgram();
 
-            Gl.AttachShader(id, vertexShader);
-            Gl.AttachShader(id, fragmentShader);
-            Gl.LinkProgram(id);
+            Gl.AttachShader(_id, vertexShader);
+            Gl.AttachShader(_id, fragmentShader);
+            Gl.LinkProgram(_id);
 
-            Gl.DetachShader(id, vertexShader);
-            Gl.DetachShader(id, fragmentShader);
+            Gl.DetachShader(_id, vertexShader);
+            Gl.DetachShader(_id, fragmentShader);
             Gl.DeleteShader(vertexShader);
             Gl.DeleteShader(fragmentShader);
         }
 
+        public string Name { get; }
+
         public void Bind()
         {
-            Gl.UseProgram(id);
+            Gl.UseProgram(_id);
         }
 
         public void Unbind()
@@ -142,11 +142,11 @@ namespace EndlessEngine.Graphics.OpenGL
             if (name == null)
                 throw new ArgumentNullException();
 
-            if (uniforms.ContainsKey(name))
-                return uniforms[name];
+            if (_uniforms.ContainsKey(name))
+                return _uniforms[name];
 
-            var location = Gl.GetUniformLocation(id, name);
-            uniforms[name] = location;
+            var location = Gl.GetUniformLocation(_id, name);
+            _uniforms[name] = location;
 
             return location;
         }

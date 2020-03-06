@@ -22,7 +22,7 @@ namespace EndlessEngine.Graphics.OpenGL
                 Log.Instance.Error("Could not create window");
                 throw new NullReferenceException("Could not create window");
             }
-            
+
             Glfw.WindowHint(Hint.ContextVersionMajor, 3);
             Glfw.WindowHint(Hint.ContextVersionMinor, 3);
             Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);

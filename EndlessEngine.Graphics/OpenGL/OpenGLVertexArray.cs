@@ -9,20 +9,20 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLVertexArray : IVertexArray
     {
-        private readonly uint id;
-        private readonly IList<IVertexBuffer> vertexBuffers;
+        private readonly uint _id;
+        private readonly IList<IVertexBuffer> _vertexBuffers;
 
         public OpenGLVertexArray()
         {
-            vertexBuffers = new List<IVertexBuffer>();
-            id = Gl.CreateVertexArray();
+            _vertexBuffers = new List<IVertexBuffer>();
+            _id = Gl.CreateVertexArray();
         }
 
         public IIndexBuffer IndexBuffer { get; private set; }
 
         public void Bind()
         {
-            Gl.BindVertexArray(id);
+            Gl.BindVertexArray(_id);
         }
 
         public void Unbind()
@@ -54,7 +54,7 @@ namespace EndlessEngine.Graphics.OpenGL
                 index++;
             }
 
-            vertexBuffers.Add(vertexBuffer);
+            _vertexBuffers.Add(vertexBuffer);
         }
 
         public void Add(IIndexBuffer indexBuffer)

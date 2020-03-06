@@ -1,4 +1,6 @@
-﻿namespace EndlessEngine.Graphics.Interfaces
+﻿using EndlessEngine.Graphics.DataTypes;
+
+namespace EndlessEngine.Graphics.Interfaces
 {
     public interface IRenderer
     {

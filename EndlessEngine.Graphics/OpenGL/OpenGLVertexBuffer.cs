@@ -6,15 +6,15 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLVertexBuffer : IVertexBuffer, IDisposable
     {
-        private readonly uint id;
+        private readonly uint _id;
 
         public OpenGLVertexBuffer(float[] vertices)
         {
             Vertices = vertices;
             var size = (uint) (vertices.Length * sizeof(float));
 
-            id = Gl.GenBuffer();
-            Gl.BindBuffer(BufferTarget.ArrayBuffer, id);
+            _id = Gl.GenBuffer();
+            Gl.BindBuffer(BufferTarget.ArrayBuffer, _id);
             Gl.BufferData(BufferTarget.ArrayBuffer, size, vertices, BufferUsage.StaticDraw);
         }
 
@@ -22,14 +22,14 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void Dispose()
         {
-            Gl.DeleteBuffers(id);
+            Gl.DeleteBuffers(_id);
         }
 
         public IBufferLayout Layout { get; set; }
 
         public void Bind()
         {
-            Gl.BindBuffer(BufferTarget.ArrayBuffer, id);
+            Gl.BindBuffer(BufferTarget.ArrayBuffer, _id);
         }
 
         public void Unbind()

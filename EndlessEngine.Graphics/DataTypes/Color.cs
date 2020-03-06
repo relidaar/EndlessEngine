@@ -1,4 +1,4 @@
-﻿namespace EndlessEngine.Graphics
+﻿namespace EndlessEngine.Graphics.DataTypes
 {
     public class Color
     {

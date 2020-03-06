@@ -13,7 +13,7 @@ namespace EndlessEngine.Graphics.DataTypes
             _data = new[]
             {
                 new Vertex2(a11, a12),
-                new Vertex2(a21, a22),
+                new Vertex2(a21, a22)
             };
         }
 
@@ -21,7 +21,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             _data = new[] {v1, v2};
         }
-        
+
         public Matrix2(in Matrix2 m)
             : this(m.Data)
         {
@@ -62,7 +62,7 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         public Matrix2 Multiply(float x)
-        {            
+        {
             var result = Data.Select(a => a * x);
             return new Matrix2(result);
         }
@@ -90,10 +90,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public float[] ToArray()
         {
             var arr = new List<float>();
-            foreach (var vertex in _data)
-            {
-                arr.AddRange(vertex.Data);
-            }
+            foreach (var vertex in _data) arr.AddRange(vertex.Data);
 
             return arr.ToArray();
         }

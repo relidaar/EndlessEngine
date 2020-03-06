@@ -8,12 +8,12 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLTexture : ITexture
     {
-        private readonly uint id;
-        private string path;
+        private readonly uint _id;
+        private string _path;
 
         public OpenGLTexture(string path)
         {
-            this.path = path ?? throw new ArgumentNullException();
+            _path = path ?? throw new ArgumentNullException();
 
             using (var stream = File.OpenRead(path))
             {
@@ -38,8 +38,8 @@ namespace EndlessEngine.Graphics.OpenGL
                 Width = image.Width;
                 Height = image.Height;
 
-                id = Gl.GenTexture();
-                Gl.BindTexture(TextureTarget.Texture2d, id);
+                _id = Gl.GenTexture();
+                Gl.BindTexture(TextureTarget.Texture2d, _id);
 
                 Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter,
                     Gl.LINEAR_MIPMAP_LINEAR);
@@ -60,7 +60,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void Bind()
         {
-            Gl.BindTexture(TextureTarget.Texture2d, id);
+            Gl.BindTexture(TextureTarget.Texture2d, _id);
         }
 
         public void Unbind()

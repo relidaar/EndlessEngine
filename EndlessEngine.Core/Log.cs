@@ -4,7 +4,7 @@ using NLog.Targets;
 
 namespace EndlessEngine.Core
 {
-    public class Log
+    public static class Log
     {
         static Log()
         {

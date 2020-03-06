@@ -1,47 +1,37 @@
-﻿using System.Linq;
-using OpenGL;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Matrix2
     {
-        public float[] Data { get; private set; }
+        public IEnumerable<Vertex2> Data => _data;
+        private readonly Vertex2[] _data;
 
         public Matrix2(float a11, float a12, float a21, float a22)
         {
-            Data = new[]
+            _data = new[]
             {
-                a11, a12,
-                a21, a22
+                new Vertex2(a11, a12),
+                new Vertex2(a21, a22),
             };
         }
 
+        public Matrix2(in Vertex2 v1, in Vertex2 v2)
+        {
+            _data = new[] {v1, v2};
+        }
+        
         public Matrix2(in Matrix2 m)
             : this(m.Data)
         {
         }
 
-        public Matrix2(params float[] data)
+        private Matrix2(IEnumerable<Vertex2> data)
         {
-            Data = new float[4];
-            Set(data);
+            _data = data.ToArray();
         }
 
-        public void Set(params float[] data)
-        {
-            Data = new float[4];
-            for (var i = 0; i < data.Length; i++) Data[i] = data[i];
-        }
-
-        public void Set(float a11, float a12, float a21, float a22)
-        {
-            Data = new[]
-            {
-                a11, a12,
-                a21, a22
-            };
-        }
-        
         public static Matrix2 Identity =>
             new Matrix2
             (
@@ -49,22 +39,68 @@ namespace EndlessEngine.Graphics.DataTypes
                 0, 1
             );
 
-        public Matrix2 Multiply(float x)
-        {            
-            var result = Data.Select(a => a + x).ToArray();
+        public Matrix2 Add(Matrix2 m)
+        {
+            var result = Data.Zip(m.Data, (a1, a2) => a1 + a2);
             return new Matrix2(result);
         }
 
-        public Matrix2 Add(Matrix2 m)
+        public static Matrix2 operator +(Matrix2 m1, in Matrix2 m2)
         {
-            var result = Data.Zip(m.Data, (a1, a2) => a1 + a2).ToArray();
-            return new Matrix2(result);
+            return m1.Add(m2);
         }
 
         public Matrix2 Subtract(Matrix2 m)
         {
-            var result = Data.Zip(m.Data, (a1, a2) => a1 - a2).ToArray();
+            var result = Data.Zip(m.Data, (a1, a2) => a1 - a2);
             return new Matrix2(result);
+        }
+
+        public static Matrix2 operator -(Matrix2 m1, in Matrix2 m2)
+        {
+            return m1.Subtract(m2);
+        }
+
+        public Matrix2 Multiply(float x)
+        {            
+            var result = Data.Select(a => a * x);
+            return new Matrix2(result);
+        }
+
+        public static Matrix2 operator *(Matrix2 m1, float x)
+        {
+            return m1.Multiply(x);
+        }
+
+        public Matrix2 Multiply(Matrix2 m)
+        {
+            var a1 = ToMatrix();
+            var a2 = m.ToMatrix();
+
+            var result = MatrixOperations.Multiply(a1, a2);
+
+            return new Matrix2();
+        }
+
+        public static Matrix2 operator *(Matrix2 m1, in Matrix2 m2)
+        {
+            return m1.Multiply(m2);
+        }
+
+        public float[] ToArray()
+        {
+            var arr = new List<float>();
+            foreach (var vertex in _data)
+            {
+                arr.AddRange(vertex.Data);
+            }
+
+            return arr.ToArray();
+        }
+
+        public float[,] ToMatrix()
+        {
+            return MatrixOperations.ToMatrix(ToArray(), 2, 2);
         }
     }
 }

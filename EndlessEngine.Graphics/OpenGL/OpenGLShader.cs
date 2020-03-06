@@ -102,7 +102,7 @@ namespace EndlessEngine.Graphics.OpenGL
         public void SetUniform(string name, bool transpose, Matrix2 matrix)
         {
             var location = GetUniformLocation(name);
-            Gl.UniformMatrix2(location, transpose, matrix.Data);
+            Gl.UniformMatrix2(location, transpose, matrix.ToArray());
         }
 
         public void SetUniform(string name, bool transpose, Matrix3 matrix)

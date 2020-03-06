@@ -5,21 +5,22 @@ namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Vertex3
     {
-        public float[] Data { get; }
+        public IEnumerable<float> Data => _data;
+        private readonly float[] _data;
 
         public Vertex3(float a1, float a2, float a3)
         {
-            Data = new[] {a1, a2, a3};
+            _data = new[] {a1, a2, a3};
         }
 
         private Vertex3(IEnumerable<float> data)
         {
-            Data = data.ToArray();
+            _data = data.ToArray();
         }
             
         public Vertex3(in Vertex3 v)
         {
-            Data = v.Data.ToArray();
+            _data = v.Data.ToArray();
         }
 
         public Vertex3 Add(in Vertex3 v)

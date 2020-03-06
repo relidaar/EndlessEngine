@@ -18,9 +18,9 @@ namespace EndlessEngine.Graphics.DataTypes
             };
         }
 
-        public Matrix3(in Vertex3 v1, in Vertex3 v2)
+        public Matrix3(in Vertex3 v1, in Vertex3 v2, in Vertex3 v3)
         {
-            _data = new[] {v1, v2};
+            _data = new[] {v1, v2, v3};
         }
         
         public Matrix3(in Matrix3 m)

@@ -44,5 +44,16 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             return v1.Subtract(v2);
         }
+
+        public Vertex4 Multiply(float x)
+        {
+            var result = _data.Select(a => a * x);
+            return new Vertex4(result);
+        }
+
+        public static Vertex4 operator *(Vertex4 v, float x)
+        {
+            return v.Multiply(x);
+        }
     }
 }

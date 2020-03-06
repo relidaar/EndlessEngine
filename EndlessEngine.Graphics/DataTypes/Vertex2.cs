@@ -17,7 +17,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             _data = data.ToArray();
         }
-            
+
         public Vertex2(in Vertex2 v)
         {
             _data = v.Data.ToArray();
@@ -43,6 +43,17 @@ namespace EndlessEngine.Graphics.DataTypes
         public static Vertex2 operator -(Vertex2 v1, Vertex2 v2)
         {
             return v1.Subtract(v2);
+        }
+
+        public Vertex2 Multiply(float x)
+        {
+            var result = _data.Select(a => a * x);
+            return new Vertex2(result);
+        }
+
+        public static Vertex2 operator *(Vertex2 v, float x)
+        {
+            return v.Multiply(x);
         }
     }
 }

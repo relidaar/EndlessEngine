@@ -77,7 +77,18 @@ namespace EndlessEngine.Graphics.DataTypes
 
             var result = MatrixOperations.Multiply(a1, a2);
 
-            return new Matrix4();
+            var vertices = new List<Vertex4>();
+            for (int i = 0; i < result.GetLength(0); i++)
+            {
+                vertices.Add(new Vertex4(
+                    result[i, 0], 
+                    result[i, 1], 
+                    result[i, 2], 
+                    result[i, 3]
+                ));
+            }
+
+            return new Matrix4(vertices);
         }
 
         public static Matrix4 operator *(Matrix4 m1, in Matrix4 m2)

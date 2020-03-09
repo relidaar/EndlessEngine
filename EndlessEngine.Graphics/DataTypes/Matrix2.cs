@@ -79,7 +79,16 @@ namespace EndlessEngine.Graphics.DataTypes
 
             var result = MatrixOperations.Multiply(a1, a2);
 
-            return new Matrix2();
+            var vertices = new List<Vertex2>();
+            for (int i = 0; i < result.GetLength(0); i++)
+            {
+                vertices.Add(new Vertex2(
+                    result[i, 0],
+                    result[i, 1]
+                ));
+            }
+
+            return new Matrix2(vertices);
         }
 
         public static Matrix2 operator *(Matrix2 m1, in Matrix2 m2)

@@ -82,7 +82,17 @@ namespace EndlessEngine.Graphics.DataTypes
 
             var result = MatrixOperations.Multiply(a1, a2);
 
-            return new Matrix3();
+            var vertices = new List<Vertex3>();
+            for (int i = 0; i < result.GetLength(0); i++)
+            {
+                vertices.Add(new Vertex3(
+                    result[i, 0],
+                    result[i, 1],
+                    result[i, 2]
+                ));
+            }
+
+            return new Matrix3(vertices);
         }
 
         public static Matrix3 operator *(Matrix3 m1, in Matrix3 m2)

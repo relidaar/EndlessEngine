@@ -7,18 +7,19 @@ namespace EndlessEngine.Graphics.DataTypes
         public static float[,] Multiply(float[,] a, float[,] b)
         {
             if (a.GetLength(1) != b.GetLength(0))
-                throw new Exception("n must be equal to p");
+                throw new Exception("Number of columns of A must be equal to number of rows of B");
 
-            var n = a.GetLength(1);
             var m = a.GetLength(0);
-            var p = a.GetLength(0);
+            var n = a.GetLength(1);
+            var p = b.GetLength(1);
 
-            var c = new float[n, p];
-            for (var i = 0; i < p; i++)
+            var c = new float[m, p];
+            for (var i = 0; i < m; i++)
             for (var j = 0; j < p; j++)
             {
                 float sum = 0;
-                for (var k = 0; k < m; k++) sum += a[i, k] * b[k, j];
+                for (var k = 0; k < n; k++)
+                    sum += a[i, k] * b[k, j];
 
                 c[i, j] = sum;
             }
@@ -26,12 +27,13 @@ namespace EndlessEngine.Graphics.DataTypes
             return c;
         }
 
-        public static float[,] ToMatrix(float[] data, int n, int m)
+        public static float[,] ToMatrix(float[] data, int m, int n)
         {
-            var arr = new float[n, m];
-            for (var i = 0; i < n; i++)
-            for (int j = 0, k = 0; j < m; j++, k++)
-                arr[i, j] = data[k];
+            var arr = new float[m, n];
+            int index = 0;
+            for (var i = 0; i < m; i++)
+            for (int j = 0; j < n; j++, index++)
+                arr[i, j] = data[index];
 
             return arr;
         }

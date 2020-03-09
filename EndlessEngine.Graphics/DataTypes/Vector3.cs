@@ -5,6 +5,10 @@ namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Vector3
     {
+        public float X => _data[0];
+        public float Y => _data[1];
+        public float Z => _data[2];
+        
         public IEnumerable<float> Data => _data;
         private readonly float[] _data;
 

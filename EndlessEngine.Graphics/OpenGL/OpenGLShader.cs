@@ -52,6 +52,8 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.UseProgram(0);
         }
 
+        #region Uniforms
+
         public void SetUniform(string name, float value)
         {
             var location = GetUniformLocation(name);
@@ -100,41 +102,43 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.Uniform4(location, v1, v2, v3, v4);
         }
 
-        public void SetUniform(string name, Vector2 vertex)
+        public void SetUniform(string name, Vector2 vector)
         {
             var location = GetUniformLocation(name);
-            Gl.Uniform2(location, vertex.Data.ToArray());
+            Gl.Uniform2(location, vector.Data as float[]);
         }
 
-        public void SetUniform(string name, Vector3 vertex)
+        public void SetUniform(string name, Vector3 vector)
         {
             var location = GetUniformLocation(name);
-            Gl.Uniform3(location, vertex.Data.ToArray());
+            Gl.Uniform3(location, vector.Data as float[]);
         }
 
-        public void SetUniform(string name, Vector4 vertex)
+        public void SetUniform(string name, Vector4 vector)
         {
             var location = GetUniformLocation(name);
-            Gl.Uniform4(location, vertex.Data.ToArray());
+            Gl.Uniform4(location, vector.Data as float[]);
         }
 
         public void SetUniform(string name, bool transpose, Matrix2 matrix)
         {
             var location = GetUniformLocation(name);
-            Gl.UniformMatrix2(location, transpose, matrix.ToArray());
+            Gl.UniformMatrix2(location, transpose, matrix.Array);
         }
 
         public void SetUniform(string name, bool transpose, Matrix3 matrix)
         {
             var location = GetUniformLocation(name);
-            Gl.UniformMatrix3(location, transpose, matrix.ToArray());
+            Gl.UniformMatrix3(location, transpose, matrix.Array);
         }
 
         public void SetUniform(string name, bool transpose, Matrix4 matrix)
         {
             var location = GetUniformLocation(name);
-            Gl.UniformMatrix4(location, transpose, matrix.ToArray());
+            Gl.UniformMatrix4(location, transpose, matrix.Array);
         }
+
+        #endregion
 
         private static uint CreateShader(string[] source, ShaderType type)
         {

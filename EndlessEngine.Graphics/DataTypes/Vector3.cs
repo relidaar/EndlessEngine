@@ -9,7 +9,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public float X => _data[0];
         public float Y => _data[1];
         public float Z => _data[2];
-        
+
         public IEnumerable<float> Data => _data;
         private readonly float[] _data;
 
@@ -24,7 +24,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             if (data.Length != 3)
                 throw new Exception("Data count should be equal to 3");
-            
+
             _data = data;
         }
 
@@ -35,15 +35,12 @@ namespace EndlessEngine.Graphics.DataTypes
 
         #endregion
 
+        #region Operations
+
         public Vector3 Add(in Vector3 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
             return new Vector3(result as float[]);
-        }
-
-        public static Vector3 operator +(Vector3 v1, in Vector3 v2)
-        {
-            return v1.Add(v2);
         }
 
         public Vector3 Subtract(in Vector3 v)
@@ -52,20 +49,31 @@ namespace EndlessEngine.Graphics.DataTypes
             return new Vector3(result as float[]);
         }
 
-        public static Vector3 operator -(Vector3 v1, Vector3 v2)
-        {
-            return v1.Subtract(v2);
-        }
-
         public Vector3 Multiply(float x)
         {
             var result = _data.Select(a => a * x);
             return new Vector3(result as float[]);
         }
 
+        #endregion
+
+        #region Operators
+
+        public static Vector3 operator +(Vector3 v1, in Vector3 v2)
+        {
+            return v1.Add(v2);
+        }
+
+        public static Vector3 operator -(Vector3 v1, Vector3 v2)
+        {
+            return v1.Subtract(v2);
+        }
+
         public static Vector3 operator *(Vector3 v, float x)
         {
             return v.Multiply(x);
         }
+
+        #endregion
     }
 }

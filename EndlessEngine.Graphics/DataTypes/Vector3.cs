@@ -28,9 +28,9 @@ namespace EndlessEngine.Graphics.DataTypes
             _data = data;
         }
 
-        public Vector3(in Vector3 v)
+        public Vector3(in Vector3 vector)
+            : this(vector.Data as float[])
         {
-            _data = v.Data as float[];
         }
 
         #endregion

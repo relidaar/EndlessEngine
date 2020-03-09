@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,25 +12,32 @@ namespace EndlessEngine.Graphics.DataTypes
         public IEnumerable<float> Data => _data;
         private readonly float[] _data;
 
-        public Vector2(float a1, float a2)
+        #region Constructors
+
+        public Vector2(float x, float y)
         {
-            _data = new[] {a1, a2};
+            _data = new[] {x, y};
         }
 
-        private Vector2(IEnumerable<float> data)
+        public Vector2(params float[] data)
         {
-            _data = data.ToArray();
+            if (data.Length != 2)
+                throw new Exception("Data count should be equal to 2");
+            
+            _data = data;
         }
 
         public Vector2(in Vector2 v)
         {
-            _data = v.Data.ToArray();
+            _data = v.Data as float[];
         }
+
+        #endregion
 
         public Vector2 Add(in Vector2 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vector2(result);
+            return new Vector2(result as float[]);
         }
 
         public static Vector2 operator +(Vector2 v1, in Vector2 v2)
@@ -40,7 +48,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public Vector2 Subtract(in Vector2 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vector2(result);
+            return new Vector2(result as float[]);
         }
 
         public static Vector2 operator -(Vector2 v1, Vector2 v2)
@@ -51,7 +59,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public Vector2 Multiply(float x)
         {
             var result = _data.Select(a => a * x);
-            return new Vector2(result);
+            return new Vector2(result as float[]);
         }
 
         public static Vector2 operator *(Vector2 v, float x)

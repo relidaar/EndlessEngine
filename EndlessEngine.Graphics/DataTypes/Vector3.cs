@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,25 +13,32 @@ namespace EndlessEngine.Graphics.DataTypes
         public IEnumerable<float> Data => _data;
         private readonly float[] _data;
 
-        public Vector3(float a1, float a2, float a3)
+        #region Constructors
+
+        public Vector3(float x, float y, float z)
         {
-            _data = new[] {a1, a2, a3};
+            _data = new[] {x, y, z};
         }
 
-        private Vector3(IEnumerable<float> data)
+        public Vector3(params float[] data)
         {
-            _data = data.ToArray();
+            if (data.Length != 3)
+                throw new Exception("Data count should be equal to 3");
+            
+            _data = data;
         }
 
         public Vector3(in Vector3 v)
         {
-            _data = v.Data.ToArray();
+            _data = v.Data as float[];
         }
+
+        #endregion
 
         public Vector3 Add(in Vector3 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vector3(result);
+            return new Vector3(result as float[]);
         }
 
         public static Vector3 operator +(Vector3 v1, in Vector3 v2)
@@ -41,7 +49,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public Vector3 Subtract(in Vector3 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vector3(result);
+            return new Vector3(result as float[]);
         }
 
         public static Vector3 operator -(Vector3 v1, Vector3 v2)
@@ -52,7 +60,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public Vector3 Multiply(float x)
         {
             var result = _data.Select(a => a * x);
-            return new Vector3(result);
+            return new Vector3(result as float[]);
         }
 
         public static Vector3 operator *(Vector3 v, float x)

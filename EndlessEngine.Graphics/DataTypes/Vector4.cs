@@ -22,7 +22,7 @@ namespace EndlessEngine.Graphics.DataTypes
             _data = new[] {x, y, z, w};
         }
 
-        private Vector4(params float[] data)
+        public Vector4(params float[] data)
         {
             if (data.Length != Size)
                 throw new Exception("Data count should be equal to " + Size);

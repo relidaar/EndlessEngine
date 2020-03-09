@@ -19,11 +19,6 @@ namespace EndlessEngine.Graphics.OpenGL
             _shader = shader;
             _vertexArray = vertexArray;
 
-            Init();
-        }
-
-        public void Init()
-        {
             Gl.Enable(EnableCap.Blend);
             Gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }

@@ -112,20 +112,29 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         #endregion
-        
-        public static Matrix4 Scaled(Vector4 vertex)
-        {
-            var data = vertex.Data.ToArray();
-            return Scaled(data[0], data[1], data[2]);
+
+        public static Matrix4 Identity =>
+            new Matrix4
+            (
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            );
+
+        #region Translation Matrices
+
+        public static Matrix4 Scaled(Vector3 vertex)
+        {            
+            return Scaled(vertex.X, vertex.Y, vertex.Z);
         }
 
         public static Matrix4 Scaled(Vector2 vertex)
-        {
-            var data = vertex.Data.ToArray();
-            return Scaled(data[0], data[1], 1);
+        {            
+            return Scaled(vertex.X, vertex.Y);
         }
-
-        public static Matrix4 Scaled(float x, float y, float z)
+        
+        public static Matrix4 Scaled(float x, float y, float z = 1)
         {
             return new Matrix4
             (
@@ -136,19 +145,17 @@ namespace EndlessEngine.Graphics.DataTypes
             );
         }
 
-        public static Matrix4 Translated(Vector4 vertex)
-        {
-            var data = vertex.Data.ToArray();
-            return Translated(data[0], data[1], data[2]);
+        public static Matrix4 Translated(Vector3 vertex)
+        {            
+            return Translated(vertex.X, vertex.Y, vertex.Z);
         }
 
         public static Matrix4 Translated(Vector2 vertex)
-        {
-            var data = vertex.Data.ToArray();
-            return Translated(data[0], data[1], 1);
+        {            
+            return Translated(vertex.X, vertex.Y);
         }
-
-        public static Matrix4 Translated(float x, float y, float z)
+        
+        public static Matrix4 Translated(float x, float y, float z = 0)
         {
             return new Matrix4
             (
@@ -159,13 +166,6 @@ namespace EndlessEngine.Graphics.DataTypes
             );
         }
 
-        public static Matrix4 Identity =>
-            new Matrix4
-            (
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1
-            );
+        #endregion
     }
 }

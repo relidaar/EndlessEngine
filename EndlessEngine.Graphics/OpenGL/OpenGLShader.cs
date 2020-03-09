@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
+using Vertex3 = EndlessEngine.Graphics.DataTypes.Vertex3;
 
 namespace EndlessEngine.Graphics.OpenGL
 {
@@ -97,6 +99,24 @@ namespace EndlessEngine.Graphics.OpenGL
         {
             var location = GetUniformLocation(name);
             Gl.Uniform4(location, v1, v2, v3, v4);
+        }
+
+        public void SetUniform(string name, Vertex2 vertex)
+        {
+            var location = GetUniformLocation(name);
+            Gl.Uniform2(location, vertex.Data.ToArray());
+        }
+
+        public void SetUniform(string name, Vertex3 vertex)
+        {
+            var location = GetUniformLocation(name);
+            Gl.Uniform3(location, vertex.Data.ToArray());
+        }
+
+        public void SetUniform(string name, Vertex4 vertex)
+        {
+            var location = GetUniformLocation(name);
+            Gl.Uniform4(location, vertex.Data.ToArray());
         }
 
         public void SetUniform(string name, bool transpose, Matrix2 matrix)

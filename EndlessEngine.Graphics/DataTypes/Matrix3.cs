@@ -5,21 +5,21 @@ namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Matrix3
     {
-        public IEnumerable<Vertex3> Data => _data;
-        private readonly Vertex3[] _data;
+        public IEnumerable<Vector3> Data => _data;
+        private readonly Vector3[] _data;
 
         public Matrix3(float a11, float a12, float a13, float a21, float a22, float a23, float a31, float a32,
             float a33)
         {
             _data = new[]
             {
-                new Vertex3(a11, a12, a13),
-                new Vertex3(a21, a22, a23),
-                new Vertex3(a31, a32, a33)
+                new Vector3(a11, a12, a13),
+                new Vector3(a21, a22, a23),
+                new Vector3(a31, a32, a33)
             };
         }
 
-        public Matrix3(in Vertex3 v1, in Vertex3 v2, in Vertex3 v3)
+        public Matrix3(in Vector3 v1, in Vector3 v2, in Vector3 v3)
         {
             _data = new[] {v1, v2, v3};
         }
@@ -29,7 +29,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
         }
 
-        private Matrix3(IEnumerable<Vertex3> data)
+        private Matrix3(IEnumerable<Vector3> data)
         {
             _data = data.ToArray();
         }
@@ -82,10 +82,10 @@ namespace EndlessEngine.Graphics.DataTypes
 
             var result = MatrixOperations.Multiply(a1, a2);
 
-            var vertices = new List<Vertex3>();
+            var vertices = new List<Vector3>();
             for (int i = 0; i < result.GetLength(0); i++)
             {
-                vertices.Add(new Vertex3(
+                vertices.Add(new Vector3(
                     result[i, 0],
                     result[i, 1],
                     result[i, 2]

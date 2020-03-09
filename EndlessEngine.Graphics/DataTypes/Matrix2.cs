@@ -5,19 +5,19 @@ namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Matrix2
     {
-        public IEnumerable<Vertex2> Data => _data;
-        private readonly Vertex2[] _data;
+        public IEnumerable<Vector2> Data => _data;
+        private readonly Vector2[] _data;
 
         public Matrix2(float a11, float a12, float a21, float a22)
         {
             _data = new[]
             {
-                new Vertex2(a11, a12),
-                new Vertex2(a21, a22)
+                new Vector2(a11, a12),
+                new Vector2(a21, a22)
             };
         }
 
-        public Matrix2(in Vertex2 v1, in Vertex2 v2)
+        public Matrix2(in Vector2 v1, in Vector2 v2)
         {
             _data = new[] {v1, v2};
         }
@@ -27,7 +27,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
         }
 
-        private Matrix2(IEnumerable<Vertex2> data)
+        private Matrix2(IEnumerable<Vector2> data)
         {
             _data = data.ToArray();
         }
@@ -79,10 +79,10 @@ namespace EndlessEngine.Graphics.DataTypes
 
             var result = MatrixOperations.Multiply(a1, a2);
 
-            var vertices = new List<Vertex2>();
+            var vertices = new List<Vector2>();
             for (int i = 0; i < result.GetLength(0); i++)
             {
-                vertices.Add(new Vertex2(
+                vertices.Add(new Vector2(
                     result[i, 0],
                     result[i, 1]
                 ));

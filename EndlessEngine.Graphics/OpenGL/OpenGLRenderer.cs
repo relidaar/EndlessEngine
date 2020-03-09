@@ -3,7 +3,6 @@ using System.Linq;
 using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
-using Vertex3 = EndlessEngine.Graphics.DataTypes.Vertex3;
 
 namespace EndlessEngine.Graphics.OpenGL
 {
@@ -66,7 +65,7 @@ namespace EndlessEngine.Graphics.OpenGL
             DrawIndexed(vertexArray);
         }
 
-        public void Draw(Vertex2 position, Vertex2 size, Color color)
+        public void Draw(Vector2 position, Vector2 size, Color color)
         {
             var (r, g, b, a) = color.ToNormalized();
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);

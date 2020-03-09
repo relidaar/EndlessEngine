@@ -5,8 +5,8 @@ namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Matrix4
     {
-        public IEnumerable<Vertex4> Data => _data;
-        private readonly Vertex4[] _data;
+        public IEnumerable<Vector4> Data => _data;
+        private readonly Vector4[] _data;
 
         public Matrix4(float a11, float a12, float a13, float a14,
             float a21, float a22, float a23, float a24,
@@ -15,14 +15,14 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             _data = new[]
             {
-                new Vertex4(a11, a12, a13, a14),
-                new Vertex4(a21, a22, a23, a24),
-                new Vertex4(a31, a32, a33, a34),
-                new Vertex4(a41, a42, a43, a44)
+                new Vector4(a11, a12, a13, a14),
+                new Vector4(a21, a22, a23, a24),
+                new Vector4(a31, a32, a33, a34),
+                new Vector4(a41, a42, a43, a44)
             };
         }
 
-        public Matrix4(in Vertex4 v1, in Vertex4 v2, in Vertex4 v3, in Vertex4 v4)
+        public Matrix4(in Vector4 v1, in Vector4 v2, in Vector4 v3, in Vector4 v4)
         {
             _data = new[] {v1, v2, v3, v4};
         }
@@ -32,7 +32,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
         }
 
-        private Matrix4(IEnumerable<Vertex4> data)
+        private Matrix4(IEnumerable<Vector4> data)
         {
             _data = data.ToArray();
         }
@@ -77,10 +77,10 @@ namespace EndlessEngine.Graphics.DataTypes
 
             var result = MatrixOperations.Multiply(a1, a2);
 
-            var vertices = new List<Vertex4>();
+            var vertices = new List<Vector4>();
             for (int i = 0; i < result.GetLength(0); i++)
             {
-                vertices.Add(new Vertex4(
+                vertices.Add(new Vector4(
                     result[i, 0], 
                     result[i, 1], 
                     result[i, 2], 
@@ -109,13 +109,13 @@ namespace EndlessEngine.Graphics.DataTypes
             return MatrixOperations.ToMatrix(ToArray(), 4, 4);
         }
 
-        public static Matrix4 Scaled(Vertex3 vertex)
+        public static Matrix4 Scaled(Vector3 vertex)
         {
             var data = vertex.Data.ToArray();
             return Scaled(data[0], data[1], data[2]);
         }
 
-        public static Matrix4 Scaled(Vertex2 vertex)
+        public static Matrix4 Scaled(Vector2 vertex)
         {
             var data = vertex.Data.ToArray();
             return Scaled(data[0], data[1], 1);
@@ -132,13 +132,13 @@ namespace EndlessEngine.Graphics.DataTypes
             );
         }
 
-        public static Matrix4 Translated(Vertex3 vertex)
+        public static Matrix4 Translated(Vector3 vertex)
         {
             var data = vertex.Data.ToArray();
             return Translated(data[0], data[1], data[2]);
         }
 
-        public static Matrix4 Translated(Vertex2 vertex)
+        public static Matrix4 Translated(Vector2 vertex)
         {
             var data = vertex.Data.ToArray();
             return Translated(data[0], data[1], 1);

@@ -3,55 +3,55 @@ using System.Linq;
 
 namespace EndlessEngine.Graphics.DataTypes
 {
-    public struct Vertex2
+    public struct Vector4
     {
         public IEnumerable<float> Data => _data;
         private readonly float[] _data;
 
-        public Vertex2(float a1, float a2)
+        public Vector4(float a1, float a2, float a3, float a4)
         {
-            _data = new[] {a1, a2};
+            _data = new[] {a1, a2, a3, a4};
         }
 
-        private Vertex2(IEnumerable<float> data)
+        private Vector4(IEnumerable<float> data)
         {
             _data = data.ToArray();
         }
 
-        public Vertex2(in Vertex2 v)
+        public Vector4(in Vector4 v)
         {
             _data = v.Data.ToArray();
         }
 
-        public Vertex2 Add(in Vertex2 v)
+        public Vector4 Add(in Vector4 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vertex2(result);
+            return new Vector4(result);
         }
 
-        public static Vertex2 operator +(Vertex2 v1, in Vertex2 v2)
+        public static Vector4 operator +(Vector4 v1, in Vector4 v2)
         {
             return v1.Add(v2);
         }
 
-        public Vertex2 Subtract(in Vertex2 v)
+        public Vector4 Subtract(in Vector4 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vertex2(result);
+            return new Vector4(result);
         }
 
-        public static Vertex2 operator -(Vertex2 v1, Vertex2 v2)
+        public static Vector4 operator -(Vector4 v1, Vector4 v2)
         {
             return v1.Subtract(v2);
         }
 
-        public Vertex2 Multiply(float x)
+        public Vector4 Multiply(float x)
         {
             var result = _data.Select(a => a * x);
-            return new Vertex2(result);
+            return new Vector4(result);
         }
 
-        public static Vertex2 operator *(Vertex2 v, float x)
+        public static Vector4 operator *(Vector4 v, float x)
         {
             return v.Multiply(x);
         }

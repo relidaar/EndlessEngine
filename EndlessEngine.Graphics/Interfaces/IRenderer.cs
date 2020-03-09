@@ -4,10 +4,12 @@ namespace EndlessEngine.Graphics.Interfaces
 {
     public interface IRenderer
     {
+        void Init(IShader shader, IVertexArray vertexArray);
         void Init();
         void Clear();
         void SetClearColor(Color color);
         void SetClearColor(float r, float g, float b, float a);
-        void DrawIndexed(IVertexArray vertexArray);
+        void Draw(IShader shader, IVertexArray vertexArray, Matrix4 transform);
+        void Draw(Vertex2 position, Vertex2 size, Color color);
     }
 }

@@ -1,11 +1,9 @@
 ﻿#version 330 core
 
 layout(location = 0) in vec3 aPosition;
-layout(location = 1) in vec2 aTextureCoordinates;
 
-out vec2 vTextureCoordinates;
+uniform mat4 uTransform;
 
 void main() {
-    gl_Position = vec4(aPosition, 1.0);
-    vTextureCoordinates = vec2(aTextureCoordinates.x, 1.0f - aTextureCoordinates.y);
+    gl_Position = uTransform * vec4(aPosition, 1.0);
 }

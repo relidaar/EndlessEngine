@@ -20,15 +20,12 @@ namespace EndlessEngine.Sandbox
 
             using (var window = Graphics.CreateWindow(props))
             {
-                var renderer = Graphics.CreateRenderer();
-                renderer.Init();
-
                 var vertices = new[]
                 {
-                    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-                    0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-                    0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-                    -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
+                    -0.5f, -0.5f, 0.0f,
+                     0.5f, -0.5f, 0.0f,
+                     0.5f, 0.5f, 0.0f,
+                    -0.5f, 0.5f, 0.0f,
                 };
                 var indices = new[] {0, 1, 2, 2, 3, 0};
 
@@ -36,8 +33,7 @@ namespace EndlessEngine.Sandbox
 
                 var vertexBuffer = Graphics.CreateVertexBuffer(vertices);
                 vertexBuffer.Layout = Graphics.CreateBufferLayout(
-                    new BufferElement(ShaderDataType.Float3, "aPosition"),
-                    new BufferElement(ShaderDataType.Float2, "TextureCoordinates"));
+                    new BufferElement(ShaderDataType.Float3, "aPosition"));
 
                 vertexBuffer.Bind();
 
@@ -48,22 +44,18 @@ namespace EndlessEngine.Sandbox
                 vertexArray.Add(indexBuffer);
 
                 var shaderLibrary = Graphics.CreateShaderLibrary();
-                var textureTestShader = shaderLibrary.Load("TextureTest", "resources/shaders/vertex.glsl",
+                var shader = shaderLibrary.Load("Test", "resources/shaders/vertex.glsl",
                     "resources/shaders/fragment.glsl");
-                textureTestShader.SetUniform("uTexture", 0);
 
-                var texture = Graphics.CreateTexture("resources/images/test.jpg");
-
+                var renderer = Graphics.CreateRenderer();
+                renderer.Init(shader, vertexArray);
                 while (window.IsOpen)
                 {
                     renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);
                     renderer.Clear();
 
-                    textureTestShader.Bind();
-                    vertexArray.Bind();
-                    texture.Bind();
-
-                    renderer.DrawIndexed(vertexArray);
+                    renderer.Draw(new Vector2(-1.0f, 0), new Vector2(0.8f, 0.8f), new Color(200, 50, 75));
+                    renderer.Draw(new Vector2(0.5f, -0.5f), new Vector2(0.5f, 0.75f), new Color(50, 75, 200));
 
                     window.Display();
                 }

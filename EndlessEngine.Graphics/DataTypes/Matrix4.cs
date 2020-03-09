@@ -98,6 +98,18 @@ namespace EndlessEngine.Graphics.DataTypes
             return MatrixOperations.ToMatrix(ToArray(), 4, 4);
         }
 
+        public static Matrix4 Scaled(Vertex3 vertex)
+        {
+            var data = vertex.Data.ToArray();
+            return Scaled(data[0], data[1], data[2]);
+        }
+
+        public static Matrix4 Scaled(Vertex2 vertex)
+        {
+            var data = vertex.Data.ToArray();
+            return Scaled(data[0], data[1], 1);
+        }
+
         public static Matrix4 Scaled(float x, float y, float z)
         {
             return new Matrix4
@@ -107,6 +119,18 @@ namespace EndlessEngine.Graphics.DataTypes
                 0, 0, z, 0,
                 0, 0, 0, 1
             );
+        }
+
+        public static Matrix4 Translated(Vertex3 vertex)
+        {
+            var data = vertex.Data.ToArray();
+            return Translated(data[0], data[1], data[2]);
+        }
+
+        public static Matrix4 Translated(Vertex2 vertex)
+        {
+            var data = vertex.Data.ToArray();
+            return Translated(data[0], data[1], 1);
         }
 
         public static Matrix4 Translated(float x, float y, float z)

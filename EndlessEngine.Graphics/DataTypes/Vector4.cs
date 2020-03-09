@@ -6,6 +6,7 @@ namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Vector4
     {
+        public static int Size => 4;
         public float X => _data[0];
         public float Y => _data[1];
         public float Z => _data[2];
@@ -16,15 +17,15 @@ namespace EndlessEngine.Graphics.DataTypes
 
         #region Constructors
 
-        public Vector4(float a1, float a2, float a3, float a4)
+        public Vector4(float x, float y, float z, float w)
         {
-            _data = new[] {a1, a2, a3, a4};
+            _data = new[] {x, y, z, w};
         }
 
         private Vector4(params float[] data)
         {
-            if (data.Length != 3)
-                throw new Exception("Data count should be equal to 3");
+            if (data.Length != Size)
+                throw new Exception("Data count should be equal to " + Size);
 
             _data = data;
         }

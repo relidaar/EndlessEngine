@@ -6,6 +6,7 @@ namespace EndlessEngine.Graphics.DataTypes
 {
     public struct Vector3
     {
+        public static int Size => 3;
         public float X => _data[0];
         public float Y => _data[1];
         public float Z => _data[2];
@@ -22,8 +23,8 @@ namespace EndlessEngine.Graphics.DataTypes
 
         public Vector3(params float[] data)
         {
-            if (data.Length != 3)
-                throw new Exception("Data count should be equal to 3");
+            if (data.Length != Size)
+                throw new Exception("Data count should be equal to " + Size);
 
             _data = data;
         }

@@ -70,9 +70,9 @@ namespace EndlessEngine.Graphics.DataTypes
             var result = MatrixOperations.Multiply(Matrix, other.Matrix);
 
             var vertices = new Vector3[Size.m];
-            var row = new float[Size.n];
             for (var i = 0; i < Size.m; i++)
             {
+                var row = new float[Size.n];
                 for (int j = 0; j < Size.n; j++)
                 {
                     row[j] = result[i, j];

@@ -22,10 +22,10 @@ namespace EndlessEngine.Sandbox
             {
                 var vertices = new[]
                 {
-                    -0.5f, -0.5f, 0.0f,
-                     0.5f, -0.5f, 0.0f,
-                     0.5f, 0.5f, 0.0f,
-                    -0.5f, 0.5f, 0.0f,
+                    -0.5f, -0.5f,
+                     0.5f, -0.5f,
+                     0.5f, 0.5f,
+                    -0.5f, 0.5f,
                 };
                 var indices = new[] {0, 1, 2, 2, 3, 0};
 
@@ -33,7 +33,7 @@ namespace EndlessEngine.Sandbox
 
                 var vertexBuffer = Graphics.CreateVertexBuffer(vertices);
                 vertexBuffer.Layout = Graphics.CreateBufferLayout(
-                    new BufferElement(ShaderDataType.Float3, "aPosition"));
+                    new BufferElement(ShaderDataType.Float2, "aPosition"));
 
                 vertexBuffer.Bind();
 

@@ -15,6 +15,13 @@ namespace EndlessEngine.Graphics.OpenGL
                 Log.Instance.Error("Could not initialize GLFW");
                 Glfw.Terminate();
             }
+            
+            Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
+            Glfw.WindowHint(Hint.ContextVersionMajor, 3);
+            Glfw.WindowHint(Hint.ContextVersionMinor, 3);
+            Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
+            Glfw.WindowHint(Hint.Doublebuffer, true);
+            Glfw.WindowHint(Hint.Decorated, true);
 
             Instance = new NativeWindow(properties.Width, properties.Height, properties.Title);
             if (Instance == null)
@@ -23,12 +30,10 @@ namespace EndlessEngine.Graphics.OpenGL
                 throw new NullReferenceException("Could not create window");
             }
 
-            Glfw.WindowHint(Hint.ContextVersionMajor, 3);
-            Glfw.WindowHint(Hint.ContextVersionMinor, 3);
-            Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
-
-            Gl.Initialize();
             Glfw.MakeContextCurrent(Instance);
+            Instance.CenterOnScreen();
+            
+            Gl.Initialize();
 
             Log.Instance.Info("Creating window \"{0}\" ({1}, {2})",
                 properties.Title, properties.Width, properties.Height);

@@ -40,7 +40,8 @@ namespace EndlessEngine.Graphics.OpenGL
         }
 
         private static void DrawIndexed(IVertexArray vertexArray)
-        {
+        {            
+            vertexArray.Bind();
             Gl.DrawElements(
                 PrimitiveType.Triangles,
                 vertexArray.IndexBuffer.Count,
@@ -56,7 +57,6 @@ namespace EndlessEngine.Graphics.OpenGL
             shader.Bind();
             shader.SetUniform("uTransform", false, transform);
 
-            vertexArray.Bind();
             DrawIndexed(vertexArray);
         }
 
@@ -69,7 +69,17 @@ namespace EndlessEngine.Graphics.OpenGL
             _shader.SetUniform("uTransform", true, transform);
             _shader.SetUniform("uColor", r, g, b, a);
 
-            _vertexArray.Bind();
+            DrawIndexed(_vertexArray);
+        }
+
+        public void Draw(Vector2 position, Vector2 size, ITexture texture)
+        {
+            var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
+
+            _shader.Bind();
+            _shader.SetUniform("uTransform", true, transform);
+            texture.Bind();
+            
             DrawIndexed(_vertexArray);
         }
     }

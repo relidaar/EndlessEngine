@@ -10,5 +10,6 @@ namespace EndlessEngine.Graphics.Interfaces
         void SetClearColor(float r, float g, float b, float a);
         void Draw(IShader shader, IVertexArray vertexArray, Matrix4 transform);
         void Draw(Vector2 position, Vector2 size, Color color);
+        void Draw(Vector2 position, Vector2 size, ITexture texture);
     }
 }

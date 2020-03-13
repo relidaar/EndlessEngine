@@ -18,47 +18,20 @@ namespace EndlessEngine.Sandbox
                 Title = "EndlessEngine"
             };
 
-            using (var window = Graphics.CreateWindow(props))
+            using var window = Graphics.CreateWindow(props);
+            
+            var renderer = Graphics.CreateRenderer();
+            renderer.Init();
+
+            var texture = Graphics.CreateTexture("assets/textures/test.jpg");
+            while (window.IsOpen)
             {
-                var vertices = new[]
-                {
-                    -0.5f, -0.5f,
-                     0.5f, -0.5f,
-                     0.5f, 0.5f,
-                    -0.5f, 0.5f,
-                };
-                var indices = new[] {0, 1, 2, 2, 3, 0};
+                renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);
+                renderer.Clear();
 
-                var vertexArray = Graphics.CreateVertexArray();
+                renderer.Draw(new Vector2(0.0f, 0), new Vector2(0.5f, 0.5f), texture);
 
-                var vertexBuffer = Graphics.CreateVertexBuffer(vertices);
-                vertexBuffer.Layout = Graphics.CreateBufferLayout(
-                    new BufferElement(ShaderDataType.Float2, "aPosition"));
-
-                vertexBuffer.Bind();
-
-                var indexBuffer = Graphics.CreateIndexBuffer(indices);
-                indexBuffer.Bind();
-
-                vertexArray.Add(vertexBuffer);
-                vertexArray.Add(indexBuffer);
-
-                var shaderLibrary = Graphics.CreateShaderLibrary();
-                var shader = shaderLibrary.Load("Test", "resources/shaders/vertex.glsl",
-                    "resources/shaders/fragment.glsl");
-
-                var renderer = Graphics.CreateRenderer();
-                renderer.Init(shader, vertexArray);
-                while (window.IsOpen)
-                {
-                    renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);
-                    renderer.Clear();
-
-                    renderer.Draw(new Vector2(-1.0f, 0), new Vector2(0.8f, 0.8f), new Color(200, 50, 75));
-                    renderer.Draw(new Vector2(0.5f, -0.5f), new Vector2(0.5f, 0.75f), new Color(50, 75, 200));
-
-                    window.Display();
-                }
+                window.Display();
             }
         }
     }

@@ -11,48 +11,65 @@ namespace EndlessEngine.Graphics.OpenGL
         private IShader _textureShader;
         private IVertexArray _vertexArray;
 
-        private IGraphicsFactory _factory = new OpenGLGraphicsFactory();
-        
+        private readonly IGraphicsFactory _factory;
+
+        public OpenGLRenderer(IGraphicsFactory factory)
+        {
+            _factory = factory;
+        }
+
         public void Init(IShader colorShader, IShader textureShader, IVertexArray vertexArray)
         {
             if (colorShader == null || vertexArray == null)
                 throw new ArgumentNullException();
 
             _colorShader = colorShader;
+            _textureShader = textureShader;
             _vertexArray = vertexArray;
 
             Gl.Enable(EnableCap.Blend);
             Gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            Gl.Enable(EnableCap.DepthTest);
         }
 
         public void Init()
         {
-            _vertexArray = _factory.CreateVertexArray();
-            
+            var vertexArray = _factory.CreateVertexArray();
+            var shaderLibrary = _factory.CreateShaderLibrary();
+
             var vertices = new[]
             {
-                -0.5f, -0.5f,
-                0.5f, -0.5f,
-                0.5f, 0.5f,
-                -0.5f, 0.5f,
+                -0.5f, -0.5f, 0.0f, 0.0f,
+                 0.5f, -0.5f, 1.0f, 0.0f,
+                 0.5f,  0.5f, 1.0f, 1.0f,
+                -0.5f,  0.5f, 0.0f, 1.0f
             };
                                                                                             
             var vertexBuffer = _factory.CreateVertexBuffer(vertices);
             vertexBuffer.Layout = _factory.CreateBufferLayout(
-                new BufferElement(ShaderDataType.Float2, "aPosition"));
+                new BufferElement(ShaderDataType.Float2, "aPosition"),
+                new BufferElement(ShaderDataType.Float2, "aTextureCoordinates")
+                );
             vertexBuffer.Bind();
-            _vertexArray.Add(vertexBuffer);
+            vertexArray.Add(vertexBuffer);
 
             var indices = new[] {0, 1, 2, 2, 3, 0};
             var indexBuffer = _factory.CreateIndexBuffer(indices);
             indexBuffer.Bind();
-            _vertexArray.Add(indexBuffer);
-
-            var shaderLibrary = _factory.CreateShaderLibrary();
-            _colorShader = shaderLibrary.Load("DefaultColorShader", "resources/shaders/ColorVertex.glsl",
-                "resources/shaders/ColorFragment.glsl");
-            _textureShader = shaderLibrary.Load("DefaultTextureShader", "resources/shaders/TextureVertex.glsl",
-                "resources/shaders/TextureFragment.glsl");
+            vertexArray.Add(indexBuffer);
+            
+            var colorShader = shaderLibrary.Load("DefaultColorShader", 
+                "assets/shaders/DefaultColorVertex.glsl",
+                "assets/shaders/DefaultColorFragment.glsl");
+            colorShader.Bind();
+            
+            var textureShader = shaderLibrary.Load("DefaultTextureShader", 
+                "assets/shaders/DefaultTextureVertex.glsl",
+                "assets/shaders/DefaultTextureFragment.glsl");
+            textureShader.Bind();
+            textureShader.SetUniform("uTexture", 0);
+            
+            Init(colorShader, textureShader, vertexArray);
         }
 
         public void Clear()

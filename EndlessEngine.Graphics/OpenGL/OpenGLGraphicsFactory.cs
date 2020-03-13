@@ -32,7 +32,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public IRenderer CreateRenderer()
         {
-            return new OpenGLRenderer();
+            return new OpenGLRenderer(this);
         }
 
         public IShader CreateShader(string name, string vertexShaderPath, string fragmentShaderPath)

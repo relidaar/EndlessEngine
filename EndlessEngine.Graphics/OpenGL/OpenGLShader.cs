@@ -145,19 +145,17 @@ namespace EndlessEngine.Graphics.OpenGL
             var id = Gl.CreateShader(type);
             Gl.ShaderSource(id, source);
             Gl.CompileShader(id);
-
+            
             Gl.GetShader(id, ShaderParameterName.CompileStatus, out var compiled);
             if (compiled != 0)
                 return id;
 
-            // Not compiled!
+            Gl.GetShader(id, ShaderParameterName.InfoLogLength, out var logLength);
+            var shaderLog = new StringBuilder(logLength);
+            Gl.GetShaderInfoLog(id, logLength, out _, shaderLog);
+            
             Gl.DeleteShader(id);
-
-            const int logMaxLength = 1024;
-            var infolog = new StringBuilder(1024);
-            Gl.GetShaderInfoLog(id, logMaxLength, out _, infolog);
-
-            throw new InvalidOperationException($"unable to compile shader: {infolog}");
+            throw new InvalidOperationException($"unable to compile shader: {shaderLog}");
         }
 
         private int GetUniformLocation(string name)

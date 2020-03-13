@@ -16,6 +16,8 @@ namespace EndlessEngine.Graphics.OpenGL
                 Glfw.Terminate();
             }
             
+            Gl.Initialize();
+
             Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
             Glfw.WindowHint(Hint.ContextVersionMajor, 3);
             Glfw.WindowHint(Hint.ContextVersionMinor, 3);
@@ -33,8 +35,6 @@ namespace EndlessEngine.Graphics.OpenGL
             Glfw.MakeContextCurrent(Instance);
             Instance.CenterOnScreen();
             
-            Gl.Initialize();
-
             Log.Instance.Info("Creating window \"{0}\" ({1}, {2})",
                 properties.Title, properties.Width, properties.Height);
         }

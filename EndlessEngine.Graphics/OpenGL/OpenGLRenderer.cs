@@ -119,17 +119,19 @@ namespace EndlessEngine.Graphics.OpenGL
             _defaultTexture.Bind();
 
             _shader.SetUniform("uTransform", true, transform);
+            _shader.SetUniform("uTiling", 1.0f);
             _shader.SetUniform("uColor", r, g, b, a);
 
             DrawIndexed(_vertexArray);
         }
 
-        public void Draw(Vector2 position, Vector2 size, ITexture texture)
+        public void Draw(Vector2 position, Vector2 size, ITexture texture, float tilingFactor = 1.0f)
         {
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
             texture.Bind();
 
             _shader.SetUniform("uTransform", true, transform);
+            _shader.SetUniform("uTiling", tilingFactor);
             _shader.SetUniform("uColor", new Vector4(1));
             
             DrawIndexed(_vertexArray);

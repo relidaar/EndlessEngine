@@ -49,5 +49,10 @@ namespace EndlessEngine.Graphics.OpenGL
         {
             return new OpenGLTexture(path);
         }
+
+        public ITexture CreateTexture(uint width, uint height, object data, TextureFormat format)
+        {
+            return new OpenGLTexture(width, height, data, format);
+        }
     }
 }

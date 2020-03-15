@@ -28,7 +28,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
             _vertexArray = vertexArray;
             
-            _defaultTexture = new OpenGLTexture(1, 1, 0xffffffff, TextureFormat.Rgba8);
+            _defaultTexture = new OpenGLTexture(1, 1, 0xffffffff, TextureData.Default);
 
             Gl.Enable(EnableCap.Blend);
             Gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -119,7 +119,7 @@ namespace EndlessEngine.Graphics.OpenGL
             _defaultTexture.Bind();
 
             _shader.SetUniform("uTransform", true, transform);
-            _shader.SetUniform("uTiling", 1.0f);
+            _shader.SetUniform("uTilingFactor", 1.0f);
             _shader.SetUniform("uColor", r, g, b, a);
 
             DrawIndexed(_vertexArray);
@@ -131,7 +131,7 @@ namespace EndlessEngine.Graphics.OpenGL
             texture.Bind();
 
             _shader.SetUniform("uTransform", true, transform);
-            _shader.SetUniform("uTiling", tilingFactor);
+            _shader.SetUniform("uTilingFactor", tilingFactor);
             _shader.SetUniform("uColor", new Vector4(1));
             
             DrawIndexed(_vertexArray);

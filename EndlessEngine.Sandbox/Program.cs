@@ -23,7 +23,7 @@ namespace EndlessEngine.Sandbox
             var renderer = Graphics.CreateRenderer();
             renderer.Init();
 
-            var texture = Graphics.CreateTexture("assets/textures/test.jpg");
+            var texture = Graphics.CreateTexture("assets/textures/test.jpg", TextureData.Default);
             while (window.IsOpen)
             {
                 renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);

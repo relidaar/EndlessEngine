@@ -4,8 +4,9 @@ namespace EndlessEngine.Graphics.Interfaces
 {
     public interface IRenderer
     {
-        void Init(IShader colorShader, IShader textureShader, IVertexArray vertexArray);
+        void Init(IShader shader, IVertexArray vertexArray);
         void Init();
+        void UseDefaultShader();
         void Clear();
         void SetClearColor(Color color);
         void SetClearColor(float r, float g, float b, float a);

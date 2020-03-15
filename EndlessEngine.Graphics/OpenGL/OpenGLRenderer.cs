@@ -7,8 +7,8 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLRenderer : IRenderer
     {
-        private IShader _colorShader;
-        private IShader _textureShader;
+        private IShader _shader;
+        private ITexture _defaultTexture;
         private IVertexArray _vertexArray;
 
         private readonly IGraphicsFactory _factory;
@@ -18,14 +18,17 @@ namespace EndlessEngine.Graphics.OpenGL
             _factory = factory;
         }
 
-        public void Init(IShader colorShader, IShader textureShader, IVertexArray vertexArray)
+        public void Init(IShader shader, IVertexArray vertexArray)
         {
-            if (colorShader == null || vertexArray == null)
+            if (shader == null || vertexArray == null)
                 throw new ArgumentNullException();
 
-            _colorShader = colorShader;
-            _textureShader = textureShader;
+            _shader = shader;            
+            _shader.Bind();
+
             _vertexArray = vertexArray;
+            
+            _defaultTexture = new OpenGLTexture(1, 1, 0xffffffff, TextureFormat.Rgba8);
 
             Gl.Enable(EnableCap.Blend);
             Gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -58,18 +61,18 @@ namespace EndlessEngine.Graphics.OpenGL
             indexBuffer.Bind();
             vertexArray.Add(indexBuffer);
             
-            var colorShader = shaderLibrary.Load("DefaultColorShader", 
-                "assets/shaders/DefaultColorVertex.glsl",
-                "assets/shaders/DefaultColorFragment.glsl");
-            colorShader.Bind();
+            var shader = shaderLibrary.Load("DefaultShader", 
+                "assets/shaders/DefaultVertex.glsl",
+                "assets/shaders/DefaultFragment.glsl");
+            shader.Bind();
+            shader.SetUniform("uTexture", 0);           
             
-            var textureShader = shaderLibrary.Load("DefaultTextureShader", 
-                "assets/shaders/DefaultTextureVertex.glsl",
-                "assets/shaders/DefaultTextureFragment.glsl");
-            textureShader.Bind();
-            textureShader.SetUniform("uTexture", 0);
-            
-            Init(colorShader, textureShader, vertexArray);
+            Init(shader, vertexArray);
+        }
+
+        public void UseDefaultShader()
+        {
+            _shader.Bind();
         }
 
         public void Clear()
@@ -113,10 +116,10 @@ namespace EndlessEngine.Graphics.OpenGL
         {
             var (r, g, b, a) = color.ToNormalized();
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
+            _defaultTexture.Bind();
 
-            _colorShader.Bind();
-            _colorShader.SetUniform("uTransform", true, transform);
-            _colorShader.SetUniform("uColor", r, g, b, a);
+            _shader.SetUniform("uTransform", true, transform);
+            _shader.SetUniform("uColor", r, g, b, a);
 
             DrawIndexed(_vertexArray);
         }
@@ -124,10 +127,10 @@ namespace EndlessEngine.Graphics.OpenGL
         public void Draw(Vector2 position, Vector2 size, ITexture texture)
         {
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
-
-            _textureShader.Bind();
-            _textureShader.SetUniform("uTransform", true, transform);
             texture.Bind();
+
+            _shader.SetUniform("uTransform", true, transform);
+            _shader.SetUniform("uColor", new Vector4(1));
             
             DrawIndexed(_vertexArray);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 using StbImageSharp;

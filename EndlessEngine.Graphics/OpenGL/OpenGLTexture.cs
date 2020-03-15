@@ -4,6 +4,7 @@ using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 using StbImageSharp;
+using TextureMagFilter = EndlessEngine.Graphics.DataTypes.TextureMagFilter;
 
 namespace EndlessEngine.Graphics.OpenGL
 {
@@ -12,7 +13,7 @@ namespace EndlessEngine.Graphics.OpenGL
         private readonly uint _id;
         private string _path;
 
-        public OpenGLTexture(string path)
+        public OpenGLTexture(string path, TextureData textureData)
         {
             _path = path ?? throw new ArgumentNullException();
 
@@ -35,6 +36,10 @@ namespace EndlessEngine.Graphics.OpenGL
                     default:
                         throw new ArgumentOutOfRangeException("Format not supported");
                 }
+                
+                int minFilter = ToOpenGLFormat(textureData.MinFilter);
+                int magFilter = ToOpenGLFormat(textureData.MagFilter);
+                int wrapMode = ToOpenGLFormat(textureData.WrapMode);
 
                 Width = image.Width;
                 Height = image.Height;
@@ -42,11 +47,10 @@ namespace EndlessEngine.Graphics.OpenGL
                 _id = Gl.GenTexture();
                 Gl.BindTexture(TextureTarget.Texture2d, _id);
 
-                Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter,
-                    Gl.LINEAR_MIPMAP_LINEAR);
-                Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, Gl.LINEAR);
-                Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.CLAMP_TO_EDGE);
-                Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.CLAMP_TO_EDGE);
+                Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, minFilter);
+                Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, magFilter);
+                Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, wrapMode);
+                Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, wrapMode);
 
                 Gl.TexImage2D(TextureTarget.Texture2d, 0, internalFormat, Width, Height, 0, dataFormat,
                     PixelType.UnsignedByte, image.Data);
@@ -56,50 +60,100 @@ namespace EndlessEngine.Graphics.OpenGL
             }
         }
 
-        public OpenGLTexture(uint width, uint height, object data, TextureFormat format)
+        public OpenGLTexture(uint width, uint height, object data, TextureData textureData)
         {
             Width = (int) width;
             Height = (int) height;
-            
-            InternalFormat internalFormat;
-            PixelFormat dataFormat;
-            switch (format)
-            {
-                case TextureFormat.Rgba:
-                    internalFormat = InternalFormat.Rgba;
-                    dataFormat = PixelFormat.Rgba;
-                    break;
-                case TextureFormat.Rgba8:
-                    internalFormat = InternalFormat.Rgba8;
-                    dataFormat = PixelFormat.Rgba;
-                    break;
-                case TextureFormat.Rgb:
-                    internalFormat = InternalFormat.Rgb;
-                    dataFormat = PixelFormat.Rgb;
-                    break;
-                case TextureFormat.Rgb8:
-                    internalFormat = InternalFormat.Rgb8;
-                    dataFormat = PixelFormat.Rgb;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("Format not supported");
-            }
+
+            var (internalFormat, pixelFormat) = ToOpenGLFormat(textureData.Format);
+            int minFilter = ToOpenGLFormat(textureData.MinFilter);
+            int magFilter = ToOpenGLFormat(textureData.MagFilter);
+            int wrapMode = ToOpenGLFormat(textureData.WrapMode);
             
             _id = Gl.GenTexture();
             Gl.BindTexture(TextureTarget.Texture2d, _id);
 
-            Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter,
-                Gl.LINEAR_MIPMAP_LINEAR);
-            Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, Gl.LINEAR);
-            Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.CLAMP_TO_EDGE);
-            Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.CLAMP_TO_EDGE);
+            Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, minFilter);
+            Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, magFilter);
+            Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, wrapMode);
+            Gl.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, wrapMode);
 
-            Gl.TexImage2D(TextureTarget.Texture2d, 0, internalFormat, Width, Height, 0, dataFormat,
+            Gl.TexImage2D(TextureTarget.Texture2d, 0, internalFormat, Width, Height, 0, pixelFormat,
                 PixelType.UnsignedByte, data);
             Gl.GenerateMipmap(TextureTarget.Texture2d);
 
             Gl.BindTexture(TextureTarget.Texture2d, 0);
         }
+
+        #region Converters
+
+        private static (InternalFormat internalFormat, PixelFormat pixelFormat) ToOpenGLFormat(TextureFormat format)
+        {
+            switch (format)
+            {
+                case TextureFormat.Rgba:
+                    return (InternalFormat.Rgba, PixelFormat.Rgba);
+                case TextureFormat.Rgba8:
+                    return (InternalFormat.Rgba8, PixelFormat.Rgba);
+                case TextureFormat.Rgb:
+                    return (InternalFormat.Rgb, PixelFormat.Rgb);
+                case TextureFormat.Rgb8:
+                    return (InternalFormat.Rgb8, PixelFormat.Rgb);
+                default:
+                    throw new ArgumentOutOfRangeException("Format not supported");
+            }
+        }
+
+        private static int ToOpenGLFormat(DataTypes.TextureMinFilter minFilter)
+        {
+            switch (minFilter)
+            {
+                case DataTypes.TextureMinFilter.Nearest:
+                    return Gl.NEAREST;
+                case DataTypes.TextureMinFilter.Linear:
+                    return Gl.LINEAR;
+                case DataTypes.TextureMinFilter.NearestMipmapNearest:
+                    return Gl.NEAREST_MIPMAP_NEAREST;
+                case DataTypes.TextureMinFilter.LinearMipmapNearest:
+                    return Gl.LINEAR_MIPMAP_NEAREST;
+                case DataTypes.TextureMinFilter.NearestMipmapLinear:
+                    return Gl.NEAREST_MIPMAP_LINEAR;
+                case DataTypes.TextureMinFilter.LinearMipmapLinear:
+                    return Gl.LINEAR_MIPMAP_LINEAR;
+                default:
+                    throw new ArgumentOutOfRangeException("Format not supported");
+            }
+        }
+
+        private static int ToOpenGLFormat(DataTypes.TextureMagFilter magFilter)
+        {
+            switch (magFilter)
+            {
+                case TextureMagFilter.Nearest:
+                    return Gl.NEAREST;
+                case TextureMagFilter.Linear:
+                    return Gl.LINEAR;
+                default:
+                    throw new ArgumentOutOfRangeException("Format not supported");
+            }
+        }
+
+        private static int ToOpenGLFormat(DataTypes.TextureWrapMode wrapMode)
+        {
+            switch (wrapMode)
+            {
+                case DataTypes.TextureWrapMode.ClampToEdge:
+                    return Gl.CLAMP_TO_EDGE;
+                case DataTypes.TextureWrapMode.ClampToBorder:
+                    return Gl.CLAMP_TO_BORDER;
+                case DataTypes.TextureWrapMode.Repeat:
+                    return Gl.REPEAT;
+                default:
+                    throw new ArgumentOutOfRangeException("Format not supported");
+            }
+        }
+
+        #endregion
 
         public int Width { get; }
         public int Height { get; }

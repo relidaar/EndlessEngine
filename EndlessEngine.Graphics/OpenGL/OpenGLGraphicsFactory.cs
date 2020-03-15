@@ -45,14 +45,14 @@ namespace EndlessEngine.Graphics.OpenGL
             return new OpenGLShaderLibrary();
         }
 
-        public ITexture CreateTexture(string path)
+        public ITexture CreateTexture(string path, TextureData textureData)
         {
-            return new OpenGLTexture(path);
+            return new OpenGLTexture(path, textureData);
         }
 
-        public ITexture CreateTexture(uint width, uint height, object data, TextureFormat format)
+        public ITexture CreateTexture(uint width, uint height, object data, TextureData textureData)
         {
-            return new OpenGLTexture(width, height, data, format);
+            return new OpenGLTexture(width, height, data, textureData);
         }
     }
 }

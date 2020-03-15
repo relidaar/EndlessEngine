@@ -16,6 +16,15 @@ namespace EndlessEngine.Graphics.DataTypes
 
         #region Constructors
 
+        public Vector3(float value)
+        {
+            _data = new float[Size];
+            for (int i = 0; i < Size; i++)
+            {
+                _data[i] = value;
+            }
+        }
+
         public Vector3(float x, float y, float z)
         {
             _data = new[] {x, y, z};

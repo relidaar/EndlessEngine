@@ -28,7 +28,7 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         public Matrix4(in Matrix4 matrix)
-            : this(matrix.Data as Vector4[])
+            : this(matrix.Data.ToArray())
         {
         }
 
@@ -54,19 +54,19 @@ namespace EndlessEngine.Graphics.DataTypes
         public Matrix4 Add(Matrix4 other)
         {
             var result = Data.Zip(other.Data, (a1, a2) => a1 + a2);
-            return new Matrix4(result as Vector4[]);
+            return new Matrix4(result.ToArray());
         }
 
         public Matrix4 Subtract(Matrix4 other)
         {
             var result = Data.Zip(other.Data, (a1, a2) => a1 - a2);
-            return new Matrix4(result as Vector4[]);
+            return new Matrix4(result.ToArray());
         }
 
         public Matrix4 Multiply(float x)
         {
             var result = Data.Select(a => a * x);
-            return new Matrix4(result as Vector4[]);
+            return new Matrix4(result.ToArray());
         }
 
         public Matrix4 Multiply(Matrix4 other)

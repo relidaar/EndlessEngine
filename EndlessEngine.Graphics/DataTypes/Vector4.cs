@@ -40,7 +40,7 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         public Vector4(in Vector4 vector)
-            : this(vector.Data as float[])
+            : this(vector.Data.ToArray())
         {
         }
 
@@ -51,19 +51,19 @@ namespace EndlessEngine.Graphics.DataTypes
         public Vector4 Add(in Vector4 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vector4(result as float[]);
+            return new Vector4(result.ToArray());
         }
 
         public Vector4 Subtract(in Vector4 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vector4(result as float[]);
+            return new Vector4(result.ToArray());
         }
 
         public Vector4 Multiply(float x)
         {
             var result = _data.Select(a => a * x);
-            return new Vector4(result as float[]);
+            return new Vector4(result.ToArray());
         }
 
         #endregion

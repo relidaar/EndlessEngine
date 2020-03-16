@@ -24,7 +24,7 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         public Matrix3(in Matrix3 matrix)
-            : this(matrix.Data as Vector3[])
+            : this(matrix.Data.ToArray())
         {
         }
 
@@ -50,19 +50,19 @@ namespace EndlessEngine.Graphics.DataTypes
         public Matrix3 Add(Matrix3 other)
         {
             var result = Data.Zip(other.Data, (a1, a2) => a1 + a2);
-            return new Matrix3(result as Vector3[]);
+            return new Matrix3(result.ToArray());
         }
 
         public Matrix3 Subtract(Matrix3 other)
         {
             var result = Data.Zip(other.Data, (a1, a2) => a1 - a2);
-            return new Matrix3(result as Vector3[]);
+            return new Matrix3(result.ToArray());
         }
 
         public Matrix3 Multiply(float x)
         {
             var result = Data.Select(a => a * x);
-            return new Matrix3(result as Vector3[]);
+            return new Matrix3(result.ToArray());
         }
 
         public Matrix3 Multiply(Matrix3 other)

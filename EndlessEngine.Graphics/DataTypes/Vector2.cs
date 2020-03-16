@@ -38,7 +38,7 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         public Vector2(in Vector2 vector)
-            : this(vector.Data as float[])
+            : this(vector.Data.ToArray())
         {
         }
 
@@ -49,19 +49,19 @@ namespace EndlessEngine.Graphics.DataTypes
         public Vector2 Add(in Vector2 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vector2(result as float[]);
+            return new Vector2(result.ToArray());
         }
 
         public Vector2 Subtract(in Vector2 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vector2(result as float[]);
+            return new Vector2(result.ToArray());
         }
 
         public Vector2 Multiply(float x)
         {
             var result = _data.Select(a => a * x);
-            return new Vector2(result as float[]);
+            return new Vector2(result.ToArray());
         }
 
         #endregion

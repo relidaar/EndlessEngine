@@ -7,6 +7,8 @@ namespace EndlessEngine.Graphics.Test.DataTypes
 {
     public class Vector2Tests
     {
+        private readonly float[] _data = {1f, 2f};
+
         #region Constructors
 
         [Theory]
@@ -109,11 +111,10 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         [InlineData(-2f)]
         public void MultiplyByNumber(float value)
         {
-            var data = new[] {2f, 2f};
-            var vector = new Vector2(data);
+            var vector = new Vector2(_data);
             
             var result = vector.Multiply(value).Data;
-            var expected = data.Select(x => x * value);
+            var expected = _data.Select(x => x * value);
             
             Assert.Equal(expected, result);
         }
@@ -166,11 +167,10 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         [InlineData(-2f)]
         public void MultiplyByNumberOperator(float value)
         {
-            var data = new[] {2f, 2f};
-            var vector = new Vector2(data);
+            var vector = new Vector2(_data);
             
             var result = (vector * value).Data;
-            var expected = data.Select(x => x * value);
+            var expected = _data.Select(x => x * value);
             
             Assert.Equal(expected, result);
         }

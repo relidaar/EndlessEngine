@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using EndlessEngine.Graphics.DataTypes;
 using Xunit;
 
@@ -9,10 +10,10 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         #region Constructors
 
         [Theory]
-        [InlineData(-1)]
-        [InlineData(0)]
-        [InlineData(1)]
-        public void CreateWithOneValue(int value)
+        [InlineData(-1f)]
+        [InlineData(0f)]
+        [InlineData(1f)]
+        public void CreateWithOneValue(float value)
         {
             var expected = new float[Vector2.Size];
             for (int i = 0; i < Vector2.Size; i++)
@@ -62,6 +63,61 @@ namespace EndlessEngine.Graphics.Test.DataTypes
 
         #endregion
         
-        
+        #region Operations
+
+        [Theory]
+        [InlineData(-1f, -2f)]
+        [InlineData(0f, 0f)]
+        [InlineData(1f, 2f)]
+        [InlineData(1f, -1f)]
+        public void AddVector(params float[] data)
+        {
+            var vector1 = new Vector2(data);
+            var vector2 = new Vector2(data);
+            
+            var result = vector1.Add(vector2).Data;
+            var expected = vector1.Data.Zip(vector2.Data,
+                (a, b) => a + b
+            );
+            
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(-1f, -2f)]
+        [InlineData(0f, 0f)]
+        [InlineData(1f, 2f)]
+        [InlineData(1f, -1f)]
+        public void SubtractVector(params float[] data)
+        {
+            var vector1 = new Vector2(data);
+            var vector2 = new Vector2(data);
+            
+            var result = vector1.Subtract(vector2).Data;
+            var expected = vector1.Data.Zip(vector2.Data,
+                (a, b) => a - b
+            );
+            
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(0f)]
+        [InlineData(1f)]
+        [InlineData(-1f)]
+        [InlineData(2f)]
+        [InlineData(-2f)]
+        public void MultiplyByNumber(float value)
+        {
+            var data = new[] {2f, 2f};
+            var vector = new Vector2(data);
+            
+            var result = vector.Multiply(value).Data;
+            var expected = data.Select(x => x * value);
+            
+            Assert.Equal(expected, result);
+        }
+
+        #endregion
     }
 }

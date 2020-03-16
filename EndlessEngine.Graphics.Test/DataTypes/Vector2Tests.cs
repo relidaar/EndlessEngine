@@ -119,5 +119,62 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         }
 
         #endregion
+
+        #region Operators
+
+        [Theory]
+        [InlineData(-1f, -2f)]
+        [InlineData(0f, 0f)]
+        [InlineData(1f, 2f)]
+        [InlineData(1f, -1f)]
+        public void AddVectorOperator(params float[] data)
+        {
+            var vector1 = new Vector2(data);
+            var vector2 = new Vector2(data);
+            
+            var result = (vector1 + vector2).Data;
+            var expected = vector1.Data.Zip(vector2.Data,
+                (a, b) => a + b
+            );
+            
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(-1f, -2f)]
+        [InlineData(0f, 0f)]
+        [InlineData(1f, 2f)]
+        [InlineData(1f, -1f)]
+        public void SubtractOperator(params float[] data)
+        {
+            var vector1 = new Vector2(data);
+            var vector2 = new Vector2(data);
+            
+            var result = (vector1 - vector2).Data;
+            var expected = vector1.Data.Zip(vector2.Data,
+                (a, b) => a - b
+            );
+            
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(0f)]
+        [InlineData(1f)]
+        [InlineData(-1f)]
+        [InlineData(2f)]
+        [InlineData(-2f)]
+        public void MultiplyByNumberOperator(float value)
+        {
+            var data = new[] {2f, 2f};
+            var vector = new Vector2(data);
+            
+            var result = (vector * value).Data;
+            var expected = data.Select(x => x * value);
+            
+            Assert.Equal(expected, result);
+        }
+
+        #endregion
     }
 }

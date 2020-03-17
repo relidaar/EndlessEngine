@@ -7,11 +7,10 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLRenderer : IRenderer
     {
-        private IShader _shader;
-        private ITexture _defaultTexture;
-        private IVertexArray _vertexArray;
-
         private readonly IGraphicsFactory _factory;
+        private ITexture _defaultTexture;
+        private IShader _shader;
+        private IVertexArray _vertexArray;
 
         public OpenGLRenderer(IGraphicsFactory factory)
         {
@@ -23,11 +22,11 @@ namespace EndlessEngine.Graphics.OpenGL
             if (shader == null || vertexArray == null)
                 throw new ArgumentNullException();
 
-            _shader = shader;            
+            _shader = shader;
             _shader.Bind();
 
             _vertexArray = vertexArray;
-            
+
             _defaultTexture = new OpenGLTexture(1, 1, 0xffffffff, TextureData.Default);
 
             Gl.Enable(EnableCap.Blend);
@@ -43,16 +42,16 @@ namespace EndlessEngine.Graphics.OpenGL
             var vertices = new[]
             {
                 -0.5f, -0.5f, 0.0f, 0.0f,
-                 0.5f, -0.5f, 1.0f, 0.0f,
-                 0.5f,  0.5f, 1.0f, 1.0f,
-                -0.5f,  0.5f, 0.0f, 1.0f
+                0.5f, -0.5f, 1.0f, 0.0f,
+                0.5f, 0.5f, 1.0f, 1.0f,
+                -0.5f, 0.5f, 0.0f, 1.0f
             };
-                                                                                            
+
             var vertexBuffer = _factory.CreateVertexBuffer(vertices);
             vertexBuffer.Layout = _factory.CreateBufferLayout(
                 new BufferElement(ShaderDataType.Float2, "aPosition"),
                 new BufferElement(ShaderDataType.Float2, "aTextureCoordinates")
-                );
+            );
             vertexBuffer.Bind();
             vertexArray.Add(vertexBuffer);
 
@@ -60,13 +59,13 @@ namespace EndlessEngine.Graphics.OpenGL
             var indexBuffer = _factory.CreateIndexBuffer(indices);
             indexBuffer.Bind();
             vertexArray.Add(indexBuffer);
-            
-            var shader = shaderLibrary.Load("DefaultShader", 
+
+            var shader = shaderLibrary.Load("DefaultShader",
                 "assets/shaders/DefaultVertex.glsl",
                 "assets/shaders/DefaultFragment.glsl");
             shader.Bind();
-            shader.SetUniform("uTexture", 0);           
-            
+            shader.SetUniform("uTexture", 0);
+
             Init(shader, vertexArray);
         }
 
@@ -91,19 +90,9 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.ClearColor(r, g, b, a);
         }
 
-        private static void DrawIndexed(IVertexArray vertexArray)
-        {            
-            vertexArray.Bind();
-            Gl.DrawElements(
-                PrimitiveType.Triangles,
-                vertexArray.IndexBuffer.Count,
-                DrawElementsType.UnsignedInt,
-                null);
-        }
-
         public void Draw(IShader shader, IVertexArray vertexArray, Matrix4 transform)
         {
-            if (shader == null || vertexArray == null) 
+            if (shader == null || vertexArray == null)
                 throw new ArgumentNullException();
 
             shader.Bind();
@@ -133,8 +122,18 @@ namespace EndlessEngine.Graphics.OpenGL
             _shader.SetUniform("uTransform", true, transform);
             _shader.SetUniform("uTilingFactor", tilingFactor);
             _shader.SetUniform("uColor", new Vector4(1));
-            
+
             DrawIndexed(_vertexArray);
+        }
+
+        private static void DrawIndexed(IVertexArray vertexArray)
+        {
+            vertexArray.Bind();
+            Gl.DrawElements(
+                PrimitiveType.Triangles,
+                vertexArray.IndexBuffer.Count,
+                DrawElementsType.UnsignedInt,
+                null);
         }
     }
 }

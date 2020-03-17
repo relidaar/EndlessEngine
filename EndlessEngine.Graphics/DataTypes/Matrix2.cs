@@ -31,7 +31,7 @@ namespace EndlessEngine.Graphics.DataTypes
         {
             if (data.Length != Size.m)
                 throw new Exception("Data count should be equal to " + Size.m);
-            
+
             _data = data;
 
             var arr = new List<float>();
@@ -77,10 +77,7 @@ namespace EndlessEngine.Graphics.DataTypes
             for (var i = 0; i < Size.m; i++)
             {
                 var row = new float[Size.n];
-                for (int j = 0; j < Size.n; j++)
-                {
-                    row[j] = result[i, j];
-                }            
+                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
                 vertices[i] = new Vector2(row);
             }
 
@@ -112,7 +109,7 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         #endregion
-        
+
         public static Matrix2 Identity =>
             new Matrix2
             (

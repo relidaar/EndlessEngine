@@ -30,9 +30,9 @@ namespace EndlessEngine.Graphics.DataTypes
         public static float[,] ToMatrix(float[] data, int m, int n)
         {
             var arr = new float[m, n];
-            int index = 0;
+            var index = 0;
             for (var i = 0; i < m; i++)
-            for (int j = 0; j < n; j++, index++)
+            for (var j = 0; j < n; j++, index++)
                 arr[i, j] = data[index];
 
             return arr;

@@ -11,7 +11,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public float[] Array { get; }
         public IEnumerable<Vector3> Data => _data;
         private readonly Vector3[] _data;
-        
+
         #region Constructors
 
         public Matrix3(float a11, float a12, float a13, float a21, float a22, float a23, float a31, float a32,
@@ -19,7 +19,7 @@ namespace EndlessEngine.Graphics.DataTypes
             : this(new Vector3(a11, a12, a13),
                 new Vector3(a21, a22, a23),
                 new Vector3(a31, a32, a33)
-                )
+            )
         {
         }
 
@@ -48,7 +48,7 @@ namespace EndlessEngine.Graphics.DataTypes
                 value, value, value,
                 value, value, value,
                 value, value, value
-                )
+            )
         {
         }
 
@@ -82,10 +82,7 @@ namespace EndlessEngine.Graphics.DataTypes
             for (var i = 0; i < Size.m; i++)
             {
                 var row = new float[Size.n];
-                for (int j = 0; j < Size.n; j++)
-                {
-                    row[j] = result[i, j];
-                }            
+                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
                 vertices[i] = new Vector3(row);
             }
 
@@ -95,7 +92,7 @@ namespace EndlessEngine.Graphics.DataTypes
         #endregion
 
         #region Operators
-        
+
         public static Matrix3 operator +(Matrix3 matrix1, in Matrix3 matrix2)
         {
             return matrix1.Add(matrix2);

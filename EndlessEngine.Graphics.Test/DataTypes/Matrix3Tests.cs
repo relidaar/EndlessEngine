@@ -15,12 +15,12 @@ namespace EndlessEngine.Graphics.Test.DataTypes
 
             return vectors;
         }
-        
+
         private static float[,] CreateMatrix(float[] data)
         {
             var matrix = new float[Matrix3.Size.m, Matrix3.Size.n];
             for (int i = 0, index = 0; i < Matrix3.Size.m; i++)
-            for (int j = 0; j < Matrix3.Size.n; j++, index++)
+            for (var j = 0; j < Matrix3.Size.n; j++, index++)
                 matrix[i, j] = data[index];
 
             return matrix;
@@ -108,7 +108,7 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         }
 
         #endregion
-    
+
         #region Operations
 
         [Theory]
@@ -217,7 +217,7 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         }
 
         #endregion
-  
+
         #region Operators
 
         [Theory]
@@ -326,5 +326,5 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         }
 
         #endregion
-   }
+    }
 }

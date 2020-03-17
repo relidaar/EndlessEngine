@@ -19,7 +19,7 @@ namespace EndlessEngine.Sandbox
             };
 
             using var window = Graphics.CreateWindow(props);
-            
+
             var renderer = Graphics.CreateRenderer();
             renderer.Init();
 

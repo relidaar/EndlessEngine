@@ -8,8 +8,8 @@
         public TextureWrapMode WrapMode;
 
         public TextureData(
-            TextureFormat format, 
-            TextureMinFilter minFilter, TextureMagFilter magFilter, 
+            TextureFormat format,
+            TextureMinFilter minFilter, TextureMagFilter magFilter,
             TextureWrapMode wrapMode)
         {
             Format = format;
@@ -38,7 +38,7 @@
     public enum TextureMagFilter
     {
         Nearest,
-        Linear,
+        Linear
     }
 
     public enum TextureMinFilter
@@ -48,14 +48,14 @@
         NearestMipmapNearest,
         LinearMipmapNearest,
         NearestMipmapLinear,
-        LinearMipmapLinear,
+        LinearMipmapLinear
     }
-    
+
     public enum TextureFormat
     {
         Rgba,
         Rgba8,
         Rgb,
-        Rgb8,
+        Rgb8
     }
 }

@@ -8,7 +8,7 @@ namespace EndlessEngine.Graphics.Test.DataTypes
     public class Vector3Tests
     {
         private readonly float[] _data = {1f, 2f, 3f};
-        
+
         #region Constructors
 
         [Theory]
@@ -18,15 +18,12 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         public void CreateWithOneValue(float value)
         {
             var expected = new float[Vector3.Size];
-            for (int i = 0; i < Vector3.Size; i++)
-            {
-                expected[i] = value;
-            }
-            
+            for (var i = 0; i < Vector3.Size; i++) expected[i] = value;
+
             var result = new Vector3(value).Data;
             Assert.Equal(expected, result);
         }
-        
+
         [Theory]
         [InlineData(-1f, -2f, -3f)]
         [InlineData(0f, 0f, 0f)]
@@ -37,7 +34,7 @@ namespace EndlessEngine.Graphics.Test.DataTypes
             var result = new Vector3(data).Data;
             Assert.Equal(data, result);
         }
-        
+
         [Theory]
         [InlineData(-1f, -2f, -3f)]
         [InlineData(0f, 0f, 0f)]
@@ -51,7 +48,7 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         }
 
         [Theory]
-        [InlineData(new float[]{})]
+        [InlineData(new float[] { })]
         [InlineData(0f)]
         [InlineData(0f, 1f)]
         [InlineData(0f, 1f, 2f, 3f)]
@@ -60,12 +57,12 @@ namespace EndlessEngine.Graphics.Test.DataTypes
             var result = Assert.Throws<Exception>(
                 () => new Vector3(data)
             );
-            
+
             Assert.Equal($"Data count should be equal to {Vector3.Size}", result.Message);
         }
 
         #endregion
-        
+
         #region Operations
 
         [Theory]
@@ -77,12 +74,12 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         {
             var vector1 = new Vector3(data);
             var vector2 = new Vector3(data);
-            
+
             var result = vector1.Add(vector2).Data;
             var expected = vector1.Data.Zip(vector2.Data,
                 (a, b) => a + b
             );
-            
+
             Assert.Equal(expected, result);
         }
 
@@ -95,12 +92,12 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         {
             var vector1 = new Vector3(data);
             var vector2 = new Vector3(data);
-            
+
             var result = vector1.Subtract(vector2).Data;
             var expected = vector1.Data.Zip(vector2.Data,
                 (a, b) => a - b
             );
-            
+
             Assert.Equal(expected, result);
         }
 
@@ -113,10 +110,10 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         public void MultiplyByNumber(float value)
         {
             var vector = new Vector3(_data);
-            
+
             var result = vector.Multiply(value).Data;
             var expected = _data.Select(x => x * value);
-            
+
             Assert.Equal(expected, result);
         }
 
@@ -133,12 +130,12 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         {
             var vector1 = new Vector3(data);
             var vector2 = new Vector3(data);
-            
+
             var result = (vector1 + vector2).Data;
             var expected = vector1.Data.Zip(vector2.Data,
                 (a, b) => a + b
             );
-            
+
             Assert.Equal(expected, result);
         }
 
@@ -151,12 +148,12 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         {
             var vector1 = new Vector3(data);
             var vector2 = new Vector3(data);
-            
+
             var result = (vector1 - vector2).Data;
             var expected = vector1.Data.Zip(vector2.Data,
                 (a, b) => a - b
             );
-            
+
             Assert.Equal(expected, result);
         }
 
@@ -169,10 +166,10 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         public void MultiplyByNumberOperator(float value)
         {
             var vector = new Vector3(_data);
-            
+
             var result = (vector * value).Data;
             var expected = _data.Select(x => x * value);
-            
+
             Assert.Equal(expected, result);
         }
 

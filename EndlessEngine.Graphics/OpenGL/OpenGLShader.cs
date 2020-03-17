@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
@@ -50,6 +49,38 @@ namespace EndlessEngine.Graphics.OpenGL
         public void Unbind()
         {
             Gl.UseProgram(0);
+        }
+
+        private static uint CreateShader(string[] source, ShaderType type)
+        {
+            var id = Gl.CreateShader(type);
+            Gl.ShaderSource(id, source);
+            Gl.CompileShader(id);
+
+            Gl.GetShader(id, ShaderParameterName.CompileStatus, out var compiled);
+            if (compiled != 0)
+                return id;
+
+            Gl.GetShader(id, ShaderParameterName.InfoLogLength, out var logLength);
+            var shaderLog = new StringBuilder(logLength);
+            Gl.GetShaderInfoLog(id, logLength, out _, shaderLog);
+
+            Gl.DeleteShader(id);
+            throw new InvalidOperationException($"unable to compile shader: {shaderLog}");
+        }
+
+        private int GetUniformLocation(string name)
+        {
+            if (name == null)
+                throw new ArgumentNullException();
+
+            if (_uniforms.ContainsKey(name))
+                return _uniforms[name];
+
+            var location = Gl.GetUniformLocation(_id, name);
+            _uniforms[name] = location;
+
+            return location;
         }
 
         #region Uniforms
@@ -139,37 +170,5 @@ namespace EndlessEngine.Graphics.OpenGL
         }
 
         #endregion
-
-        private static uint CreateShader(string[] source, ShaderType type)
-        {
-            var id = Gl.CreateShader(type);
-            Gl.ShaderSource(id, source);
-            Gl.CompileShader(id);
-            
-            Gl.GetShader(id, ShaderParameterName.CompileStatus, out var compiled);
-            if (compiled != 0)
-                return id;
-
-            Gl.GetShader(id, ShaderParameterName.InfoLogLength, out var logLength);
-            var shaderLog = new StringBuilder(logLength);
-            Gl.GetShaderInfoLog(id, logLength, out _, shaderLog);
-            
-            Gl.DeleteShader(id);
-            throw new InvalidOperationException($"unable to compile shader: {shaderLog}");
-        }
-
-        private int GetUniformLocation(string name)
-        {
-            if (name == null)
-                throw new ArgumentNullException();
-
-            if (_uniforms.ContainsKey(name))
-                return _uniforms[name];
-
-            var location = Gl.GetUniformLocation(_id, name);
-            _uniforms[name] = location;
-
-            return location;
-        }
     }
 }

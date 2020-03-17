@@ -11,9 +11,9 @@ namespace EndlessEngine.Graphics.DataTypes
         public float[] Array { get; }
         public IEnumerable<Vector4> Data => _data;
         private readonly Vector4[] _data;
-        
+
         #region Constructors
-        
+
         public Matrix4(float a11, float a12, float a13, float a14,
             float a21, float a22, float a23, float a24,
             float a31, float a32, float a33, float a34,
@@ -49,11 +49,11 @@ namespace EndlessEngine.Graphics.DataTypes
 
         public Matrix4(in float value)
             : this(
-                value, value, value, value, 
-                value, value, value, value, 
+                value, value, value, value,
+                value, value, value, value,
                 value, value, value, value,
                 value, value, value, value
-                )
+            )
         {
         }
 
@@ -87,10 +87,7 @@ namespace EndlessEngine.Graphics.DataTypes
             for (var i = 0; i < Size.m; i++)
             {
                 var row = new float[Size.n];
-                for (int j = 0; j < Size.n; j++)
-                {
-                    row[j] = result[i, j];
-                }            
+                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
                 vertices[i] = new Vector4(row);
             }
 
@@ -100,7 +97,7 @@ namespace EndlessEngine.Graphics.DataTypes
         #endregion
 
         #region Operators
-        
+
         public static Matrix4 operator +(Matrix4 matrix1, in Matrix4 matrix2)
         {
             return matrix1.Add(matrix2);
@@ -135,15 +132,15 @@ namespace EndlessEngine.Graphics.DataTypes
         #region Translation Matrices
 
         public static Matrix4 Scaled(Vector3 vertex)
-        {            
+        {
             return Scaled(vertex.X, vertex.Y, vertex.Z);
         }
 
         public static Matrix4 Scaled(Vector2 vertex)
-        {            
+        {
             return Scaled(vertex.X, vertex.Y);
         }
-        
+
         public static Matrix4 Scaled(float x, float y, float z = 1)
         {
             return new Matrix4
@@ -156,15 +153,15 @@ namespace EndlessEngine.Graphics.DataTypes
         }
 
         public static Matrix4 Translated(Vector3 vertex)
-        {            
+        {
             return Translated(vertex.X, vertex.Y, vertex.Z);
         }
 
         public static Matrix4 Translated(Vector2 vertex)
-        {            
+        {
             return Translated(vertex.X, vertex.Y);
         }
-        
+
         public static Matrix4 Translated(float x, float y, float z = 0)
         {
             return new Matrix4

@@ -18,10 +18,7 @@ namespace EndlessEngine.Graphics.DataTypes
         public Vector2(float value)
         {
             _data = new float[Size];
-            for (int i = 0; i < Size; i++)
-            {
-                _data[i] = value;
-            }
+            for (var i = 0; i < Size; i++) _data[i] = value;
         }
 
         public Vector2(float x, float y)

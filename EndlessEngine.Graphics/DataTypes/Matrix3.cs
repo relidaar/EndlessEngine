@@ -43,6 +43,15 @@ namespace EndlessEngine.Graphics.DataTypes
             Matrix = MatrixOperations.ToMatrix(Array, Size.m, Size.n);
         }
 
+        public Matrix3(in float value)
+            : this(
+                value, value, value,
+                value, value, value,
+                value, value, value
+                )
+        {
+        }
+
         #endregion
 
         #region Operations

@@ -119,9 +119,24 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         #region Operations
 
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
+        [InlineData(
+            -1f, -2f, -3f, -4f,
+            -5f, -6f, -7f, -8f,
+            -9f, -10f, -11f, -12f,
+            -13f, -14f, -15f, -16f
+        )]
+        [InlineData(
+            1f, 2f, 3f, 4f,
+            5f, 6f, 7f, 8f,
+            9f, 10f, 11f, 12f,
+            13f, 14f, 15f, 16f
+        )]
+        [InlineData(
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f
+        )]
         public void AddMatrix(params float[] data)
         {
             var vectors = CreateVectors(data);
@@ -136,9 +151,24 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         }
 
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
+        [InlineData(
+            -1f, -2f, -3f, -4f,
+            -5f, -6f, -7f, -8f,
+            -9f, -10f, -11f, -12f,
+            -13f, -14f, -15f, -16f
+        )]
+        [InlineData(
+            1f, 2f, 3f, 4f,
+            5f, 6f, 7f, 8f,
+            9f, 10f, 11f, 12f,
+            13f, 14f, 15f, 16f
+        )]
+        [InlineData(
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f
+        )]
         public void SubtractMatrix(params float[] data)
         {
             var vectors = CreateVectors(data);
@@ -153,9 +183,24 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         }
 
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
+        [InlineData(
+            -1f, -2f, -3f, -4f,
+            -5f, -6f, -7f, -8f,
+            -9f, -10f, -11f, -12f,
+            -13f, -14f, -15f, -16f
+        )]
+        [InlineData(
+            1f, 2f, 3f, 4f,
+            5f, 6f, 7f, 8f,
+            9f, 10f, 11f, 12f,
+            13f, 14f, 15f, 16f
+        )]
+        [InlineData(
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f
+        )]
         public void MultiplyMatrix(params float[] data)
         {
             var vectors = CreateVectors(data);
@@ -188,5 +233,123 @@ namespace EndlessEngine.Graphics.Test.DataTypes
         }
 
         #endregion
-  }
+  
+        #region Operators
+
+        [Theory]
+        [InlineData(
+            -1f, -2f, -3f, -4f,
+            -5f, -6f, -7f, -8f,
+            -9f, -10f, -11f, -12f,
+            -13f, -14f, -15f, -16f
+        )]
+        [InlineData(
+            1f, 2f, 3f, 4f,
+            5f, 6f, 7f, 8f,
+            9f, 10f, 11f, 12f,
+            13f, 14f, 15f, 16f
+        )]
+        [InlineData(
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f
+        )]
+        public void AddMatrixOperator(params float[] data)
+        {
+            var vectors = CreateVectors(data);
+            var matrix1 = new Matrix4(vectors);
+            var matrix2 = new Matrix4(vectors);
+
+            var result = matrix1 + matrix2;
+
+            var expected = data.Select(x => x + x);
+
+            Assert.Equal(expected, result.Array);
+        }
+
+        [Theory]
+        [InlineData(
+            -1f, -2f, -3f, -4f,
+            -5f, -6f, -7f, -8f,
+            -9f, -10f, -11f, -12f,
+            -13f, -14f, -15f, -16f
+        )]
+        [InlineData(
+            1f, 2f, 3f, 4f,
+            5f, 6f, 7f, 8f,
+            9f, 10f, 11f, 12f,
+            13f, 14f, 15f, 16f
+        )]
+        [InlineData(
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f
+        )]
+        public void SubtractMatrixOperator(params float[] data)
+        {
+            var vectors = CreateVectors(data);
+            var matrix1 = new Matrix4(vectors);
+            var matrix2 = new Matrix4(vectors);
+
+            var result = matrix1 - matrix2;
+
+            var expected = data.Select(x => x - x);
+
+            Assert.Equal(expected, result.Array);
+        }
+
+        [Theory]
+        [InlineData(
+            -1f, -2f, -3f, -4f,
+            -5f, -6f, -7f, -8f,
+            -9f, -10f, -11f, -12f,
+            -13f, -14f, -15f, -16f
+        )]
+        [InlineData(
+            1f, 2f, 3f, 4f,
+            5f, 6f, 7f, 8f,
+            9f, 10f, 11f, 12f,
+            13f, 14f, 15f, 16f
+        )]
+        [InlineData(
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f
+        )]
+        public void MultiplyMatrixOperator(params float[] data)
+        {
+            var vectors = CreateVectors(data);
+            var matrix1 = new Matrix4(vectors);
+            var matrix2 = new Matrix4(vectors);
+
+            var result = matrix1 * matrix2;
+
+            var matrix = CreateMatrix(data);
+            var expected = MatrixOperations.Multiply(matrix, matrix);
+
+            Assert.Equal(expected, result.Matrix);
+        }
+
+        [Theory]
+        [InlineData(1f)]
+        [InlineData(0f)]
+        [InlineData(-1f)]
+        public void MultiplyByNumberOperator(float value)
+        {
+            var expected = new float[Matrix4.Size.m, Matrix4.Size.n];
+            for (var i = 0; i < Matrix4.Size.n; i++)
+            for (var j = 0; j < Matrix4.Size.n; j++)
+                expected[i, j] = value * value;
+
+            var matrix = new Matrix4(value);
+            var result = matrix * value;
+
+            Assert.Equal(expected, result.Matrix);
+        }
+
+        #endregion
+   }
 }

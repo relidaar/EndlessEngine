@@ -2,6 +2,25 @@
 {
     public class Color
     {
+        public (int r, int g, int b, int a) Values => (R, G, B, A);
+        public int[] ValuesArray => new[] {R, G, B, A};
+        public int R { get; }
+        public int G { get; }
+        public int B { get; }
+        public int A { get; }
+
+        public (float r, float g, float b, float a) ToNormalized()
+        {
+            return (R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
+        }
+
+        private static int Mod(int x, int m)
+        {
+            return (x % m + m) % m;
+        }
+
+        #region Predefined Values
+
         public static readonly Color Black = new Color(0, 0, 0);
         public static readonly Color White = new Color(255, 255, 255);
         public static readonly Color Red = new Color(255, 0, 0);
@@ -11,6 +30,10 @@
         public static readonly Color Magenta = new Color(255, 0, 255);
         public static readonly Color Cyan = new Color(0, 255, 255);
         public static readonly Color Transparent = new Color(0, 0, 0, 0);
+
+        #endregion
+
+        #region Constructors
 
         public Color(int r, int g, int b, int a = 255)
         {
@@ -30,40 +53,9 @@
         {
         }
 
-        public int R { get; }
-        public int G { get; }
-        public int B { get; }
-        public int A { get; }
+        #endregion
 
-        public static Color operator +(Color c1, Color c2)
-        {
-            return new Color(c1.R + c2.R, c1.G + c2.G, c1.B + c2.B, c1.A + c2.A);
-        }
-
-        public static Color operator +(Color c1, int n)
-        {
-            return new Color(c1.R + n, c1.G + n, c1.B + n, c1.A + n);
-        }
-
-        public static Color operator -(Color c1, Color c2)
-        {
-            return new Color(c1.R - c2.R, c1.G - c2.G, c1.B - c2.B, c1.A - c2.A);
-        }
-
-        public static Color operator -(Color c1, int n)
-        {
-            return new Color(c1.R - n, c1.G - n, c1.B - n, c1.A - n);
-        }
-
-        public static Color operator *(Color c1, int n)
-        {
-            return new Color(c1.R * n, c1.G * n, c1.B * n, c1.A * n);
-        }
-
-        public static Color operator /(Color c1, int n)
-        {
-            return new Color(c1.R / n, c1.G / n, c1.B / n, c1.A / n);
-        }
+        #region Operations
 
         public Color Add(Color color)
         {
@@ -95,14 +87,40 @@
             return this / n;
         }
 
-        public (float r, float g, float b, float a) ToNormalized()
+        #endregion
+
+        #region Operators
+
+        public static Color operator +(Color c1, Color c2)
         {
-            return (R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
+            return new Color(c1.R + c2.R, c1.G + c2.G, c1.B + c2.B, c1.A + c2.A);
         }
 
-        private static int Mod(int x, int m)
+        public static Color operator +(Color c1, int n)
         {
-            return (x % m + m) % m;
+            return new Color(c1.R + n, c1.G + n, c1.B + n, c1.A + n);
         }
+
+        public static Color operator -(Color c1, Color c2)
+        {
+            return new Color(c1.R - c2.R, c1.G - c2.G, c1.B - c2.B, c1.A - c2.A);
+        }
+
+        public static Color operator -(Color c1, int n)
+        {
+            return new Color(c1.R - n, c1.G - n, c1.B - n, c1.A - n);
+        }
+
+        public static Color operator *(Color c1, int n)
+        {
+            return new Color(c1.R * n, c1.G * n, c1.B * n, c1.A * n);
+        }
+
+        public static Color operator /(Color c1, int n)
+        {
+            return new Color(c1.R / n, c1.G / n, c1.B / n, c1.A / n);
+        }
+
+        #endregion
     }
 }

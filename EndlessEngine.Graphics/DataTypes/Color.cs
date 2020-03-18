@@ -14,7 +14,7 @@
             return (R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
         }
 
-        private static int Mod(int x, int m)
+        public static int Mod(int x, int m)
         {
             return (x % m + m) % m;
         }

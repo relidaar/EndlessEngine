@@ -59,66 +59,66 @@
 
         public Color Add(Color color)
         {
-            return this + color;
+            return new Color(R + color.R, G + color.G, B + color.B, A + color.A);
         }
 
         public Color Add(int n)
         {
-            return this + n;
+            return new Color(R + n, G + n, B + n, A + n);
         }
 
         public Color Subtract(Color color)
         {
-            return this - color;
+            return new Color(R - color.R, G - color.G, B - color.B, A - color.A);
         }
 
         public Color Subtract(int n)
         {
-            return this - n;
+            return new Color(R - n, G - n, B - n, A - n);
         }
 
         public Color Multiply(int n)
         {
-            return this * n;
+            return new Color(R * n, G * n, B * n, A * n);
         }
 
         public Color Divide(int n)
         {
-            return this / n;
+            return new Color(R * n, G * n, B * n, A * n);
         }
 
         #endregion
 
         #region Operators
 
-        public static Color operator +(Color c1, Color c2)
+        public static Color operator +(Color color1, Color color2)
         {
-            return new Color(c1.R + c2.R, c1.G + c2.G, c1.B + c2.B, c1.A + c2.A);
+            return color1.Add(color2);
         }
 
-        public static Color operator +(Color c1, int n)
+        public static Color operator +(Color color, int n)
         {
-            return new Color(c1.R + n, c1.G + n, c1.B + n, c1.A + n);
+            return color.Add(n);
         }
 
-        public static Color operator -(Color c1, Color c2)
+        public static Color operator -(Color color1, Color color2)
         {
-            return new Color(c1.R - c2.R, c1.G - c2.G, c1.B - c2.B, c1.A - c2.A);
+            return color1.Subtract(color2);
         }
 
-        public static Color operator -(Color c1, int n)
+        public static Color operator -(Color color, int n)
         {
-            return new Color(c1.R - n, c1.G - n, c1.B - n, c1.A - n);
+            return color.Subtract(n);
         }
 
-        public static Color operator *(Color c1, int n)
+        public static Color operator *(Color color, int n)
         {
-            return new Color(c1.R * n, c1.G * n, c1.B * n, c1.A * n);
+            return color.Multiply(n);
         }
 
-        public static Color operator /(Color c1, int n)
+        public static Color operator /(Color color, int n)
         {
-            return new Color(c1.R / n, c1.G / n, c1.B / n, c1.A / n);
+            return color.Divide(n);
         }
 
         #endregion

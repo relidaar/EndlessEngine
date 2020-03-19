@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
+using Newtonsoft.Json;
 using OpenGL;
 
 namespace EndlessEngine.Graphics.OpenGL
@@ -8,6 +10,8 @@ namespace EndlessEngine.Graphics.OpenGL
     public class OpenGLRenderer : IRenderer
     {
         private readonly IGraphicsFactory _factory;
+        private readonly GraphicsData _graphicsData;
+
         private ITexture _defaultTexture;
         private IShader _shader;
         private IVertexArray _vertexArray;
@@ -15,6 +19,12 @@ namespace EndlessEngine.Graphics.OpenGL
         public OpenGLRenderer(IGraphicsFactory factory)
         {
             _factory = factory;
+
+            using (var r = new StreamReader("graphics_data.json"))
+            {
+                var json = r.ReadToEnd();
+                _graphicsData = JsonConvert.DeserializeObject<GraphicsData>(json);
+            }
         }
 
         public void Init(IShader shader, IVertexArray vertexArray)
@@ -49,8 +59,8 @@ namespace EndlessEngine.Graphics.OpenGL
 
             var vertexBuffer = _factory.CreateVertexBuffer(vertices);
             vertexBuffer.Layout = _factory.CreateBufferLayout(
-                new BufferElement(ShaderDataType.Float2, "aPosition"),
-                new BufferElement(ShaderDataType.Float2, "aTextureCoordinates")
+                new BufferElement(ShaderDataType.Float2, _graphicsData.VerticesPosition),
+                new BufferElement(ShaderDataType.Float2, _graphicsData.TextureCoordinates)
             );
             vertexBuffer.Bind();
             vertexArray.Add(vertexBuffer);
@@ -60,11 +70,13 @@ namespace EndlessEngine.Graphics.OpenGL
             indexBuffer.Bind();
             vertexArray.Add(indexBuffer);
 
-            var shader = shaderLibrary.Load("DefaultShader",
-                "assets/shaders/DefaultVertex.glsl",
-                "assets/shaders/DefaultFragment.glsl");
+            var shader = shaderLibrary.Load(
+                _graphicsData.ShaderName,
+                _graphicsData.VertexShaderPath,
+                _graphicsData.FragmentShaderPath
+            );
             shader.Bind();
-            shader.SetUniform("uTexture", 0);
+            shader.SetUniform(_graphicsData.TextureUniform, 0);
 
             Init(shader, vertexArray);
         }
@@ -96,7 +108,7 @@ namespace EndlessEngine.Graphics.OpenGL
                 throw new ArgumentNullException();
 
             shader.Bind();
-            shader.SetUniform("uTransform", false, transform);
+            shader.SetUniform(_graphicsData.TransformUniform, false, transform);
 
             DrawIndexed(vertexArray);
         }
@@ -107,9 +119,9 @@ namespace EndlessEngine.Graphics.OpenGL
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
             _defaultTexture.Bind();
 
-            _shader.SetUniform("uTransform", true, transform);
-            _shader.SetUniform("uTilingFactor", 1.0f);
-            _shader.SetUniform("uColor", r, g, b, a);
+            _shader.SetUniform(_graphicsData.TransformUniform, true, transform);
+            _shader.SetUniform(_graphicsData.TilingFactorUniform, 1.0f);
+            _shader.SetUniform(_graphicsData.ColorUniform, r, g, b, a);
 
             DrawIndexed(_vertexArray);
         }
@@ -119,9 +131,9 @@ namespace EndlessEngine.Graphics.OpenGL
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
             texture.Bind();
 
-            _shader.SetUniform("uTransform", true, transform);
-            _shader.SetUniform("uTilingFactor", tilingFactor);
-            _shader.SetUniform("uColor", new Vector4(1));
+            _shader.SetUniform(_graphicsData.TransformUniform, true, transform);
+            _shader.SetUniform(_graphicsData.TilingFactorUniform, tilingFactor);
+            _shader.SetUniform(_graphicsData.ColorUniform, new Vector4(1));
 
             DrawIndexed(_vertexArray);
         }

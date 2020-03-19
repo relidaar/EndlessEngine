@@ -1,0 +1,13 @@
+{
+  "ShaderName": "DefaultShader",
+  "VertexShaderPath": "assets/shaders/DefaultVertex.glsl",
+  "FragmentShaderPath": "assets/shaders/DefaultFragment.glsl",
+  
+  "VerticesPosition": "aPosition",
+  "TextureCoordinates": "aTextureCoordinates",
+  
+  "TextureUniform": "uTexture",
+  "TransformUniform": "uTransform",
+  "ColorUniform": "uColor",
+  "TilingFactorUniform": "uTilingFactor"
+}

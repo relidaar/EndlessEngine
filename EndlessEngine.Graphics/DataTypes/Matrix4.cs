@@ -196,13 +196,45 @@ namespace EndlessEngine.Graphics.DataTypes
                 (float) (Math.Pow(y, 2) * (1 - cos) + cos),
                 y * z * (1 - cos) - x * sin,
                 0,
-                
+
                 // third row
                 x * z * (1 - cos) - y * sin,
                 y * z * (1 - cos) + x * sin,
                 (float) (Math.Pow(z, 2) * (1 - cos) + cos),
                 0,
-                
+
+                // fourth row
+                0, 0, 0, 1
+            );
+        }
+
+        #endregion
+
+        #region View Projection Matrices
+
+        public static Matrix4 Orthographic(float left, float right, float bottom, float top, float near = -1,
+            float far = 1)
+        {
+            return new Matrix4
+            (
+                // first row
+                2 / (right - left),
+                0,
+                0,
+                -(right - left) / (right - left),
+
+                // second row
+                0,
+                2 / (top - bottom),
+                0,
+                -(top + bottom) / (top - bottom),
+
+                // third row
+                0,
+                0,
+                -2 / (far - near),
+                -(far + near) / (far - near),
+
                 // fourth row
                 0, 0, 0, 1
             );

@@ -102,6 +102,17 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.ClearColor(r, g, b, a);
         }
 
+        public void SetScene(ICamera camera)
+        {
+            SetScene(camera, _shader);
+        }
+
+        public void SetScene(ICamera camera, IShader shader)
+        {
+            shader.Bind();
+            shader.SetUniform(_graphicsData.ViewProjectionUniform, true, camera.ViewProjectionMatrix);
+        }
+
         public void Draw(IShader shader, IVertexArray vertexArray, Matrix4 transform)
         {
             if (shader == null || vertexArray == null)

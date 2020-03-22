@@ -11,8 +11,9 @@ namespace EndlessEngine.Graphics.DataTypes
         public string VerticesPosition;
         public string TextureCoordinates;
 
-        public string TextureUniform;
+        public string ViewProjectionUniform;
         public string TransformUniform;
+        public string TextureUniform;
         public string ColorUniform;
         public string TilingFactorUniform;
 

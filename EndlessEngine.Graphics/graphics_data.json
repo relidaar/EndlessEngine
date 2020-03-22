@@ -5,9 +5,10 @@
   
   "VerticesPosition": "aPosition",
   "TextureCoordinates": "aTextureCoordinates",
-  
-  "TextureUniform": "uTexture",
+
+  "ViewProjectionUniform": "uViewProjection",
   "TransformUniform": "uTransform",
+  "TextureUniform": "uTexture",
   "ColorUniform": "uColor",
   "TilingFactorUniform": "uTilingFactor"
 }

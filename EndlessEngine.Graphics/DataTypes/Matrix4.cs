@@ -108,9 +108,9 @@ namespace EndlessEngine.Graphics.DataTypes
             return matrix1.Subtract(matrix2);
         }
 
-        public static Matrix4 operator *(Matrix4 matrix1, float x)
+        public static Matrix4 operator *(Matrix4 matrix, float x)
         {
-            return matrix1.Multiply(x);
+            return matrix.Multiply(x);
         }
 
         public static Matrix4 operator *(Matrix4 matrix1, in Matrix4 matrix2)
@@ -129,16 +129,16 @@ namespace EndlessEngine.Graphics.DataTypes
                 0, 0, 0, 1
             );
 
-        #region Translation Matrices
+        #region Transformation Matrices
 
-        public static Matrix4 Scaled(Vector3 vertex)
+        public static Matrix4 Scaled(Vector3 vector)
         {
-            return Scaled(vertex.X, vertex.Y, vertex.Z);
+            return Scaled(vector.X, vector.Y, vector.Z);
         }
 
-        public static Matrix4 Scaled(Vector2 vertex)
+        public static Matrix4 Scaled(Vector2 vector)
         {
-            return Scaled(vertex.X, vertex.Y);
+            return Scaled(vector.X, vector.Y);
         }
 
         public static Matrix4 Scaled(float x, float y, float z = 1)
@@ -152,14 +152,14 @@ namespace EndlessEngine.Graphics.DataTypes
             );
         }
 
-        public static Matrix4 Translated(Vector3 vertex)
+        public static Matrix4 Translated(Vector3 vector)
         {
-            return Translated(vertex.X, vertex.Y, vertex.Z);
+            return Translated(vector.X, vector.Y, vector.Z);
         }
 
-        public static Matrix4 Translated(Vector2 vertex)
+        public static Matrix4 Translated(Vector2 vector)
         {
-            return Translated(vertex.X, vertex.Y);
+            return Translated(vector.X, vector.Y);
         }
 
         public static Matrix4 Translated(float x, float y, float z = 0)
@@ -169,6 +169,41 @@ namespace EndlessEngine.Graphics.DataTypes
                 1, 0, 0, x,
                 0, 1, 0, y,
                 0, 0, 1, z,
+                0, 0, 0, 1
+            );
+        }
+
+        public static Matrix4 Rotated(float angle, Vector3 vector)
+        {
+            return Rotated(angle, vector.X, vector.Y, vector.Z);
+        }
+
+        public static Matrix4 Rotated(float angle, float x, float y, float z)
+        {
+            var cos = (float) Math.Cos(angle);
+            var sin = (float) Math.Sin(angle);
+
+            return new Matrix4
+            (
+                // first row
+                (float) (Math.Pow(x, 2) * (1 - cos) + cos),
+                x * y * (1 - cos) - z * sin,
+                x * z * (1 - cos) + y * sin,
+                0,
+
+                // second row
+                x * y * (1 - cos) + z * sin,
+                (float) (Math.Pow(y, 2) * (1 - cos) + cos),
+                y * z * (1 - cos) - x * sin,
+                0,
+                
+                // third row
+                x * z * (1 - cos) - y * sin,
+                y * z * (1 - cos) + x * sin,
+                (float) (Math.Pow(z, 2) * (1 - cos) + cos),
+                0,
+                
+                // fourth row
                 0, 0, 0, 1
             );
         }

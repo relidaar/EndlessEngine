@@ -109,6 +109,144 @@ namespace EndlessEngine.Graphics.DataTypes
             return new Matrix4(vertices);
         }
 
+        public Matrix4 Invert()
+        {
+            var inverse = new float[16];
+            
+            inverse[0] = Array[5]  * Array[10] * Array[15] - 
+                     Array[5]  * Array[11] * Array[14] - 
+                     Array[9]  * Array[6]  * Array[15] + 
+                     Array[9]  * Array[7]  * Array[14] +
+                     Array[13] * Array[6]  * Array[11] - 
+                     Array[13] * Array[7]  * Array[10];
+
+            inverse[4] = -Array[4]  * Array[10] * Array[15] + 
+                      Array[4]  * Array[11] * Array[14] + 
+                      Array[8]  * Array[6]  * Array[15] - 
+                      Array[8]  * Array[7]  * Array[14] - 
+                      Array[12] * Array[6]  * Array[11] + 
+                      Array[12] * Array[7]  * Array[10];
+
+            inverse[8] = Array[4]  * Array[9] * Array[15] - 
+                     Array[4]  * Array[11] * Array[13] - 
+                     Array[8]  * Array[5] * Array[15] + 
+                     Array[8]  * Array[7] * Array[13] + 
+                     Array[12] * Array[5] * Array[11] - 
+                     Array[12] * Array[7] * Array[9];
+
+            inverse[12] = -Array[4]  * Array[9] * Array[14] + 
+                       Array[4]  * Array[10] * Array[13] +
+                       Array[8]  * Array[5] * Array[14] - 
+                       Array[8]  * Array[6] * Array[13] - 
+                       Array[12] * Array[5] * Array[10] + 
+                       Array[12] * Array[6] * Array[9];
+
+            inverse[1] = -Array[1]  * Array[10] * Array[15] + 
+                      Array[1]  * Array[11] * Array[14] + 
+                      Array[9]  * Array[2] * Array[15] - 
+                      Array[9]  * Array[3] * Array[14] - 
+                      Array[13] * Array[2] * Array[11] + 
+                      Array[13] * Array[3] * Array[10];
+
+            inverse[5] = Array[0]  * Array[10] * Array[15] - 
+                     Array[0]  * Array[11] * Array[14] - 
+                     Array[8]  * Array[2] * Array[15] + 
+                     Array[8]  * Array[3] * Array[14] + 
+                     Array[12] * Array[2] * Array[11] - 
+                     Array[12] * Array[3] * Array[10];
+
+            inverse[9] = -Array[0]  * Array[9] * Array[15] + 
+                      Array[0]  * Array[11] * Array[13] + 
+                      Array[8]  * Array[1] * Array[15] - 
+                      Array[8]  * Array[3] * Array[13] - 
+                      Array[12] * Array[1] * Array[11] + 
+                      Array[12] * Array[3] * Array[9];
+
+            inverse[13] = Array[0]  * Array[9] * Array[14] - 
+                      Array[0]  * Array[10] * Array[13] - 
+                      Array[8]  * Array[1] * Array[14] + 
+                      Array[8]  * Array[2] * Array[13] + 
+                      Array[12] * Array[1] * Array[10] - 
+                      Array[12] * Array[2] * Array[9];
+
+            inverse[2] = Array[1]  * Array[6] * Array[15] - 
+                     Array[1]  * Array[7] * Array[14] - 
+                     Array[5]  * Array[2] * Array[15] + 
+                     Array[5]  * Array[3] * Array[14] + 
+                     Array[13] * Array[2] * Array[7] - 
+                     Array[13] * Array[3] * Array[6];
+
+            inverse[6] = -Array[0]  * Array[6] * Array[15] + 
+                      Array[0]  * Array[7] * Array[14] + 
+                      Array[4]  * Array[2] * Array[15] - 
+                      Array[4]  * Array[3] * Array[14] - 
+                      Array[12] * Array[2] * Array[7] + 
+                      Array[12] * Array[3] * Array[6];
+
+            inverse[10] = Array[0]  * Array[5] * Array[15] - 
+                      Array[0]  * Array[7] * Array[13] - 
+                      Array[4]  * Array[1] * Array[15] + 
+                      Array[4]  * Array[3] * Array[13] + 
+                      Array[12] * Array[1] * Array[7] - 
+                      Array[12] * Array[3] * Array[5];
+
+            inverse[14] = -Array[0]  * Array[5] * Array[14] + 
+                       Array[0]  * Array[6] * Array[13] + 
+                       Array[4]  * Array[1] * Array[14] - 
+                       Array[4]  * Array[2] * Array[13] - 
+                       Array[12] * Array[1] * Array[6] + 
+                       Array[12] * Array[2] * Array[5];
+
+            inverse[3] = -Array[1] * Array[6] * Array[11] + 
+                      Array[1] * Array[7] * Array[10] + 
+                      Array[5] * Array[2] * Array[11] - 
+                      Array[5] * Array[3] * Array[10] - 
+                      Array[9] * Array[2] * Array[7] + 
+                      Array[9] * Array[3] * Array[6];
+
+            inverse[7] = Array[0] * Array[6] * Array[11] - 
+                     Array[0] * Array[7] * Array[10] - 
+                     Array[4] * Array[2] * Array[11] + 
+                     Array[4] * Array[3] * Array[10] + 
+                     Array[8] * Array[2] * Array[7] - 
+                     Array[8] * Array[3] * Array[6];
+
+            inverse[11] = -Array[0] * Array[5] * Array[11] + 
+                       Array[0] * Array[7] * Array[9] + 
+                       Array[4] * Array[1] * Array[11] - 
+                       Array[4] * Array[3] * Array[9] - 
+                       Array[8] * Array[1] * Array[7] + 
+                       Array[8] * Array[3] * Array[5];
+
+            inverse[15] = Array[0] * Array[5] * Array[10] - 
+                      Array[0] * Array[6] * Array[9] - 
+                      Array[4] * Array[1] * Array[10] + 
+                      Array[4] * Array[2] * Array[9] + 
+                      Array[8] * Array[1] * Array[6] - 
+                      Array[8] * Array[2] * Array[5];
+            
+            var det = Array[0] * inverse[0] + Array[1] * inverse[4] + Array[2] * inverse[8] + Array[3] * inverse[12];
+
+            if (det == 0)
+                return new Matrix4(0);
+
+            det = 1 / Math.Abs(det);
+
+            for (int i = 0; i < 16; i++)
+                inverse[i] = inverse[i] * det;
+
+            var result = MatrixOperations.ToMatrix(inverse, Size.m, Size.n);
+            var vertices = new Vector4[Size.m];
+            for (var i = 0; i < Size.m; i++)
+            {
+                var row = new float[Size.n];
+                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
+                vertices[i] = new Vector4(row);
+            }
+
+            return new Matrix4(vertices);
+        }
+
         #endregion
 
         #region Operators

@@ -41,7 +41,7 @@ namespace EndlessEngine.Graphics.DataTypes
             var transform = Matrix4.Translated(_position) * 
                             Matrix4.Rotated(_rotation, 0, 0, 1);
 
-            ViewMatrix = transform.Inverse();
+            ViewMatrix = transform.Invert();
             ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
         }
     }

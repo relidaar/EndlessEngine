@@ -83,6 +83,21 @@ namespace EndlessEngine.Graphics.DataTypes
 
             return new Matrix2(vertices);
         }
+        
+        public Matrix2 Transpose()
+        {
+            var result = MatrixOperations.Transpose(Matrix);
+
+            var vertices = new Vector2[Size.m];
+            for (var i = 0; i < Size.m; i++)
+            {
+                var row = new float[Size.n];
+                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
+                vertices[i] = new Vector2(row);
+            }
+
+            return new Matrix2(vertices);
+        }
 
         #endregion
 

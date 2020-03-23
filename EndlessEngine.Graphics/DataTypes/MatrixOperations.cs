@@ -37,5 +37,20 @@ namespace EndlessEngine.Graphics.DataTypes
 
             return arr;
         }
+
+        public static float[,] Transpose(float[,] matrix)
+        {
+            var m = matrix.GetLength(0);
+            var n = matrix.GetLength(1);
+
+            var transposed = new float[n, m];
+            for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+            {
+                transposed[j, i] = matrix[i, j];
+            }
+
+            return transposed;
+        }
     }
 }

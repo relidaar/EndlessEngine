@@ -88,6 +88,21 @@ namespace EndlessEngine.Graphics.DataTypes
 
             return new Matrix3(vertices);
         }
+        
+        public Matrix3 Transpose()
+        {
+            var result = MatrixOperations.Transpose(Matrix);
+
+            var vertices = new Vector3[Size.m];
+            for (var i = 0; i < Size.m; i++)
+            {
+                var row = new float[Size.n];
+                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
+                vertices[i] = new Vector3(row);
+            }
+
+            return new Matrix3(vertices);
+        }
 
         #endregion
 

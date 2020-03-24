@@ -22,6 +22,8 @@ namespace EndlessEngine.Sandbox
 
             var renderer = Graphics.CreateRenderer();
             renderer.Init();
+            
+            var camera = new OrthographicCamera(-1, 1, -1, 1);
 
             var texture = Graphics.CreateTexture("assets/textures/test.jpg", TextureData.Default);
             while (window.IsOpen)
@@ -29,6 +31,7 @@ namespace EndlessEngine.Sandbox
                 renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);
                 renderer.Clear();
 
+                renderer.SetScene(camera);
                 renderer.Draw(new Vector2(0.0f, 0), new Vector2(0.5f, 0.5f), texture);
 
                 window.Display();

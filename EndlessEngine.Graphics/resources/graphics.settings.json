@@ -5,5 +5,5 @@
   "Resizable": true,
   "Maximized": false,
   "DoubleBuffer": true,
-  "Decorated": false
+  "Decorated": true
 }

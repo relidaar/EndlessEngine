@@ -1,14 +1,16 @@
 ﻿using System;
+using System.IO;
 using EndlessEngine.Core;
 using EndlessEngine.Graphics.Interfaces;
 using GLFW;
+using Newtonsoft.Json;
 using OpenGL;
 
 namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLWindow : IWindow
     {
-        public OpenGLWindow(in WindowProperties properties)
+        public OpenGLWindow(in WindowProperties properties, GraphicsSettings graphicsSettings = null)
         {
             if (!Glfw.Init())
             {
@@ -18,12 +20,23 @@ namespace EndlessEngine.Graphics.OpenGL
 
             Gl.Initialize();
 
+            if (graphicsSettings == null)
+            {
+                using (var r = new StreamReader(Paths.GraphicsSettingsPath))
+                {
+                    var json = r.ReadToEnd();
+                    graphicsSettings = JsonConvert.DeserializeObject<GraphicsSettings>(json);
+                }
+            }
+
             Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
-            Glfw.WindowHint(Hint.ContextVersionMajor, 3);
-            Glfw.WindowHint(Hint.ContextVersionMinor, 3);
+            Glfw.WindowHint(Hint.ContextVersionMajor, graphicsSettings.ApiVersionMajor);
+            Glfw.WindowHint(Hint.ContextVersionMinor, graphicsSettings.ApiVersionMinor);
             Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
-            Glfw.WindowHint(Hint.Doublebuffer, true);
-            Glfw.WindowHint(Hint.Decorated, true);
+            Glfw.WindowHint(Hint.Doublebuffer, graphicsSettings.DoubleBuffer);
+            Glfw.WindowHint(Hint.Decorated, graphicsSettings.Decorated);
+            Glfw.WindowHint(Hint.Maximized, graphicsSettings.Maximized);
+            Glfw.WindowHint(Hint.Resizable, graphicsSettings.Resizable);
 
             Instance = new NativeWindow(properties.Width, properties.Height, properties.Title);
             if (Instance == null)

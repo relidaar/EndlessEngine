@@ -1,4 +1,4 @@
-﻿using EndlessEngine.Graphics.DataTypes;
+﻿using EndlessEngine.Math;
 
 namespace EndlessEngine.Graphics.Interfaces
 {

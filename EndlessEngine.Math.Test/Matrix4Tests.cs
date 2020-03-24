@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using EndlessEngine.Graphics.DataTypes;
+using EndlessEngine.Math;
 using Xunit;
 
-namespace EndlessEngine.Graphics.Test.DataTypes
+namespace EndlessEngine.Graphics.Test
 {
     public class Matrix4Tests
     {

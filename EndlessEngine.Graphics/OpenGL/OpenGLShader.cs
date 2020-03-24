@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
+using EndlessEngine.Math;
 using OpenGL;
 
 namespace EndlessEngine.Graphics.OpenGL

@@ -1,4 +1,4 @@
-﻿namespace EndlessEngine.Graphics.DataTypes
+﻿namespace EndlessEngine.Graphics
 {
     public struct TextureData
     {

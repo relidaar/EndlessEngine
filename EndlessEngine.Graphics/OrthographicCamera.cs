@@ -1,6 +1,7 @@
 ﻿using EndlessEngine.Graphics.Interfaces;
+using EndlessEngine.Math;
 
-namespace EndlessEngine.Graphics.DataTypes
+namespace EndlessEngine.Graphics
 {
     public class OrthographicCamera : ICamera
     {

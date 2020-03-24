@@ -2,32 +2,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EndlessEngine.Graphics.DataTypes
+namespace EndlessEngine.Math
 {
-    public struct Vector3
+    public struct Vector4
     {
-        public static int Size => 3;
+        public static int Size => 4;
         public float X => _data[0];
         public float Y => _data[1];
         public float Z => _data[2];
+        public float W => _data[3];
 
         public IEnumerable<float> Data => _data;
         private readonly float[] _data;
 
         #region Constructors
 
-        public Vector3(float value)
+        public Vector4(float value)
         {
             _data = new float[Size];
             for (var i = 0; i < Size; i++) _data[i] = value;
         }
 
-        public Vector3(float x, float y, float z)
+        public Vector4(float x, float y, float z, float w)
         {
-            _data = new[] {x, y, z};
+            _data = new[] {x, y, z, w};
         }
 
-        public Vector3(params float[] data)
+        public Vector4(params float[] data)
         {
             if (data.Length != Size)
                 throw new Exception("Data count should be equal to " + Size);
@@ -35,7 +36,7 @@ namespace EndlessEngine.Graphics.DataTypes
             _data = data;
         }
 
-        public Vector3(in Vector3 vector)
+        public Vector4(in Vector4 vector)
             : this(vector.Data.ToArray())
         {
         }
@@ -44,39 +45,39 @@ namespace EndlessEngine.Graphics.DataTypes
 
         #region Operations
 
-        public Vector3 Add(in Vector3 v)
+        public Vector4 Add(in Vector4 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vector3(result.ToArray());
+            return new Vector4(result.ToArray());
         }
 
-        public Vector3 Subtract(in Vector3 v)
+        public Vector4 Subtract(in Vector4 v)
         {
             var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vector3(result.ToArray());
+            return new Vector4(result.ToArray());
         }
 
-        public Vector3 Multiply(float x)
+        public Vector4 Multiply(float x)
         {
             var result = _data.Select(a => a * x);
-            return new Vector3(result.ToArray());
+            return new Vector4(result.ToArray());
         }
 
         #endregion
 
         #region Operators
 
-        public static Vector3 operator +(Vector3 v1, in Vector3 v2)
+        public static Vector4 operator +(Vector4 v1, in Vector4 v2)
         {
             return v1.Add(v2);
         }
 
-        public static Vector3 operator -(Vector3 v1, Vector3 v2)
+        public static Vector4 operator -(Vector4 v1, Vector4 v2)
         {
             return v1.Subtract(v2);
         }
 
-        public static Vector3 operator *(Vector3 v, float x)
+        public static Vector4 operator *(Vector4 v, float x)
         {
             return v.Multiply(x);
         }

@@ -6,8 +6,8 @@
         IIndexBuffer CreateIndexBuffer(params int[] indices);
         IVertexArray CreateVertexArray();
         IBufferLayout CreateBufferLayout(params BufferElement[] elements);
-        IWindow CreateWindow(in WindowProperties properties);
-        IRenderer CreateRenderer();
+        IWindow CreateWindow(in WindowProperties properties, GraphicsSettings graphicsSettings = null);
+        IRenderer CreateRenderer(ShaderSettings shaderSettings = null);
         IShader CreateShader(string name, string vertexShaderPath, string fragmentShaderPath);
         IShaderLibrary CreateShaderLibrary();
         ITexture CreateTexture(string path, TextureData textureData);

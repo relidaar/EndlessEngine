@@ -24,14 +24,14 @@ namespace EndlessEngine.Graphics.OpenGL
             return new OpenGLBufferLayout(elements);
         }
 
-        public IWindow CreateWindow(in WindowProperties properties)
+        public IWindow CreateWindow(in WindowProperties properties, GraphicsSettings graphicsSettings)
         {
-            return new OpenGLWindow(properties);
+            return new OpenGLWindow(properties, graphicsSettings);
         }
 
-        public IRenderer CreateRenderer()
+        public IRenderer CreateRenderer(ShaderSettings shaderSettings)
         {
-            return new OpenGLRenderer(this);
+            return new OpenGLRenderer(this, shaderSettings);
         }
 
         public IShader CreateShader(string name, string vertexShaderPath, string fragmentShaderPath)

@@ -1,0 +1,9 @@
+﻿{
+  "ApiVersionMajor": 3,
+  "ApiVersionMinor": 3,
+  
+  "Resizable": true,
+  "Maximized": false,
+  "DoubleBuffer": true,
+  "Decorated": false
+}

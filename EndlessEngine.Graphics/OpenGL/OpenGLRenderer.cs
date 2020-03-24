@@ -10,20 +10,23 @@ namespace EndlessEngine.Graphics.OpenGL
     public class OpenGLRenderer : IRenderer
     {
         private readonly IGraphicsFactory _factory;
-        private readonly GraphicsData _graphicsData;
+        private readonly ShaderSettings _shaderSettings;
 
         private ITexture _defaultTexture;
         private IShader _shader;
         private IVertexArray _vertexArray;
 
-        public OpenGLRenderer(IGraphicsFactory factory)
+        public OpenGLRenderer(IGraphicsFactory factory, ShaderSettings shaderSettings = null)
         {
             _factory = factory;
 
-            using (var r = new StreamReader("resources/graphics_data.json"))
+            _shaderSettings = shaderSettings;
+            if (_shaderSettings != null) return;
+            
+            using (var r = new StreamReader(Paths.ShaderSettingsPath))
             {
                 var json = r.ReadToEnd();
-                _graphicsData = JsonConvert.DeserializeObject<GraphicsData>(json);
+                _shaderSettings = JsonConvert.DeserializeObject<ShaderSettings>(json);
             }
         }
 
@@ -59,8 +62,8 @@ namespace EndlessEngine.Graphics.OpenGL
 
             var vertexBuffer = _factory.CreateVertexBuffer(vertices);
             vertexBuffer.Layout = _factory.CreateBufferLayout(
-                new BufferElement(ShaderDataType.Float2, _graphicsData.VerticesPosition),
-                new BufferElement(ShaderDataType.Float2, _graphicsData.TextureCoordinates)
+                new BufferElement(ShaderDataType.Float2, _shaderSettings.VerticesPosition),
+                new BufferElement(ShaderDataType.Float2, _shaderSettings.TextureCoordinates)
             );
             vertexBuffer.Bind();
             vertexArray.Add(vertexBuffer);
@@ -71,12 +74,12 @@ namespace EndlessEngine.Graphics.OpenGL
             vertexArray.Add(indexBuffer);
 
             var shader = shaderLibrary.Load(
-                _graphicsData.ShaderName,
-                _graphicsData.VertexShaderPath,
-                _graphicsData.FragmentShaderPath
+                _shaderSettings.ShaderName,
+                Paths.ShadersPath + _shaderSettings.VertexShaderFilename,
+                Paths.ShadersPath + _shaderSettings.FragmentShaderFilename
             );
             shader.Bind();
-            shader.SetUniform(_graphicsData.TextureUniform, 0);
+            shader.SetUniform(_shaderSettings.TextureUniform, 0);
 
             Init(shader, vertexArray);
         }
@@ -113,7 +116,7 @@ namespace EndlessEngine.Graphics.OpenGL
                 throw new ArgumentNullException();
             
             shader.Bind();
-            shader.SetUniform(_graphicsData.ViewProjectionUniform, true, camera.ViewProjectionMatrix);
+            shader.SetUniform(_shaderSettings.ViewProjectionUniform, true, camera.ViewProjectionMatrix);
         }
 
         public void Draw(IShader shader, IVertexArray vertexArray, Matrix4 transform)
@@ -122,7 +125,7 @@ namespace EndlessEngine.Graphics.OpenGL
                 throw new ArgumentNullException();
 
             shader.Bind();
-            shader.SetUniform(_graphicsData.TransformUniform, false, transform);
+            shader.SetUniform(_shaderSettings.TransformUniform, false, transform);
 
             DrawIndexed(vertexArray);
         }
@@ -133,9 +136,9 @@ namespace EndlessEngine.Graphics.OpenGL
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
             _defaultTexture.Bind();
 
-            _shader.SetUniform(_graphicsData.TransformUniform, true, transform);
-            _shader.SetUniform(_graphicsData.TilingFactorUniform, 1.0f);
-            _shader.SetUniform(_graphicsData.ColorUniform, r, g, b, a);
+            _shader.SetUniform(_shaderSettings.TransformUniform, true, transform);
+            _shader.SetUniform(_shaderSettings.TilingFactorUniform, 1.0f);
+            _shader.SetUniform(_shaderSettings.ColorUniform, r, g, b, a);
 
             DrawIndexed(_vertexArray);
         }
@@ -145,9 +148,9 @@ namespace EndlessEngine.Graphics.OpenGL
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
             texture.Bind();
 
-            _shader.SetUniform(_graphicsData.TransformUniform, true, transform);
-            _shader.SetUniform(_graphicsData.TilingFactorUniform, tilingFactor);
-            _shader.SetUniform(_graphicsData.ColorUniform, new Vector4(1));
+            _shader.SetUniform(_shaderSettings.TransformUniform, true, transform);
+            _shader.SetUniform(_shaderSettings.TilingFactorUniform, tilingFactor);
+            _shader.SetUniform(_shaderSettings.ColorUniform, new Vector4(1));
 
             DrawIndexed(_vertexArray);
         }

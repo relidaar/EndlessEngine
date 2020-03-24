@@ -374,7 +374,7 @@ namespace EndlessEngine.Graphics.DataTypes
                 2 / (right - left),
                 0,
                 0,
-                -(right - left) / (right - left),
+                -(right + left) / (right - left),
 
                 // second row
                 0,

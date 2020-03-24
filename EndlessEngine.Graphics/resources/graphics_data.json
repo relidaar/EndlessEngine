@@ -1,7 +1,7 @@
 {
   "ShaderName": "DefaultShader",
-  "VertexShaderPath": "assets/shaders/DefaultVertex.glsl",
-  "FragmentShaderPath": "assets/shaders/DefaultFragment.glsl",
+  "VertexShaderPath": "resources/shaders/DefaultVertex.glsl",
+  "FragmentShaderPath": "resources/shaders/DefaultFragment.glsl",
   
   "VerticesPosition": "aPosition",
   "TextureCoordinates": "aTextureCoordinates",

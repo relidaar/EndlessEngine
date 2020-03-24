@@ -1,6 +1,6 @@
 using System;
 
-namespace EndlessEngine.Graphics.DataTypes
+namespace EndlessEngine.Math
 {
     public static class MatrixOperations
     {
@@ -44,11 +44,9 @@ namespace EndlessEngine.Graphics.DataTypes
             var n = matrix.GetLength(1);
 
             var transposed = new float[n, m];
-            for (int i = 0; i < m; i++)
-            for (int j = 0; j < n; j++)
-            {
+            for (var i = 0; i < m; i++)
+            for (var j = 0; j < n; j++)
                 transposed[j, i] = matrix[i, j];
-            }
 
             return transposed;
         }

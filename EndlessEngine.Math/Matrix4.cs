@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EndlessEngine.Graphics.DataTypes
+namespace EndlessEngine.Math
 {
     public struct Matrix4
     {
@@ -93,7 +93,7 @@ namespace EndlessEngine.Graphics.DataTypes
 
             return new Matrix4(vertices);
         }
-        
+
         public Matrix4 Transpose()
         {
             var result = MatrixOperations.Transpose(Matrix);
@@ -112,127 +112,127 @@ namespace EndlessEngine.Graphics.DataTypes
         public Matrix4 Invert()
         {
             var inverse = new float[16];
-            
-            inverse[0] = Array[5]  * Array[10] * Array[15] - 
-                     Array[5]  * Array[11] * Array[14] - 
-                     Array[9]  * Array[6]  * Array[15] + 
-                     Array[9]  * Array[7]  * Array[14] +
-                     Array[13] * Array[6]  * Array[11] - 
-                     Array[13] * Array[7]  * Array[10];
 
-            inverse[4] = -Array[4]  * Array[10] * Array[15] + 
-                      Array[4]  * Array[11] * Array[14] + 
-                      Array[8]  * Array[6]  * Array[15] - 
-                      Array[8]  * Array[7]  * Array[14] - 
-                      Array[12] * Array[6]  * Array[11] + 
-                      Array[12] * Array[7]  * Array[10];
+            inverse[0] = Array[5] * Array[10] * Array[15] -
+                         Array[5] * Array[11] * Array[14] -
+                         Array[9] * Array[6] * Array[15] +
+                         Array[9] * Array[7] * Array[14] +
+                         Array[13] * Array[6] * Array[11] -
+                         Array[13] * Array[7] * Array[10];
 
-            inverse[8] = Array[4]  * Array[9] * Array[15] - 
-                     Array[4]  * Array[11] * Array[13] - 
-                     Array[8]  * Array[5] * Array[15] + 
-                     Array[8]  * Array[7] * Array[13] + 
-                     Array[12] * Array[5] * Array[11] - 
-                     Array[12] * Array[7] * Array[9];
+            inverse[4] = -Array[4] * Array[10] * Array[15] +
+                         Array[4] * Array[11] * Array[14] +
+                         Array[8] * Array[6] * Array[15] -
+                         Array[8] * Array[7] * Array[14] -
+                         Array[12] * Array[6] * Array[11] +
+                         Array[12] * Array[7] * Array[10];
 
-            inverse[12] = -Array[4]  * Array[9] * Array[14] + 
-                       Array[4]  * Array[10] * Array[13] +
-                       Array[8]  * Array[5] * Array[14] - 
-                       Array[8]  * Array[6] * Array[13] - 
-                       Array[12] * Array[5] * Array[10] + 
-                       Array[12] * Array[6] * Array[9];
+            inverse[8] = Array[4] * Array[9] * Array[15] -
+                         Array[4] * Array[11] * Array[13] -
+                         Array[8] * Array[5] * Array[15] +
+                         Array[8] * Array[7] * Array[13] +
+                         Array[12] * Array[5] * Array[11] -
+                         Array[12] * Array[7] * Array[9];
 
-            inverse[1] = -Array[1]  * Array[10] * Array[15] + 
-                      Array[1]  * Array[11] * Array[14] + 
-                      Array[9]  * Array[2] * Array[15] - 
-                      Array[9]  * Array[3] * Array[14] - 
-                      Array[13] * Array[2] * Array[11] + 
-                      Array[13] * Array[3] * Array[10];
+            inverse[12] = -Array[4] * Array[9] * Array[14] +
+                          Array[4] * Array[10] * Array[13] +
+                          Array[8] * Array[5] * Array[14] -
+                          Array[8] * Array[6] * Array[13] -
+                          Array[12] * Array[5] * Array[10] +
+                          Array[12] * Array[6] * Array[9];
 
-            inverse[5] = Array[0]  * Array[10] * Array[15] - 
-                     Array[0]  * Array[11] * Array[14] - 
-                     Array[8]  * Array[2] * Array[15] + 
-                     Array[8]  * Array[3] * Array[14] + 
-                     Array[12] * Array[2] * Array[11] - 
-                     Array[12] * Array[3] * Array[10];
+            inverse[1] = -Array[1] * Array[10] * Array[15] +
+                         Array[1] * Array[11] * Array[14] +
+                         Array[9] * Array[2] * Array[15] -
+                         Array[9] * Array[3] * Array[14] -
+                         Array[13] * Array[2] * Array[11] +
+                         Array[13] * Array[3] * Array[10];
 
-            inverse[9] = -Array[0]  * Array[9] * Array[15] + 
-                      Array[0]  * Array[11] * Array[13] + 
-                      Array[8]  * Array[1] * Array[15] - 
-                      Array[8]  * Array[3] * Array[13] - 
-                      Array[12] * Array[1] * Array[11] + 
-                      Array[12] * Array[3] * Array[9];
+            inverse[5] = Array[0] * Array[10] * Array[15] -
+                         Array[0] * Array[11] * Array[14] -
+                         Array[8] * Array[2] * Array[15] +
+                         Array[8] * Array[3] * Array[14] +
+                         Array[12] * Array[2] * Array[11] -
+                         Array[12] * Array[3] * Array[10];
 
-            inverse[13] = Array[0]  * Array[9] * Array[14] - 
-                      Array[0]  * Array[10] * Array[13] - 
-                      Array[8]  * Array[1] * Array[14] + 
-                      Array[8]  * Array[2] * Array[13] + 
-                      Array[12] * Array[1] * Array[10] - 
-                      Array[12] * Array[2] * Array[9];
+            inverse[9] = -Array[0] * Array[9] * Array[15] +
+                         Array[0] * Array[11] * Array[13] +
+                         Array[8] * Array[1] * Array[15] -
+                         Array[8] * Array[3] * Array[13] -
+                         Array[12] * Array[1] * Array[11] +
+                         Array[12] * Array[3] * Array[9];
 
-            inverse[2] = Array[1]  * Array[6] * Array[15] - 
-                     Array[1]  * Array[7] * Array[14] - 
-                     Array[5]  * Array[2] * Array[15] + 
-                     Array[5]  * Array[3] * Array[14] + 
-                     Array[13] * Array[2] * Array[7] - 
-                     Array[13] * Array[3] * Array[6];
+            inverse[13] = Array[0] * Array[9] * Array[14] -
+                          Array[0] * Array[10] * Array[13] -
+                          Array[8] * Array[1] * Array[14] +
+                          Array[8] * Array[2] * Array[13] +
+                          Array[12] * Array[1] * Array[10] -
+                          Array[12] * Array[2] * Array[9];
 
-            inverse[6] = -Array[0]  * Array[6] * Array[15] + 
-                      Array[0]  * Array[7] * Array[14] + 
-                      Array[4]  * Array[2] * Array[15] - 
-                      Array[4]  * Array[3] * Array[14] - 
-                      Array[12] * Array[2] * Array[7] + 
-                      Array[12] * Array[3] * Array[6];
+            inverse[2] = Array[1] * Array[6] * Array[15] -
+                         Array[1] * Array[7] * Array[14] -
+                         Array[5] * Array[2] * Array[15] +
+                         Array[5] * Array[3] * Array[14] +
+                         Array[13] * Array[2] * Array[7] -
+                         Array[13] * Array[3] * Array[6];
 
-            inverse[10] = Array[0]  * Array[5] * Array[15] - 
-                      Array[0]  * Array[7] * Array[13] - 
-                      Array[4]  * Array[1] * Array[15] + 
-                      Array[4]  * Array[3] * Array[13] + 
-                      Array[12] * Array[1] * Array[7] - 
-                      Array[12] * Array[3] * Array[5];
+            inverse[6] = -Array[0] * Array[6] * Array[15] +
+                         Array[0] * Array[7] * Array[14] +
+                         Array[4] * Array[2] * Array[15] -
+                         Array[4] * Array[3] * Array[14] -
+                         Array[12] * Array[2] * Array[7] +
+                         Array[12] * Array[3] * Array[6];
 
-            inverse[14] = -Array[0]  * Array[5] * Array[14] + 
-                       Array[0]  * Array[6] * Array[13] + 
-                       Array[4]  * Array[1] * Array[14] - 
-                       Array[4]  * Array[2] * Array[13] - 
-                       Array[12] * Array[1] * Array[6] + 
-                       Array[12] * Array[2] * Array[5];
+            inverse[10] = Array[0] * Array[5] * Array[15] -
+                          Array[0] * Array[7] * Array[13] -
+                          Array[4] * Array[1] * Array[15] +
+                          Array[4] * Array[3] * Array[13] +
+                          Array[12] * Array[1] * Array[7] -
+                          Array[12] * Array[3] * Array[5];
 
-            inverse[3] = -Array[1] * Array[6] * Array[11] + 
-                      Array[1] * Array[7] * Array[10] + 
-                      Array[5] * Array[2] * Array[11] - 
-                      Array[5] * Array[3] * Array[10] - 
-                      Array[9] * Array[2] * Array[7] + 
-                      Array[9] * Array[3] * Array[6];
+            inverse[14] = -Array[0] * Array[5] * Array[14] +
+                          Array[0] * Array[6] * Array[13] +
+                          Array[4] * Array[1] * Array[14] -
+                          Array[4] * Array[2] * Array[13] -
+                          Array[12] * Array[1] * Array[6] +
+                          Array[12] * Array[2] * Array[5];
 
-            inverse[7] = Array[0] * Array[6] * Array[11] - 
-                     Array[0] * Array[7] * Array[10] - 
-                     Array[4] * Array[2] * Array[11] + 
-                     Array[4] * Array[3] * Array[10] + 
-                     Array[8] * Array[2] * Array[7] - 
-                     Array[8] * Array[3] * Array[6];
+            inverse[3] = -Array[1] * Array[6] * Array[11] +
+                         Array[1] * Array[7] * Array[10] +
+                         Array[5] * Array[2] * Array[11] -
+                         Array[5] * Array[3] * Array[10] -
+                         Array[9] * Array[2] * Array[7] +
+                         Array[9] * Array[3] * Array[6];
 
-            inverse[11] = -Array[0] * Array[5] * Array[11] + 
-                       Array[0] * Array[7] * Array[9] + 
-                       Array[4] * Array[1] * Array[11] - 
-                       Array[4] * Array[3] * Array[9] - 
-                       Array[8] * Array[1] * Array[7] + 
-                       Array[8] * Array[3] * Array[5];
+            inverse[7] = Array[0] * Array[6] * Array[11] -
+                         Array[0] * Array[7] * Array[10] -
+                         Array[4] * Array[2] * Array[11] +
+                         Array[4] * Array[3] * Array[10] +
+                         Array[8] * Array[2] * Array[7] -
+                         Array[8] * Array[3] * Array[6];
 
-            inverse[15] = Array[0] * Array[5] * Array[10] - 
-                      Array[0] * Array[6] * Array[9] - 
-                      Array[4] * Array[1] * Array[10] + 
-                      Array[4] * Array[2] * Array[9] + 
-                      Array[8] * Array[1] * Array[6] - 
-                      Array[8] * Array[2] * Array[5];
-            
+            inverse[11] = -Array[0] * Array[5] * Array[11] +
+                          Array[0] * Array[7] * Array[9] +
+                          Array[4] * Array[1] * Array[11] -
+                          Array[4] * Array[3] * Array[9] -
+                          Array[8] * Array[1] * Array[7] +
+                          Array[8] * Array[3] * Array[5];
+
+            inverse[15] = Array[0] * Array[5] * Array[10] -
+                          Array[0] * Array[6] * Array[9] -
+                          Array[4] * Array[1] * Array[10] +
+                          Array[4] * Array[2] * Array[9] +
+                          Array[8] * Array[1] * Array[6] -
+                          Array[8] * Array[2] * Array[5];
+
             var det = Array[0] * inverse[0] + Array[1] * inverse[4] + Array[2] * inverse[8] + Array[3] * inverse[12];
 
             if (det == 0)
                 return new Matrix4(0);
 
-            det = 1 / Math.Abs(det);
+            det = 1 / System.Math.Abs(det);
 
-            for (int i = 0; i < 16; i++)
+            for (var i = 0; i < 16; i++)
                 inverse[i] = inverse[i] * det;
 
             var result = MatrixOperations.ToMatrix(inverse, Size.m, Size.n);
@@ -333,27 +333,27 @@ namespace EndlessEngine.Graphics.DataTypes
 
         public static Matrix4 Rotated(float angle, float x, float y, float z)
         {
-            var cos = (float) Math.Cos(angle);
-            var sin = (float) Math.Sin(angle);
+            var cos = (float) System.Math.Cos(angle);
+            var sin = (float) System.Math.Sin(angle);
 
             return new Matrix4
             (
                 // first row
-                (float) (Math.Pow(x, 2) * (1 - cos) + cos),
+                (float) (System.Math.Pow(x, 2) * (1 - cos) + cos),
                 x * y * (1 - cos) - z * sin,
                 x * z * (1 - cos) + y * sin,
                 0,
 
                 // second row
                 x * y * (1 - cos) + z * sin,
-                (float) (Math.Pow(y, 2) * (1 - cos) + cos),
+                (float) (System.Math.Pow(y, 2) * (1 - cos) + cos),
                 y * z * (1 - cos) - x * sin,
                 0,
 
                 // third row
                 x * z * (1 - cos) - y * sin,
                 y * z * (1 - cos) + x * sin,
-                (float) (Math.Pow(z, 2) * (1 - cos) + cos),
+                (float) (System.Math.Pow(z, 2) * (1 - cos) + cos),
                 0,
 
                 // fourth row
@@ -365,7 +365,7 @@ namespace EndlessEngine.Graphics.DataTypes
 
         #region View Projection Matrices
 
-        public static Matrix4 Orthographic(float left, float right, float bottom, float top, 
+        public static Matrix4 Orthographic(float left, float right, float bottom, float top,
             float near = -1, float far = 1)
         {
             return new Matrix4

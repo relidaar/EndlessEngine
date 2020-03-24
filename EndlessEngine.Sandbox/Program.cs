@@ -1,7 +1,7 @@
 ﻿using EndlessEngine.Graphics;
-using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using EndlessEngine.Graphics.OpenGL;
+using EndlessEngine.Math;
 
 namespace EndlessEngine.Sandbox
 {

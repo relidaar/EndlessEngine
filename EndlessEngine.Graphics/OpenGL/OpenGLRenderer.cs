@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
+using EndlessEngine.Math;
 using Newtonsoft.Json;
 using OpenGL;
 
@@ -20,7 +20,7 @@ namespace EndlessEngine.Graphics.OpenGL
         {
             _factory = factory;
 
-            using (var r = new StreamReader("graphics_data.json"))
+            using (var r = new StreamReader("resources/graphics_data.json"))
             {
                 var json = r.ReadToEnd();
                 _graphicsData = JsonConvert.DeserializeObject<GraphicsData>(json);

@@ -1,6 +1,4 @@
-﻿using EndlessEngine.Graphics.DataTypes;
-
-namespace EndlessEngine.Graphics.Interfaces
+﻿namespace EndlessEngine.Graphics.Interfaces
 {
     public interface IGraphicsFactory
     {

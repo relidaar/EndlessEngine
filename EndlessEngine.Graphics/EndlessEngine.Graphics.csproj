@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <ApplicationIcon />
     <StartupObject />
@@ -18,21 +18,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EndlessEngine.Core\EndlessEngine.Core.csproj" />
+    <ProjectReference Include="..\EndlessEngine.Math\EndlessEngine.Math.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="glfw.dll">
+    <None Update="resources\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="graphics_data.json">
+    <ContentWithTargetPath Include="resources\glfw.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="assets\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+      <TargetPath>glfw.dll</TargetPath>
+    </ContentWithTargetPath>
   </ItemGroup>
 
 </Project>

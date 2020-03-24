@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using EndlessEngine.Core;
-using EndlessEngine.Graphics.DataTypes;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 

@@ -1,6 +1,6 @@
 ﻿using EndlessEngine.Core;
 
-namespace EndlessEngine.Graphics.DataTypes
+namespace EndlessEngine.Graphics
 {
     public struct BufferElement
     {

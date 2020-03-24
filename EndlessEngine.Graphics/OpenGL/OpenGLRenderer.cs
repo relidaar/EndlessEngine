@@ -109,6 +109,9 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void SetScene(ICamera camera, IShader shader)
         {
+            if (camera == null || shader == null)
+                throw new ArgumentNullException();
+            
             shader.Bind();
             shader.SetUniform(_graphicsData.ViewProjectionUniform, true, camera.ViewProjectionMatrix);
         }

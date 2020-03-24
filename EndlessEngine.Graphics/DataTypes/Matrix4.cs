@@ -365,8 +365,8 @@ namespace EndlessEngine.Graphics.DataTypes
 
         #region View Projection Matrices
 
-        public static Matrix4 Orthographic(float left, float right, float bottom, float top, float near = -1,
-            float far = 1)
+        public static Matrix4 Orthographic(float left, float right, float bottom, float top, 
+            float near = -1, float far = 1)
         {
             return new Matrix4
             (

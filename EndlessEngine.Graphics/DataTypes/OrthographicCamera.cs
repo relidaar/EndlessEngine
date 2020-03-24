@@ -10,6 +10,8 @@ namespace EndlessEngine.Graphics.DataTypes
         public OrthographicCamera(float left, float right, float bottom, float top)
         {
             ProjectionMatrix = Matrix4.Orthographic(left, right, bottom, top);
+            ViewMatrix = Matrix4.Identity;
+            ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
         }
 
         public Matrix4 ProjectionMatrix { get; }

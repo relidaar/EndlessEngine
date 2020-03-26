@@ -10,7 +10,8 @@ namespace EndlessEngine.Graphics.Interfaces
         
         void Clear();
         void SetClearColor(Color color);
-        void SetClearColor(float r, float g, float b, float a);
+        void SetClearColor(int r, int g, int b, int a = 255);
+        void SetClearColor(float r, float g, float b, float a = 1f);
         
         void SetScene(ICamera camera);
         void SetScene(ICamera camera, IShader shader);

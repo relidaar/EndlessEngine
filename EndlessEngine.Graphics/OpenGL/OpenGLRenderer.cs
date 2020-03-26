@@ -40,7 +40,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
             _vertexArray = vertexArray;
 
-            _defaultTexture = new OpenGLTexture(1, 1, 0xffffffff, TextureData.Default);
+            _defaultTexture = _factory.CreateTexture(1, 1, 0xffffffff, TextureData.Default);
 
             Gl.Enable(EnableCap.Blend);
             Gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -98,6 +98,12 @@ namespace EndlessEngine.Graphics.OpenGL
         {
             var (r, g, b, a) = color.ToNormalized();
             Gl.ClearColor(r, g, b, a);
+        }
+
+        public void SetClearColor(int r, int g, int b, int a)
+        {
+            var (nR, nG, nB, nA) = Color.Normalize(r, g, b, a);
+            Gl.ClearColor(nR, nG, nB, nA);
         }
 
         public void SetClearColor(float r, float g, float b, float a)

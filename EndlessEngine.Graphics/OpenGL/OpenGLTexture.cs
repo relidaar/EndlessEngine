@@ -3,9 +3,6 @@ using System.IO;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
 using StbImageSharp;
-using TextureMagFilter = EndlessEngine.Graphics.TextureMagFilter;
-using TextureMinFilter = EndlessEngine.Graphics.TextureMinFilter;
-using TextureWrapMode = EndlessEngine.Graphics.TextureWrapMode;
 
 namespace EndlessEngine.Graphics.OpenGL
 {

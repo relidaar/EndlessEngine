@@ -11,28 +11,20 @@ namespace EndlessEngine.Sandbox
 
         private static void Main(string[] args)
         {
-            var props = new WindowProperties
-            {
-                Width = 800,
-                Height = 600,
-                Title = "EndlessEngine"
-            };
-
-            using var window = Graphics.CreateWindow(props);
+            using var window = Graphics.CreateWindow(800, 600, "EndlessEngine");
+            var camera = new OrthographicCamera(window.Width, window.Height);
 
             var renderer = Graphics.CreateRenderer();
             renderer.Init();
             
-            var camera = new OrthographicCamera(-1, 1, -1, 1);
-
             var texture = Graphics.CreateTexture("assets/textures/test.jpg", TextureData.Default);
             while (window.IsOpen)
             {
-                renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1);
+                renderer.SetClearColor(25, 25, 25);
                 renderer.Clear();
 
                 renderer.SetScene(camera);
-                renderer.Draw(new Vector2(0.0f, 0), new Vector2(0.5f, 0.5f), texture);
+                renderer.Draw(new Vector2(400, 300), new Vector2(64, 64), texture);
 
                 window.Display();
             }

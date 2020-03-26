@@ -14,6 +14,11 @@
             return (R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
         }
 
+        public static (float r, float g, float b, float a) Normalize(int r, int g, int b, int a)
+        {
+            return (r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
+        }
+
         public static int Mod(int x, int m)
         {
             return (x % m + m) % m;

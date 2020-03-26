@@ -10,6 +10,13 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLWindow : IWindow
     {
+        private readonly NativeWindow _instance;
+
+        public OpenGLWindow(int width, int height, string title, GraphicsSettings graphicsSettings = null)
+            : this(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings)
+        {
+        }
+
         public OpenGLWindow(in WindowProperties properties, GraphicsSettings graphicsSettings = null)
         {
             if (!Glfw.Init())
@@ -21,13 +28,11 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.Initialize();
 
             if (graphicsSettings == null)
-            {
                 using (var r = new StreamReader(Paths.GraphicsSettingsPath))
                 {
                     var json = r.ReadToEnd();
                     graphicsSettings = JsonConvert.DeserializeObject<GraphicsSettings>(json);
                 }
-            }
 
             Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
             Glfw.WindowHint(Hint.ContextVersionMajor, graphicsSettings.ApiVersionMajor);
@@ -38,33 +43,36 @@ namespace EndlessEngine.Graphics.OpenGL
             Glfw.WindowHint(Hint.Maximized, graphicsSettings.Maximized);
             Glfw.WindowHint(Hint.Resizable, graphicsSettings.Resizable);
 
-            Instance = new NativeWindow(properties.Width, properties.Height, properties.Title);
-            if (Instance == null)
+            _instance = new NativeWindow(properties.Width, properties.Height, properties.Title);
+            if (_instance == null)
             {
                 Log.Instance.Error("Could not create window");
                 throw new NullReferenceException("Could not create window");
             }
 
-            Glfw.MakeContextCurrent(Instance);
-            Instance.CenterOnScreen();
+            Width = properties.Width;
+            Height = properties.Height;
+            
+            Glfw.MakeContextCurrent(_instance);
+            _instance.CenterOnScreen();
 
             Log.Instance.Info("Creating window \"{0}\" ({1}, {2})",
                 properties.Title, properties.Width, properties.Height);
         }
 
-        public NativeWindow Instance { get; }
-
-        public bool IsOpen => !Glfw.WindowShouldClose(Instance);
+        public int Width { get; }
+        public int Height { get; }
+        public bool IsOpen => !Glfw.WindowShouldClose(_instance);
 
         public void Display()
         {
             Glfw.PollEvents();
-            Glfw.SwapBuffers(Instance);
+            Glfw.SwapBuffers(_instance);
         }
 
         public void Close()
         {
-            Instance?.Dispose();
+            _instance?.Dispose();
             Glfw.Terminate();
         }
 

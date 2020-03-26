@@ -7,6 +7,7 @@
         IVertexArray CreateVertexArray();
         IBufferLayout CreateBufferLayout(params BufferElement[] elements);
         IWindow CreateWindow(in WindowProperties properties, GraphicsSettings graphicsSettings = null);
+        IWindow CreateWindow(int width, int height, string title, GraphicsSettings graphicsSettings = null);
         IRenderer CreateRenderer(ShaderSettings shaderSettings = null);
         IShader CreateShader(string name, string vertexShaderPath, string fragmentShaderPath);
         IShaderLibrary CreateShaderLibrary();

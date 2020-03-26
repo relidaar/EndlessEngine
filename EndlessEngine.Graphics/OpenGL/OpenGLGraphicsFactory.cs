@@ -29,6 +29,11 @@ namespace EndlessEngine.Graphics.OpenGL
             return new OpenGLWindow(properties, graphicsSettings);
         }
 
+        public IWindow CreateWindow(int width, int height, string title, GraphicsSettings graphicsSettings = null)
+        {
+            return new OpenGLWindow(width, height, title, graphicsSettings);
+        }
+
         public IRenderer CreateRenderer(ShaderSettings shaderSettings)
         {
             return new OpenGLRenderer(this, shaderSettings);

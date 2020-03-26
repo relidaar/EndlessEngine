@@ -8,6 +8,11 @@ namespace EndlessEngine.Graphics
         private Vector3 _position;
         private float _rotation;
 
+        public OrthographicCamera(int width, int height)
+            : this(0, width, 0, height)
+        {
+        }
+
         public OrthographicCamera(float left, float right, float bottom, float top)
         {
             ProjectionMatrix = Matrix4.Orthographic(left, right, bottom, top);

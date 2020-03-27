@@ -1,6 +1,6 @@
-﻿namespace EndlessEngine.Math
+namespace EndlessEngine.Math
 {
-    public struct Matrix3
+    public struct Matrix3 : IEquatable<Matrix3>
     {
         public static (int m, int n) Size => (3, 3);
 
@@ -314,6 +314,29 @@
                 M32 = left.M32 / right,
                 M33 = left.M33 / right
             };
+        }
+
+        #endregion
+
+        #region IEquatable Implementation
+
+        public bool Equals(Matrix3 other)
+        {
+            return M11.Equals(other.M11) && M12.Equals(other.M12) && M13.Equals(other.M13) && M21.Equals(other.M21) &&
+                   M22.Equals(other.M22) && M23.Equals(other.M23) && M31.Equals(other.M31) && M32.Equals(other.M32) &&
+                   M33.Equals(other.M33);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Matrix3 left, Matrix3 right)
+        {
+            return left.Equals(right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Matrix3 left, Matrix3 right)
+        {
+            return !left.Equals(right);
         }
 
         #endregion

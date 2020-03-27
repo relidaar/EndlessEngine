@@ -51,36 +51,43 @@ namespace EndlessEngine.Math
             return left + right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Add(in Vector4 left, float right)
         {
             return left + right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Subtract(in Vector4 left, in Vector4 right)
         {
             return left - right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Subtract(in Vector4 left, float right)
         {
             return left - right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Multiply(in Vector4 left, in Vector4 right)
         {
             return left * right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Multiply(in Vector4 left, float right)
         {
             return left * right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Divide(in Vector4 left, in Vector4 right)
         {
             return left / right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Divide(in Vector4 left, float right)
         {
             return left / right;

@@ -1,3 +1,6 @@
+﻿using System;
+using System.Runtime.CompilerServices;
+
 namespace EndlessEngine.Math
 {
     public struct Matrix4 : IEquatable<Matrix4>
@@ -148,41 +151,49 @@ namespace EndlessEngine.Math
 
         #region Operations
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 Add(in Matrix4 left, in Matrix4 right)
         {
             return left + right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 Add(in Matrix4 left, float right)
         {
             return left + right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 Subtract(in Matrix4 left, in Matrix4 right)
         {
             return left - right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 Subtract(in Matrix4 left, float right)
         {
             return left - right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 Multiply(in Matrix4 left, in Matrix4 right)
         {
             return left * right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 Multiply(in Matrix4 left, float right)
         {
             return left * right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 Divide(in Matrix4 left, float right)
         {
             return left / right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4 Transpose()
         {
             Matrix4 result;
@@ -218,6 +229,7 @@ namespace EndlessEngine.Math
 
         #region Operators
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 operator +(in Matrix4 left, in Matrix4 right)
         {
             return new Matrix4
@@ -248,6 +260,7 @@ namespace EndlessEngine.Math
             };
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 operator +(in Matrix4 left, float right)
         {
             return new Matrix4
@@ -278,6 +291,7 @@ namespace EndlessEngine.Math
             };
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 operator -(in Matrix4 left, in Matrix4 right)
         {
             return new Matrix4
@@ -308,6 +322,7 @@ namespace EndlessEngine.Math
             };
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 operator -(in Matrix4 left, float right)
         {
             return new Matrix4
@@ -338,6 +353,7 @@ namespace EndlessEngine.Math
             };
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 operator *(in Matrix4 left, in Matrix4 right)
         {
             return new Matrix4
@@ -368,6 +384,7 @@ namespace EndlessEngine.Math
             };
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 operator *(in Matrix4 left, float right)
         {
             return new Matrix4
@@ -398,6 +415,7 @@ namespace EndlessEngine.Math
             };
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4 operator /(in Matrix4 left, float right)
         {
             return new Matrix4

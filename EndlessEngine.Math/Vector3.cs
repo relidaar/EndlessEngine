@@ -47,36 +47,43 @@ namespace EndlessEngine.Math
             return left + right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Add(in Vector3 left, float right)
         {
             return left + right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Subtract(in Vector3 left, in Vector3 right)
         {
             return left - right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Subtract(in Vector3 left, float right)
         {
             return left - right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Multiply(in Vector3 left, in Vector3 right)
         {
             return left * right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Multiply(in Vector3 left, float right)
         {
             return left * right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Divide(in Vector3 left, in Vector3 right)
         {
             return left / right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Divide(in Vector3 left, float right)
         {
             return left / right;
@@ -167,7 +174,7 @@ namespace EndlessEngine.Math
         }
 
         #endregion
-        
+
         #region IEquatable Implementation
 
         public bool Equals(Vector3 other)

@@ -1,83 +1,157 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace EndlessEngine.Math
 {
     public struct Vector2
     {
         public static int Size => 2;
-        public float X => _data[0];
-        public float Y => _data[1];
 
-        public IEnumerable<float> Data => _data;
-        private readonly float[] _data;
+        public float X;
+        public float Y;
+
+        public IEnumerable<float> Data => new[] {X, Y};
 
         #region Constructors
 
         public Vector2(float value)
         {
-            _data = new float[Size];
-            for (var i = 0; i < Size; i++) _data[i] = value;
+            X = value;
+            Y = value;
         }
 
         public Vector2(float x, float y)
         {
-            _data = new[] {x, y};
-        }
-
-        public Vector2(params float[] data)
-        {
-            if (data.Length != Size)
-                throw new Exception("Data count should be equal to " + Size);
-
-            _data = data;
+            X = x;
+            Y = y;
         }
 
         public Vector2(in Vector2 vector)
-            : this(vector.Data.ToArray())
         {
+            X = vector.X;
+            Y = vector.Y;
         }
 
         #endregion
 
         #region Operations
 
-        public Vector2 Add(in Vector2 v)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 Add(in Vector2 left, in Vector2 right)
         {
-            var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vector2(result.ToArray());
+            return left + right;
         }
 
-        public Vector2 Subtract(in Vector2 v)
+        public static Vector2 Add(in Vector2 left, float right)
         {
-            var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vector2(result.ToArray());
+            return left + right;
         }
 
-        public Vector2 Multiply(float x)
+        public static Vector2 Subtract(in Vector2 left, in Vector2 right)
         {
-            var result = _data.Select(a => a * x);
-            return new Vector2(result.ToArray());
+            return left - right;
+        }
+
+        public static Vector2 Subtract(in Vector2 left, float right)
+        {
+            return left - right;
+        }
+
+        public static Vector2 Multiply(in Vector2 left, in Vector2 right)
+        {
+            return left * right;
+        }
+
+        public static Vector2 Multiply(in Vector2 left, float right)
+        {
+            return left * right;
+        }
+
+        public static Vector2 Divide(in Vector2 left, in Vector2 right)
+        {
+            return left / right;
+        }
+
+        public static Vector2 Divide(in Vector2 left, float right)
+        {
+            return left / right;
         }
 
         #endregion
 
         #region Operators
 
-        public static Vector2 operator +(Vector2 v1, in Vector2 v2)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator +(in Vector2 left, in Vector2 right)
         {
-            return v1.Add(v2);
+            return new Vector2(
+                left.X + right.X,
+                left.Y + right.Y
+            );
         }
 
-        public static Vector2 operator -(Vector2 v1, Vector2 v2)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator +(in Vector2 left, float right)
         {
-            return v1.Subtract(v2);
+            return new Vector2(
+                left.X + right,
+                left.Y + right
+            );
         }
 
-        public static Vector2 operator *(Vector2 v, float x)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator -(in Vector2 left, in Vector2 right)
         {
-            return v.Multiply(x);
+            return new Vector2(
+                left.X - right.X,
+                left.Y - right.Y
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator -(in Vector2 left, float right)
+        {
+            return new Vector2(
+                left.X - right,
+                left.Y - right
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator *(in Vector2 left, in Vector2 right)
+        {
+            return new Vector2(
+                left.X * right.X,
+                left.Y * right.Y
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator *(in Vector2 left, float right)
+        {
+            return new Vector2(
+                left.X * right,
+                left.Y * right
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator /(in Vector2 left, in Vector2 right)
+        {
+            return new Vector2(
+                left.X / right.X,
+                left.Y / right.Y
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator /(in Vector2 left, float right)
+        {
+            return new Vector2(
+                left.X / right,
+                left.Y / right
+            );
         }
 
         #endregion

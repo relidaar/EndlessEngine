@@ -1,85 +1,181 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace EndlessEngine.Math
 {
     public struct Vector4
     {
         public static int Size => 4;
-        public float X => _data[0];
-        public float Y => _data[1];
-        public float Z => _data[2];
-        public float W => _data[3];
 
-        public IEnumerable<float> Data => _data;
-        private readonly float[] _data;
+        public float X;
+        public float Y;
+        public float Z;
+        public float W;
+
+        public IEnumerable<float> Data => new[] {X, Y, Z, W};
 
         #region Constructors
 
         public Vector4(float value)
         {
-            _data = new float[Size];
-            for (var i = 0; i < Size; i++) _data[i] = value;
+            X = value;
+            Y = value;
+            Z = value;
+            W = value;
         }
 
         public Vector4(float x, float y, float z, float w)
         {
-            _data = new[] {x, y, z, w};
-        }
-
-        public Vector4(params float[] data)
-        {
-            if (data.Length != Size)
-                throw new Exception("Data count should be equal to " + Size);
-
-            _data = data;
+            X = x;
+            Y = y;
+            Z = z;
+            W = w;
         }
 
         public Vector4(in Vector4 vector)
-            : this(vector.Data.ToArray())
         {
+            X = vector.X;
+            Y = vector.Y;
+            Z = vector.Z;
+            W = vector.W;
         }
 
         #endregion
 
         #region Operations
 
-        public Vector4 Add(in Vector4 v)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 Add(in Vector4 left, in Vector4 right)
         {
-            var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vector4(result.ToArray());
+            return left + right;
         }
 
-        public Vector4 Subtract(in Vector4 v)
+        public static Vector4 Add(in Vector4 left, float right)
         {
-            var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vector4(result.ToArray());
+            return left + right;
         }
 
-        public Vector4 Multiply(float x)
+        public static Vector4 Subtract(in Vector4 left, in Vector4 right)
         {
-            var result = _data.Select(a => a * x);
-            return new Vector4(result.ToArray());
+            return left - right;
+        }
+
+        public static Vector4 Subtract(in Vector4 left, float right)
+        {
+            return left - right;
+        }
+
+        public static Vector4 Multiply(in Vector4 left, in Vector4 right)
+        {
+            return left * right;
+        }
+
+        public static Vector4 Multiply(in Vector4 left, float right)
+        {
+            return left * right;
+        }
+
+        public static Vector4 Divide(in Vector4 left, in Vector4 right)
+        {
+            return left / right;
+        }
+
+        public static Vector4 Divide(in Vector4 left, float right)
+        {
+            return left / right;
         }
 
         #endregion
 
         #region Operators
 
-        public static Vector4 operator +(Vector4 v1, in Vector4 v2)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator +(in Vector4 left, in Vector4 right)
         {
-            return v1.Add(v2);
+            return new Vector4(
+                left.X + right.X,
+                left.Y + right.Y,
+                left.Z + right.Z,
+                left.W + right.W
+            );
         }
 
-        public static Vector4 operator -(Vector4 v1, Vector4 v2)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator +(in Vector4 left, float right)
         {
-            return v1.Subtract(v2);
+            return new Vector4(
+                left.X + right,
+                left.Y + right,
+                left.Z + right,
+                left.W + right
+            );
         }
 
-        public static Vector4 operator *(Vector4 v, float x)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator -(in Vector4 left, in Vector4 right)
         {
-            return v.Multiply(x);
+            return new Vector4(
+                left.X - right.X,
+                left.Y - right.Y,
+                left.Z - right.Z,
+                left.W - right.W
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator -(in Vector4 left, float right)
+        {
+            return new Vector4(
+                left.X - right,
+                left.Y - right,
+                left.Z - right,
+                left.W - right
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator *(in Vector4 left, in Vector4 right)
+        {
+            return new Vector4(
+                left.X * right.X,
+                left.Y * right.Y,
+                left.Z * right.Z,
+                left.W * right.W
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator *(in Vector4 left, float right)
+        {
+            return new Vector4(
+                left.X * right,
+                left.Y * right,
+                left.Z * right,
+                left.W * right
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator /(in Vector4 left, in Vector4 right)
+        {
+            return new Vector4(
+                left.X / right.X,
+                left.Y / right.Y,
+                left.Z / right.Z,
+                left.W / right.W
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator /(in Vector4 left, float right)
+        {
+            return new Vector4(
+                left.X / right,
+                left.Y / right,
+                left.Z / right,
+                left.W / right
+            );
         }
 
         #endregion

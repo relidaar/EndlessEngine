@@ -1,84 +1,169 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace EndlessEngine.Math
 {
     public struct Vector3
     {
         public static int Size => 3;
-        public float X => _data[0];
-        public float Y => _data[1];
-        public float Z => _data[2];
 
-        public IEnumerable<float> Data => _data;
-        private readonly float[] _data;
+        public float X;
+        public float Y;
+        public float Z;
+
+        public IEnumerable<float> Data => new[] {X, Y, Z};
 
         #region Constructors
 
         public Vector3(float value)
         {
-            _data = new float[Size];
-            for (var i = 0; i < Size; i++) _data[i] = value;
+            X = value;
+            Y = value;
+            Z = value;
         }
 
         public Vector3(float x, float y, float z)
         {
-            _data = new[] {x, y, z};
-        }
-
-        public Vector3(params float[] data)
-        {
-            if (data.Length != Size)
-                throw new Exception("Data count should be equal to " + Size);
-
-            _data = data;
+            X = x;
+            Y = y;
+            Z = z;
         }
 
         public Vector3(in Vector3 vector)
-            : this(vector.Data.ToArray())
         {
+            X = vector.X;
+            Y = vector.Y;
+            Z = vector.Z;
         }
 
         #endregion
 
         #region Operations
 
-        public Vector3 Add(in Vector3 v)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 Add(in Vector3 left, in Vector3 right)
         {
-            var result = Data.Zip(v.Data, (x1, x2) => x1 + x2);
-            return new Vector3(result.ToArray());
+            return left + right;
         }
 
-        public Vector3 Subtract(in Vector3 v)
+        public static Vector3 Add(in Vector3 left, float right)
         {
-            var result = Data.Zip(v.Data, (x1, x2) => x1 - x2);
-            return new Vector3(result.ToArray());
+            return left + right;
         }
 
-        public Vector3 Multiply(float x)
+        public static Vector3 Subtract(in Vector3 left, in Vector3 right)
         {
-            var result = _data.Select(a => a * x);
-            return new Vector3(result.ToArray());
+            return left - right;
+        }
+
+        public static Vector3 Subtract(in Vector3 left, float right)
+        {
+            return left - right;
+        }
+
+        public static Vector3 Multiply(in Vector3 left, in Vector3 right)
+        {
+            return left * right;
+        }
+
+        public static Vector3 Multiply(in Vector3 left, float right)
+        {
+            return left * right;
+        }
+
+        public static Vector3 Divide(in Vector3 left, in Vector3 right)
+        {
+            return left / right;
+        }
+
+        public static Vector3 Divide(in Vector3 left, float right)
+        {
+            return left / right;
         }
 
         #endregion
 
         #region Operators
 
-        public static Vector3 operator +(Vector3 v1, in Vector3 v2)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator +(in Vector3 left, in Vector3 right)
         {
-            return v1.Add(v2);
+            return new Vector3(
+                left.X + right.X,
+                left.Y + right.Y,
+                left.Z + right.Z
+            );
         }
 
-        public static Vector3 operator -(Vector3 v1, Vector3 v2)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator +(in Vector3 left, float right)
         {
-            return v1.Subtract(v2);
+            return new Vector3(
+                left.X + right,
+                left.Y + right,
+                left.Z + right
+            );
         }
 
-        public static Vector3 operator *(Vector3 v, float x)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator -(in Vector3 left, in Vector3 right)
         {
-            return v.Multiply(x);
+            return new Vector3(
+                left.X - right.X,
+                left.Y - right.Y,
+                left.Z - right.Z
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator -(in Vector3 left, float right)
+        {
+            return new Vector3(
+                left.X - right,
+                left.Y - right,
+                left.Z - right
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator *(in Vector3 left, in Vector3 right)
+        {
+            return new Vector3(
+                left.X * right.X,
+                left.Y * right.Y,
+                left.Z * right.Z
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator *(in Vector3 left, float right)
+        {
+            return new Vector3(
+                left.X * right,
+                left.Y * right,
+                left.Z * right
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator /(in Vector3 left, in Vector3 right)
+        {
+            return new Vector3(
+                left.X / right.X,
+                left.Y / right.Y,
+                left.Z / right.Z
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 operator /(in Vector3 left, float right)
+        {
+            return new Vector3(
+                left.X / right,
+                left.Y / right,
+                left.Z / right
+            );
         }
 
         #endregion

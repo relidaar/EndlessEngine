@@ -225,6 +225,161 @@ namespace EndlessEngine.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix4 Invert()
+        {
+            var inverse = new float[16];
+
+            inverse[0] = M22 * M33 * M44 -
+                         M22 * M34 * M43 -
+                         M32 * M23 * M44 +
+                         M32 * M24 * M43 +
+                         M42 * M23 * M34 -
+                         M42 * M24 * M33;
+
+            inverse[4] = -M21 * M33 * M44 +
+                         M21 * M34 * M43 +
+                         M31 * M23 * M44 -
+                         M31 * M24 * M43 -
+                         M41 * M23 * M34 +
+                         M41 * M24 * M33;
+
+            inverse[8] = M21 * M32 * M44 -
+                         M21 * M34 * M42 -
+                         M31 * M22 * M44 +
+                         M31 * M24 * M42 +
+                         M41 * M22 * M34 -
+                         M41 * M24 * M32;
+
+            inverse[12] = -M21 * M32 * M43 +
+                          M21 * M33 * M42 +
+                          M31 * M22 * M43 -
+                          M31 * M23 * M42 -
+                          M41 * M22 * M33 +
+                          M41 * M23 * M32;
+
+            inverse[1] = -M12 * M33 * M44 +
+                         M12 * M34 * M43 +
+                         M32 * M13 * M44 -
+                         M32 * M14 * M43 -
+                         M42 * M13 * M34 +
+                         M42 * M14 * M33;
+
+            inverse[5] = M11 * M33 * M44 -
+                         M11 * M34 * M43 -
+                         M31 * M13 * M44 +
+                         M31 * M14 * M43 +
+                         M41 * M13 * M34 -
+                         M41 * M14 * M33;
+
+            inverse[9] = -M11 * M32 * M44 +
+                         M11 * M34 * M42 +
+                         M31 * M12 * M44 -
+                         M31 * M14 * M42 -
+                         M41 * M12 * M34 +
+                         M41 * M14 * M32;
+
+            inverse[13] = M11 * M32 * M43 -
+                          M11 * M33 * M42 -
+                          M31 * M12 * M43 +
+                          M31 * M13 * M42 +
+                          M41 * M12 * M33 -
+                          M41 * M13 * M32;
+
+            inverse[2] = M12 * M23 * M44 -
+                         M12 * M24 * M43 -
+                         M22 * M13 * M44 +
+                         M22 * M14 * M43 +
+                         M42 * M13 * M24 -
+                         M42 * M14 * M23;
+
+            inverse[6] = -M11 * M23 * M44 +
+                         M11 * M24 * M43 +
+                         M21 * M13 * M44 -
+                         M21 * M14 * M43 -
+                         M41 * M13 * M24 +
+                         M41 * M14 * M23;
+
+            inverse[10] = M11 * M22 * M44 -
+                          M11 * M24 * M42 -
+                          M21 * M12 * M44 +
+                          M21 * M14 * M42 +
+                          M41 * M12 * M24 -
+                          M41 * M14 * M22;
+
+            inverse[14] = -M11 * M22 * M43 +
+                          M11 * M23 * M42 +
+                          M21 * M12 * M43 -
+                          M21 * M13 * M42 -
+                          M41 * M12 * M23 +
+                          M41 * M13 * M22;
+
+            inverse[3] = -M12 * M23 * M34 +
+                         M12 * M24 * M33 +
+                         M22 * M13 * M34 -
+                         M22 * M14 * M33 -
+                         M32 * M13 * M24 +
+                         M32 * M14 * M23;
+
+            inverse[7] = M11 * M23 * M34 -
+                         M11 * M24 * M33 -
+                         M21 * M13 * M34 +
+                         M21 * M14 * M33 +
+                         M31 * M13 * M24 -
+                         M31 * M14 * M23;
+
+            inverse[11] = -M11 * M22 * M34 +
+                          M11 * M24 * M32 +
+                          M21 * M12 * M34 -
+                          M21 * M14 * M32 -
+                          M31 * M12 * M24 +
+                          M31 * M14 * M22;
+
+            inverse[15] = M11 * M22 * M33 -
+                          M11 * M23 * M32 -
+                          M21 * M12 * M33 +
+                          M21 * M13 * M32 +
+                          M31 * M12 * M23 -
+                          M31 * M13 * M22;
+
+            var det = M11 * inverse[0] + M12 * inverse[4] + M13 * inverse[8] + M14 * inverse[12];
+
+            if (det == 0)
+                return new Matrix4(0);
+
+            det = 1 / System.Math.Abs(det);
+
+            for (var i = 0; i < 16; i++)
+                inverse[i] = inverse[i] * det;
+
+            return new Matrix4
+            {
+                // First row
+                M11 = inverse[0],
+                M12 = inverse[1],
+                M13 = inverse[2],
+                M14 = inverse[3],
+
+                // Second row
+                M21 = inverse[4],
+                M22 = inverse[5],
+                M23 = inverse[6],
+                M24 = inverse[7],
+
+                // Third row
+                M31 = inverse[8],
+                M32 = inverse[9],
+                M33 = inverse[10],
+                M34 = inverse[11],
+
+                // Fourth row
+                M41 = inverse[12],
+                M42 = inverse[13],
+                M43 = inverse[14],
+                M44 = inverse[15]
+            };
+        }
+
         #endregion
 
         #region Operators

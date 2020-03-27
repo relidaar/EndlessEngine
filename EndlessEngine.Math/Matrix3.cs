@@ -176,8 +176,18 @@ namespace EndlessEngine.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix3 Negate()
+        {
+            return new Matrix3(
+                -M11, -M12, -M13,
+                -M21, -M22, -M23,
+                -M31, -M32, -M33
+            );
+        }
+        
         #endregion
-
+        
         #region Operators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

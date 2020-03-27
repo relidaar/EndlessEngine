@@ -137,6 +137,15 @@ namespace EndlessEngine.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix2 Negate()
+        {
+            return new Matrix2(
+                -M11, -M12, 
+                -M21, -M22
+                );
+        }
+
         #endregion
 
         #region Operators

@@ -89,6 +89,12 @@ namespace EndlessEngine.Math
             return left / right;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3 Negate()
+        {
+            return new Vector3(-X, -Y, -Z);
+        }
+
         #endregion
 
         #region Operators

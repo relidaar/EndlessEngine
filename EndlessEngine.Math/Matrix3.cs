@@ -1,134 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace EndlessEngine.Math
+﻿namespace EndlessEngine.Math
 {
     public struct Matrix3
     {
         public static (int m, int n) Size => (3, 3);
-        public float[,] Matrix { get; }
-        public float[] Array { get; }
-        public IEnumerable<Vector3> Data => _data;
-        private readonly Vector3[] _data;
 
-        #region Constructors
+        #region Public Fields
 
-        public Matrix3(float a11, float a12, float a13, float a21, float a22, float a23, float a31, float a32,
-            float a33)
-            : this(new Vector3(a11, a12, a13),
-                new Vector3(a21, a22, a23),
-                new Vector3(a31, a32, a33)
-            )
-        {
-        }
+        // First row
+        public float M11;
+        public float M12;
+        public float M13;
 
-        public Matrix3(in Matrix3 matrix)
-            : this(matrix.Data.ToArray())
-        {
-        }
+        // Second row
+        public float M21;
+        public float M22;
+        public float M23;
 
-        public Matrix3(params Vector3[] data)
-        {
-            if (data.Length != Size.m)
-                throw new Exception("Data count should be equal to " + Size.m);
-
-            _data = data;
-
-            var arr = new List<float>();
-            foreach (var vertex in _data)
-                arr.AddRange(vertex.Data);
-
-            Array = arr.ToArray();
-            Matrix = MatrixOperations.ToMatrix(Array, Size.m, Size.n);
-        }
-
-        public Matrix3(in float value)
-            : this(
-                value, value, value,
-                value, value, value,
-                value, value, value
-            )
-        {
-        }
+        // Third row
+        public float M31;
+        public float M32;
+        public float M33;
 
         #endregion
 
-        #region Operations
-
-        public Matrix3 Add(Matrix3 other)
+        public float[,] Matrix => new[,]
         {
-            var result = Data.Zip(other.Data, (a1, a2) => a1 + a2);
-            return new Matrix3(result.ToArray());
-        }
+            {M11, M12, M13},
+            {M21, M22, M23},
+            {M31, M32, M33}
+        };
 
-        public Matrix3 Subtract(Matrix3 other)
+        public float[] Array => new[]
         {
-            var result = Data.Zip(other.Data, (a1, a2) => a1 - a2);
-            return new Matrix3(result.ToArray());
-        }
-
-        public Matrix3 Multiply(float x)
-        {
-            var result = Data.Select(a => a * x);
-            return new Matrix3(result.ToArray());
-        }
-
-        public Matrix3 Multiply(Matrix3 other)
-        {
-            var result = MatrixOperations.Multiply(Matrix, other.Matrix);
-
-            var vertices = new Vector3[Size.m];
-            for (var i = 0; i < Size.m; i++)
-            {
-                var row = new float[Size.n];
-                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
-                vertices[i] = new Vector3(row);
-            }
-
-            return new Matrix3(vertices);
-        }
-
-        public Matrix3 Transpose()
-        {
-            var result = MatrixOperations.Transpose(Matrix);
-
-            var vertices = new Vector3[Size.m];
-            for (var i = 0; i < Size.m; i++)
-            {
-                var row = new float[Size.n];
-                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
-                vertices[i] = new Vector3(row);
-            }
-
-            return new Matrix3(vertices);
-        }
-
-        #endregion
-
-        #region Operators
-
-        public static Matrix3 operator +(Matrix3 matrix1, in Matrix3 matrix2)
-        {
-            return matrix1.Add(matrix2);
-        }
-
-        public static Matrix3 operator -(Matrix3 matrix1, in Matrix3 matrix2)
-        {
-            return matrix1.Subtract(matrix2);
-        }
-
-        public static Matrix3 operator *(Matrix3 matrix1, float x)
-        {
-            return matrix1.Multiply(x);
-        }
-
-        public static Matrix3 operator *(Matrix3 matrix1, in Matrix3 matrix2)
-        {
-            return matrix1.Multiply(matrix2);
-        }
-
-        #endregion
+            M11, M12, M13,
+            M21, M22, M23,
+            M31, M32, M33
+        };
 
         public static Matrix3 Identity =>
             new Matrix3
@@ -137,5 +44,278 @@ namespace EndlessEngine.Math
                 0, 1, 0,
                 0, 0, 1
             );
+
+        #region Constructors
+
+        public Matrix3(float value)
+        {
+            // First row
+            M11 = value;
+            M12 = value;
+            M13 = value;
+
+            // Second row
+            M21 = value;
+            M22 = value;
+            M23 = value;
+
+            // Third row
+            M31 = value;
+            M32 = value;
+            M33 = value;
+        }
+
+        public Matrix3(in Matrix3 matrix)
+        {
+            // First row
+            M11 = matrix.M11;
+            M12 = matrix.M12;
+            M13 = matrix.M13;
+
+            // Second row
+            M21 = matrix.M21;
+            M22 = matrix.M22;
+            M23 = matrix.M23;
+
+            // Third row
+            M31 = matrix.M31;
+            M32 = matrix.M32;
+            M33 = matrix.M33;
+        }
+
+        public Matrix3(
+            float m11, float m12, float m13,
+            float m21, float m22, float m23,
+            float m31, float m32, float m33)
+        {
+            // First row
+            M11 = m11;
+            M12 = m12;
+            M13 = m13;
+
+            // Second row
+            M21 = m21;
+            M22 = m22;
+            M23 = m23;
+
+            // Third row
+            M31 = m31;
+            M32 = m32;
+            M33 = m33;
+        }
+
+        #endregion
+
+        #region Operations
+
+        public static Matrix3 Add(in Matrix3 left, in Matrix3 right)
+        {
+            return left + right;
+        }
+
+        public static Matrix3 Add(in Matrix3 left, float right)
+        {
+            return left + right;
+        }
+
+        public static Matrix3 Subtract(in Matrix3 left, in Matrix3 right)
+        {
+            return left - right;
+        }
+
+        public static Matrix3 Subtract(in Matrix3 left, float right)
+        {
+            return left - right;
+        }
+
+        public static Matrix3 Multiply(in Matrix3 left, in Matrix3 right)
+        {
+            return left * right;
+        }
+
+        public static Matrix3 Multiply(in Matrix3 left, float right)
+        {
+            return left * right;
+        }
+
+        public static Matrix3 Divide(in Matrix3 left, float right)
+        {
+            return left / right;
+        }
+
+        public Matrix3 Transpose()
+        {
+            Matrix3 result;
+
+            // First row
+            result.M11 = M11;
+            result.M12 = M21;
+            result.M13 = M31;
+
+            // Second row
+            result.M21 = M12;
+            result.M22 = M22;
+            result.M23 = M32;
+
+            // Third row
+            result.M31 = M13;
+            result.M32 = M23;
+            result.M33 = M33;
+
+            return result;
+        }
+
+        #endregion
+
+        #region Operators
+
+        public static Matrix3 operator +(in Matrix3 left, in Matrix3 right)
+        {
+            return new Matrix3
+            {
+                // First row
+                M11 = left.M11 + right.M11,
+                M12 = left.M12 + right.M12,
+                M13 = left.M13 + right.M13,
+
+                // Second row
+                M21 = left.M21 + right.M21,
+                M22 = left.M22 + right.M22,
+                M23 = left.M23 + right.M23,
+
+                // Third row
+                M31 = left.M31 + right.M31,
+                M32 = left.M32 + right.M32,
+                M33 = left.M33 + right.M33
+            };
+        }
+
+        public static Matrix3 operator +(in Matrix3 left, float right)
+        {
+            return new Matrix3
+            {
+                // First row
+                M11 = left.M11 + right,
+                M12 = left.M12 + right,
+                M13 = left.M13 + right,
+
+                // Second row
+                M21 = left.M21 + right,
+                M22 = left.M22 + right,
+                M23 = left.M23 + right,
+
+                // Third row
+                M31 = left.M31 + right,
+                M32 = left.M32 + right,
+                M33 = left.M33 + right
+            };
+        }
+
+        public static Matrix3 operator -(in Matrix3 left, in Matrix3 right)
+        {
+            return new Matrix3
+            {
+                // First row
+                M11 = left.M11 - right.M11,
+                M12 = left.M12 - right.M12,
+                M13 = left.M13 - right.M13,
+
+                // Second row
+                M21 = left.M21 - right.M21,
+                M22 = left.M22 - right.M22,
+                M23 = left.M23 - right.M23,
+
+                // Third row
+                M31 = left.M31 - right.M31,
+                M32 = left.M32 - right.M32,
+                M33 = left.M33 - right.M33
+            };
+        }
+
+        public static Matrix3 operator -(in Matrix3 left, float right)
+        {
+            return new Matrix3
+            {
+                // First row
+                M11 = left.M11 - right,
+                M12 = left.M12 - right,
+                M13 = left.M13 - right,
+
+                // Second row
+                M21 = left.M21 - right,
+                M22 = left.M22 - right,
+                M23 = left.M23 - right,
+
+                // Third row
+                M31 = left.M31 - right,
+                M32 = left.M32 - right,
+                M33 = left.M33 - right
+            };
+        }
+
+        public static Matrix3 operator *(in Matrix3 left, in Matrix3 right)
+        {
+            return new Matrix3
+            {
+                // First row
+                M11 = left.M11 * right.M11 + left.M12 * right.M21 + left.M13 * right.M31,
+                M12 = left.M11 * right.M12 + left.M12 * right.M22 + left.M13 * right.M32,
+                M13 = left.M11 * right.M13 + left.M12 * right.M23 + left.M13 * right.M33,
+
+                // Second row
+                M21 = left.M21 * right.M11 + left.M22 * right.M21 + left.M23 * right.M31,
+                M22 = left.M21 * right.M12 + left.M22 * right.M22 + left.M23 * right.M32,
+                M23 = left.M21 * right.M13 + left.M22 * right.M23 + left.M23 * right.M33,
+
+                // Third row
+                M31 = left.M31 * right.M11 + left.M32 * right.M21 + left.M33 * right.M31,
+                M32 = left.M31 * right.M12 + left.M32 * right.M22 + left.M33 * right.M32,
+                M33 = left.M31 * right.M13 + left.M32 * right.M23 + left.M33 * right.M33
+            };
+        }
+
+        public static Matrix3 operator *(in Matrix3 left, float right)
+        {
+            return new Matrix3
+            {
+                // First row
+                M11 = left.M11 * right,
+                M12 = left.M12 * right,
+                M13 = left.M13 * right,
+
+                // Second row
+                M21 = left.M21 * right,
+                M22 = left.M22 * right,
+                M23 = left.M23 * right,
+
+                // Third row
+                M31 = left.M31 * right,
+                M32 = left.M32 * right,
+                M33 = left.M33 * right
+            };
+        }
+
+        public static Matrix3 operator /(in Matrix3 left, float right)
+        {
+            return new Matrix3
+            {
+                // First row
+                M11 = left.M11 / right,
+                M12 = left.M12 / right,
+                M13 = left.M13 / right,
+
+                // Second row
+                M21 = left.M21 / right,
+                M22 = left.M22 / right,
+                M23 = left.M23 / right,
+
+                // Third row
+                M31 = left.M31 / right,
+                M32 = left.M32 / right,
+                M33 = left.M33 / right
+            };
+        }
+
+        #endregion
     }
 }

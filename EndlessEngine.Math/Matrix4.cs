@@ -1,332 +1,480 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace EndlessEngine.Math
+﻿namespace EndlessEngine.Math
 {
     public struct Matrix4
     {
         public static (int m, int n) Size => (4, 4);
-        public float[,] Matrix { get; }
-        public float[] Array { get; }
-        public IEnumerable<Vector4> Data => _data;
-        private readonly Vector4[] _data;
+
+        #region Public Fields
+
+        // First row
+        public float M11;
+        public float M12;
+        public float M13;
+        public float M14;
+
+        // Second row
+        public float M21;
+        public float M22;
+        public float M23;
+        public float M24;
+
+        // Third row
+        public float M31;
+        public float M32;
+        public float M33;
+        public float M34;
+
+        // Fourth row
+        public float M41;
+        public float M42;
+        public float M43;
+        public float M44;
+
+        #endregion
+
+        public float[,] Matrix => new[,]
+        {
+            {M11, M12, M13, M14},
+            {M21, M22, M23, M24},
+            {M31, M32, M33, M34},
+            {M41, M42, M43, M44}
+        };
+
+        public float[] Array => new[]
+        {
+            M11, M12, M13, M14,
+            M21, M22, M23, M24,
+            M31, M32, M33, M34,
+            M41, M42, M43, M44
+        };
+
+        public static Matrix4 Identity =>
+            new Matrix4
+            {
+                M11 = 1,
+                M22 = 1,
+                M33 = 1,
+                M44 = 1
+            };
 
         #region Constructors
 
-        public Matrix4(float a11, float a12, float a13, float a14,
-            float a21, float a22, float a23, float a24,
-            float a31, float a32, float a33, float a34,
-            float a41, float a42, float a43, float a44)
-            : this(
-                new Vector4(a11, a12, a13, a14),
-                new Vector4(a21, a22, a23, a24),
-                new Vector4(a31, a32, a33, a34),
-                new Vector4(a41, a42, a43, a44)
-            )
-        {
-        }
-
         public Matrix4(in Matrix4 matrix)
-            : this(matrix.Data.ToArray())
         {
+            // First row
+            M11 = matrix.M11;
+            M12 = matrix.M12;
+            M13 = matrix.M13;
+            M14 = matrix.M14;
+
+            // Second row
+            M21 = matrix.M21;
+            M22 = matrix.M22;
+            M23 = matrix.M23;
+            M24 = matrix.M24;
+
+            // Third row
+            M31 = matrix.M31;
+            M32 = matrix.M32;
+            M33 = matrix.M33;
+            M34 = matrix.M34;
+
+            // Fourth row
+            M41 = matrix.M41;
+            M42 = matrix.M42;
+            M43 = matrix.M43;
+            M44 = matrix.M44;
         }
 
-        public Matrix4(params Vector4[] data)
+        public Matrix4(float value)
         {
-            if (data.Length != Size.m)
-                throw new Exception("Data count should be equal to " + Size.m);
+            // First row
+            M11 = value;
+            M12 = value;
+            M13 = value;
+            M14 = value;
 
-            _data = data;
+            // Second row
+            M21 = value;
+            M22 = value;
+            M23 = value;
+            M24 = value;
 
-            var arr = new List<float>();
-            foreach (var vertex in _data)
-                arr.AddRange(vertex.Data);
+            // Third row
+            M31 = value;
+            M32 = value;
+            M33 = value;
+            M34 = value;
 
-            Array = arr.ToArray();
-            Matrix = MatrixOperations.ToMatrix(Array, Size.m, Size.n);
+            // Fourth row
+            M41 = value;
+            M42 = value;
+            M43 = value;
+            M44 = value;
         }
 
-        public Matrix4(in float value)
-            : this(
-                value, value, value, value,
-                value, value, value, value,
-                value, value, value, value,
-                value, value, value, value
-            )
+        public Matrix4(
+            float m11, float m12, float m13, float m14,
+            float m21, float m22, float m23, float m24,
+            float m31, float m32, float m33, float m34,
+            float m41, float m42, float m43, float m44)
         {
+            // First row
+            M11 = m11;
+            M12 = m12;
+            M13 = m13;
+            M14 = m14;
+
+            // Second row
+            M21 = m21;
+            M22 = m22;
+            M23 = m23;
+            M24 = m24;
+
+            // Third row
+            M31 = m31;
+            M32 = m32;
+            M33 = m33;
+            M34 = m34;
+
+            // Fourth row
+            M41 = m41;
+            M42 = m42;
+            M43 = m43;
+            M44 = m44;
         }
 
         #endregion
 
         #region Operations
 
-        public Matrix4 Add(Matrix4 other)
+        public static Matrix4 Add(in Matrix4 left, in Matrix4 right)
         {
-            var result = Data.Zip(other.Data, (a1, a2) => a1 + a2);
-            return new Matrix4(result.ToArray());
+            return left + right;
         }
 
-        public Matrix4 Subtract(Matrix4 other)
+        public static Matrix4 Add(in Matrix4 left, float right)
         {
-            var result = Data.Zip(other.Data, (a1, a2) => a1 - a2);
-            return new Matrix4(result.ToArray());
+            return left + right;
         }
 
-        public Matrix4 Multiply(float x)
+        public static Matrix4 Subtract(in Matrix4 left, in Matrix4 right)
         {
-            var result = Data.Select(a => a * x);
-            return new Matrix4(result.ToArray());
+            return left - right;
         }
 
-        public Matrix4 Multiply(Matrix4 other)
+        public static Matrix4 Subtract(in Matrix4 left, float right)
         {
-            var result = MatrixOperations.Multiply(Matrix, other.Matrix);
+            return left - right;
+        }
 
-            var vertices = new Vector4[Size.m];
-            for (var i = 0; i < Size.m; i++)
-            {
-                var row = new float[Size.n];
-                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
-                vertices[i] = new Vector4(row);
-            }
+        public static Matrix4 Multiply(in Matrix4 left, in Matrix4 right)
+        {
+            return left * right;
+        }
 
-            return new Matrix4(vertices);
+        public static Matrix4 Multiply(in Matrix4 left, float right)
+        {
+            return left * right;
+        }
+
+        public static Matrix4 Divide(in Matrix4 left, float right)
+        {
+            return left / right;
         }
 
         public Matrix4 Transpose()
         {
-            var result = MatrixOperations.Transpose(Matrix);
+            Matrix4 result;
 
-            var vertices = new Vector4[Size.m];
-            for (var i = 0; i < Size.m; i++)
-            {
-                var row = new float[Size.n];
-                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
-                vertices[i] = new Vector4(row);
-            }
+            // First row
+            result.M11 = M11;
+            result.M12 = M21;
+            result.M13 = M31;
+            result.M14 = M41;
 
-            return new Matrix4(vertices);
-        }
+            // Second row
+            result.M21 = M12;
+            result.M22 = M22;
+            result.M23 = M32;
+            result.M24 = M42;
 
-        public Matrix4 Invert()
-        {
-            var inverse = new float[16];
+            // Third row
+            result.M31 = M13;
+            result.M32 = M23;
+            result.M33 = M33;
+            result.M34 = M43;
 
-            inverse[0] = Array[5] * Array[10] * Array[15] -
-                         Array[5] * Array[11] * Array[14] -
-                         Array[9] * Array[6] * Array[15] +
-                         Array[9] * Array[7] * Array[14] +
-                         Array[13] * Array[6] * Array[11] -
-                         Array[13] * Array[7] * Array[10];
+            // Fourth row
+            result.M41 = M14;
+            result.M42 = M24;
+            result.M43 = M34;
+            result.M44 = M44;
 
-            inverse[4] = -Array[4] * Array[10] * Array[15] +
-                         Array[4] * Array[11] * Array[14] +
-                         Array[8] * Array[6] * Array[15] -
-                         Array[8] * Array[7] * Array[14] -
-                         Array[12] * Array[6] * Array[11] +
-                         Array[12] * Array[7] * Array[10];
-
-            inverse[8] = Array[4] * Array[9] * Array[15] -
-                         Array[4] * Array[11] * Array[13] -
-                         Array[8] * Array[5] * Array[15] +
-                         Array[8] * Array[7] * Array[13] +
-                         Array[12] * Array[5] * Array[11] -
-                         Array[12] * Array[7] * Array[9];
-
-            inverse[12] = -Array[4] * Array[9] * Array[14] +
-                          Array[4] * Array[10] * Array[13] +
-                          Array[8] * Array[5] * Array[14] -
-                          Array[8] * Array[6] * Array[13] -
-                          Array[12] * Array[5] * Array[10] +
-                          Array[12] * Array[6] * Array[9];
-
-            inverse[1] = -Array[1] * Array[10] * Array[15] +
-                         Array[1] * Array[11] * Array[14] +
-                         Array[9] * Array[2] * Array[15] -
-                         Array[9] * Array[3] * Array[14] -
-                         Array[13] * Array[2] * Array[11] +
-                         Array[13] * Array[3] * Array[10];
-
-            inverse[5] = Array[0] * Array[10] * Array[15] -
-                         Array[0] * Array[11] * Array[14] -
-                         Array[8] * Array[2] * Array[15] +
-                         Array[8] * Array[3] * Array[14] +
-                         Array[12] * Array[2] * Array[11] -
-                         Array[12] * Array[3] * Array[10];
-
-            inverse[9] = -Array[0] * Array[9] * Array[15] +
-                         Array[0] * Array[11] * Array[13] +
-                         Array[8] * Array[1] * Array[15] -
-                         Array[8] * Array[3] * Array[13] -
-                         Array[12] * Array[1] * Array[11] +
-                         Array[12] * Array[3] * Array[9];
-
-            inverse[13] = Array[0] * Array[9] * Array[14] -
-                          Array[0] * Array[10] * Array[13] -
-                          Array[8] * Array[1] * Array[14] +
-                          Array[8] * Array[2] * Array[13] +
-                          Array[12] * Array[1] * Array[10] -
-                          Array[12] * Array[2] * Array[9];
-
-            inverse[2] = Array[1] * Array[6] * Array[15] -
-                         Array[1] * Array[7] * Array[14] -
-                         Array[5] * Array[2] * Array[15] +
-                         Array[5] * Array[3] * Array[14] +
-                         Array[13] * Array[2] * Array[7] -
-                         Array[13] * Array[3] * Array[6];
-
-            inverse[6] = -Array[0] * Array[6] * Array[15] +
-                         Array[0] * Array[7] * Array[14] +
-                         Array[4] * Array[2] * Array[15] -
-                         Array[4] * Array[3] * Array[14] -
-                         Array[12] * Array[2] * Array[7] +
-                         Array[12] * Array[3] * Array[6];
-
-            inverse[10] = Array[0] * Array[5] * Array[15] -
-                          Array[0] * Array[7] * Array[13] -
-                          Array[4] * Array[1] * Array[15] +
-                          Array[4] * Array[3] * Array[13] +
-                          Array[12] * Array[1] * Array[7] -
-                          Array[12] * Array[3] * Array[5];
-
-            inverse[14] = -Array[0] * Array[5] * Array[14] +
-                          Array[0] * Array[6] * Array[13] +
-                          Array[4] * Array[1] * Array[14] -
-                          Array[4] * Array[2] * Array[13] -
-                          Array[12] * Array[1] * Array[6] +
-                          Array[12] * Array[2] * Array[5];
-
-            inverse[3] = -Array[1] * Array[6] * Array[11] +
-                         Array[1] * Array[7] * Array[10] +
-                         Array[5] * Array[2] * Array[11] -
-                         Array[5] * Array[3] * Array[10] -
-                         Array[9] * Array[2] * Array[7] +
-                         Array[9] * Array[3] * Array[6];
-
-            inverse[7] = Array[0] * Array[6] * Array[11] -
-                         Array[0] * Array[7] * Array[10] -
-                         Array[4] * Array[2] * Array[11] +
-                         Array[4] * Array[3] * Array[10] +
-                         Array[8] * Array[2] * Array[7] -
-                         Array[8] * Array[3] * Array[6];
-
-            inverse[11] = -Array[0] * Array[5] * Array[11] +
-                          Array[0] * Array[7] * Array[9] +
-                          Array[4] * Array[1] * Array[11] -
-                          Array[4] * Array[3] * Array[9] -
-                          Array[8] * Array[1] * Array[7] +
-                          Array[8] * Array[3] * Array[5];
-
-            inverse[15] = Array[0] * Array[5] * Array[10] -
-                          Array[0] * Array[6] * Array[9] -
-                          Array[4] * Array[1] * Array[10] +
-                          Array[4] * Array[2] * Array[9] +
-                          Array[8] * Array[1] * Array[6] -
-                          Array[8] * Array[2] * Array[5];
-
-            var det = Array[0] * inverse[0] + Array[1] * inverse[4] + Array[2] * inverse[8] + Array[3] * inverse[12];
-
-            if (det == 0)
-                return new Matrix4(0);
-
-            det = 1 / System.Math.Abs(det);
-
-            for (var i = 0; i < 16; i++)
-                inverse[i] = inverse[i] * det;
-
-            var result = MatrixOperations.ToMatrix(inverse, Size.m, Size.n);
-            var vertices = new Vector4[Size.m];
-            for (var i = 0; i < Size.m; i++)
-            {
-                var row = new float[Size.n];
-                for (var j = 0; j < Size.n; j++) row[j] = result[i, j];
-                vertices[i] = new Vector4(row);
-            }
-
-            return new Matrix4(vertices);
+            return result;
         }
 
         #endregion
 
         #region Operators
 
-        public static Matrix4 operator +(Matrix4 matrix1, in Matrix4 matrix2)
+        public static Matrix4 operator +(in Matrix4 left, in Matrix4 right)
         {
-            return matrix1.Add(matrix2);
+            return new Matrix4
+            {
+                // First row
+                M11 = left.M11 + right.M11,
+                M12 = left.M12 + right.M12,
+                M13 = left.M13 + right.M13,
+                M14 = left.M14 + right.M14,
+
+                // Second row
+                M21 = left.M21 + right.M21,
+                M22 = left.M22 + right.M22,
+                M23 = left.M23 + right.M23,
+                M24 = left.M24 + right.M24,
+
+                // Third row
+                M31 = left.M31 + right.M31,
+                M32 = left.M32 + right.M32,
+                M33 = left.M33 + right.M33,
+                M34 = left.M34 + right.M34,
+
+                // Fourth row
+                M41 = left.M41 + right.M41,
+                M42 = left.M42 + right.M42,
+                M43 = left.M43 + right.M43,
+                M44 = left.M44 + right.M44
+            };
         }
 
-        public static Matrix4 operator -(Matrix4 matrix1, in Matrix4 matrix2)
+        public static Matrix4 operator +(in Matrix4 left, float right)
         {
-            return matrix1.Subtract(matrix2);
+            return new Matrix4
+            {
+                // First row
+                M11 = left.M11 + right,
+                M12 = left.M12 + right,
+                M13 = left.M13 + right,
+                M14 = left.M14 + right,
+
+                // Second row
+                M21 = left.M21 + right,
+                M22 = left.M22 + right,
+                M23 = left.M23 + right,
+                M24 = left.M24 + right,
+
+                // Third row
+                M31 = left.M31 + right,
+                M32 = left.M32 + right,
+                M33 = left.M33 + right,
+                M34 = left.M34 + right,
+
+                // Fourth row
+                M41 = left.M41 + right,
+                M42 = left.M42 + right,
+                M43 = left.M43 + right,
+                M44 = left.M44 + right
+            };
         }
 
-        public static Matrix4 operator *(Matrix4 matrix, float x)
+        public static Matrix4 operator -(in Matrix4 left, in Matrix4 right)
         {
-            return matrix.Multiply(x);
+            return new Matrix4
+            {
+                // First row
+                M11 = left.M11 - right.M11,
+                M12 = left.M12 - right.M12,
+                M13 = left.M13 - right.M13,
+                M14 = left.M14 - right.M14,
+
+                // Second row
+                M21 = left.M21 - right.M21,
+                M22 = left.M22 - right.M22,
+                M23 = left.M23 - right.M23,
+                M24 = left.M24 - right.M24,
+
+                // Third row
+                M31 = left.M31 - right.M31,
+                M32 = left.M32 - right.M32,
+                M33 = left.M33 - right.M33,
+                M34 = left.M34 - right.M34,
+
+                // Fourth row
+                M41 = left.M41 - right.M41,
+                M42 = left.M42 - right.M42,
+                M43 = left.M43 - right.M43,
+                M44 = left.M44 - right.M44
+            };
         }
 
-        public static Matrix4 operator *(Matrix4 matrix1, in Matrix4 matrix2)
+        public static Matrix4 operator -(in Matrix4 left, float right)
         {
-            return matrix1.Multiply(matrix2);
+            return new Matrix4
+            {
+                // First row
+                M11 = left.M11 - right,
+                M12 = left.M12 - right,
+                M13 = left.M13 - right,
+                M14 = left.M14 - right,
+
+                // Second row
+                M21 = left.M21 - right,
+                M22 = left.M22 - right,
+                M23 = left.M23 - right,
+                M24 = left.M24 - right,
+
+                // Third row
+                M31 = left.M31 - right,
+                M32 = left.M32 - right,
+                M33 = left.M33 - right,
+                M34 = left.M34 - right,
+
+                // Fourth row
+                M41 = left.M41 - right,
+                M42 = left.M42 - right,
+                M43 = left.M43 - right,
+                M44 = left.M44 - right
+            };
+        }
+
+        public static Matrix4 operator *(in Matrix4 left, in Matrix4 right)
+        {
+            return new Matrix4
+            {
+                // First row
+                M11 = left.M11 * right.M11 + left.M12 * right.M21 + left.M13 * right.M31 + left.M14 * right.M41,
+                M12 = left.M11 * right.M12 + left.M12 * right.M22 + left.M13 * right.M32 + left.M14 * right.M42,
+                M13 = left.M11 * right.M13 + left.M12 * right.M23 + left.M13 * right.M33 + left.M14 * right.M43,
+                M14 = left.M11 * right.M14 + left.M12 * right.M24 + left.M13 * right.M34 + left.M14 * right.M44,
+
+                // Second row
+                M21 = left.M21 * right.M11 + left.M22 * right.M21 + left.M23 * right.M31 + left.M24 * right.M41,
+                M22 = left.M21 * right.M12 + left.M22 * right.M22 + left.M23 * right.M32 + left.M24 * right.M42,
+                M23 = left.M21 * right.M13 + left.M22 * right.M23 + left.M23 * right.M33 + left.M24 * right.M43,
+                M24 = left.M21 * right.M14 + left.M22 * right.M24 + left.M23 * right.M34 + left.M24 * right.M44,
+
+                // Third row
+                M31 = left.M31 * right.M11 + left.M32 * right.M21 + left.M33 * right.M31 + left.M34 * right.M41,
+                M32 = left.M31 * right.M12 + left.M32 * right.M22 + left.M33 * right.M32 + left.M34 * right.M42,
+                M33 = left.M31 * right.M13 + left.M32 * right.M23 + left.M33 * right.M33 + left.M34 * right.M43,
+                M34 = left.M31 * right.M14 + left.M32 * right.M24 + left.M33 * right.M34 + left.M34 * right.M44,
+
+                // Fourth row
+                M41 = left.M41 * right.M11 + left.M42 * right.M21 + left.M43 * right.M31 + left.M44 * right.M41,
+                M42 = left.M41 * right.M12 + left.M42 * right.M22 + left.M43 * right.M32 + left.M44 * right.M42,
+                M43 = left.M41 * right.M13 + left.M42 * right.M23 + left.M43 * right.M33 + left.M44 * right.M43,
+                M44 = left.M41 * right.M14 + left.M42 * right.M24 + left.M43 * right.M33 + left.M44 * right.M44
+            };
+        }
+
+        public static Matrix4 operator *(in Matrix4 left, float right)
+        {
+            return new Matrix4
+            {
+                // First row
+                M11 = left.M11 * right,
+                M12 = left.M12 * right,
+                M13 = left.M13 * right,
+                M14 = left.M14 * right,
+
+                // Second row
+                M21 = left.M21 * right,
+                M22 = left.M22 * right,
+                M23 = left.M23 * right,
+                M24 = left.M24 * right,
+
+                // Third row
+                M31 = left.M31 * right,
+                M32 = left.M32 * right,
+                M33 = left.M33 * right,
+                M34 = left.M34 * right,
+
+                // Fourth row
+                M41 = left.M41 * right,
+                M42 = left.M42 * right,
+                M43 = left.M43 * right,
+                M44 = left.M44 * right
+            };
+        }
+
+        public static Matrix4 operator /(in Matrix4 left, float right)
+        {
+            return new Matrix4
+            {
+                // First row
+                M11 = left.M11 / right,
+                M12 = left.M12 / right,
+                M13 = left.M13 / right,
+                M14 = left.M14 / right,
+
+                // Second row
+                M21 = left.M21 / right,
+                M22 = left.M22 / right,
+                M23 = left.M23 / right,
+                M24 = left.M24 / right,
+
+                // Third row
+                M31 = left.M31 / right,
+                M32 = left.M32 / right,
+                M33 = left.M33 / right,
+                M34 = left.M34 / right,
+
+                // Fourth row
+                M41 = left.M41 / right,
+                M42 = left.M42 / right,
+                M43 = left.M43 / right,
+                M44 = left.M44 / right
+            };
         }
 
         #endregion
 
-        public static Matrix4 Identity =>
-            new Matrix4
-            (
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1
-            );
-
         #region Transformation Matrices
 
-        public static Matrix4 Scaled(Vector3 vector)
+        public static Matrix4 Scaled(in Vector3 vector)
         {
             return Scaled(vector.X, vector.Y, vector.Z);
         }
 
-        public static Matrix4 Scaled(Vector2 vector)
+        public static Matrix4 Scaled(in Vector2 vector)
         {
             return Scaled(vector.X, vector.Y);
         }
 
         public static Matrix4 Scaled(float x, float y, float z = 1)
         {
-            return new Matrix4
-            (
-                x, 0, 0, 0,
-                0, y, 0, 0,
-                0, 0, z, 0,
-                0, 0, 0, 1
-            );
+            var result = Identity;
+
+            result.M11 = x;
+            result.M22 = y;
+            result.M33 = z;
+
+            return result;
         }
 
-        public static Matrix4 Translated(Vector3 vector)
+        public static Matrix4 Translated(in Vector3 vector)
         {
             return Translated(vector.X, vector.Y, vector.Z);
         }
 
-        public static Matrix4 Translated(Vector2 vector)
+        public static Matrix4 Translated(in Vector2 vector)
         {
             return Translated(vector.X, vector.Y);
         }
 
         public static Matrix4 Translated(float x, float y, float z = 0)
         {
-            return new Matrix4
-            (
-                1, 0, 0, x,
-                0, 1, 0, y,
-                0, 0, 1, z,
-                0, 0, 0, 1
-            );
+            var result = Identity;
+
+            result.M14 = x;
+            result.M24 = y;
+            result.M34 = z;
+
+            return result;
         }
 
-        public static Matrix4 Rotated(float angle, Vector3 vector)
+        public static Matrix4 Rotated(float angle, in Vector3 vector)
         {
             return Rotated(angle, vector.X, vector.Y, vector.Z);
         }
@@ -336,29 +484,24 @@ namespace EndlessEngine.Math
             var cos = (float) System.Math.Cos(angle);
             var sin = (float) System.Math.Sin(angle);
 
-            return new Matrix4
-            (
-                // first row
-                (float) (System.Math.Pow(x, 2) * (1 - cos) + cos),
-                x * y * (1 - cos) - z * sin,
-                x * z * (1 - cos) + y * sin,
-                0,
+            var result = Identity;
 
-                // second row
-                x * y * (1 - cos) + z * sin,
-                (float) (System.Math.Pow(y, 2) * (1 - cos) + cos),
-                y * z * (1 - cos) - x * sin,
-                0,
+            // First row
+            result.M11 = (float) (System.Math.Pow(x, 2) * (1 - cos) + cos);
+            result.M12 = x * y * (1 - cos) - z * sin;
+            result.M13 = x * z * (1 - cos) + y * sin;
 
-                // third row
-                x * z * (1 - cos) - y * sin,
-                y * z * (1 - cos) + x * sin,
-                (float) (System.Math.Pow(z, 2) * (1 - cos) + cos),
-                0,
+            // Second row
+            result.M21 = x * y * (1 - cos) + z * sin;
+            result.M22 = (float) (System.Math.Pow(y, 2) * (1 - cos) + cos);
+            result.M23 = y * z * (1 - cos) - x * sin;
 
-                // fourth row
-                0, 0, 0, 1
-            );
+            // Third row
+            result.M31 = x * z * (1 - cos) - y * sin;
+            result.M32 = y * z * (1 - cos) + x * sin;
+            result.M33 = (float) (System.Math.Pow(z, 2) * (1 - cos) + cos);
+
+            return result;
         }
 
         #endregion
@@ -368,29 +511,18 @@ namespace EndlessEngine.Math
         public static Matrix4 Orthographic(float left, float right, float bottom, float top,
             float near = -1, float far = 1)
         {
-            return new Matrix4
-            (
-                // first row
-                2 / (right - left),
-                0,
-                0,
-                -(right + left) / (right - left),
+            var result = Identity;
 
-                // second row
-                0,
-                2 / (top - bottom),
-                0,
-                -(top + bottom) / (top - bottom),
+            result.M11 = 2 / (right - left);
+            result.M14 = -(right + left) / (right - left);
 
-                // third row
-                0,
-                0,
-                -2 / (far - near),
-                -(far + near) / (far - near),
+            result.M22 = 2 / (top - bottom);
+            result.M24 = -(top + bottom) / (top - bottom);
 
-                // fourth row
-                0, 0, 0, 1
-            );
+            result.M32 = -2 / (far - near);
+            result.M34 = -(far + near) / (far - near);
+
+            return result;
         }
 
         #endregion

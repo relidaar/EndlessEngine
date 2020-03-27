@@ -6,8 +6,6 @@
         <IsPackable>false</IsPackable>
 
         <LangVersion>8</LangVersion>
-
-        <RootNamespace>EndlessEngine.Graphics.Test</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

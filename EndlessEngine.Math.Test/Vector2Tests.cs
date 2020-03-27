@@ -1,139 +1,68 @@
-using System;
-using System.Linq;
-using EndlessEngine.Math;
 using Xunit;
 
-namespace EndlessEngine.Graphics.Test
+namespace EndlessEngine.Math.Test
 {
     public class Vector2Tests
     {
-        private readonly float[] _data = {1f, 2f};
-
         #region Constructors
 
         [Theory]
         [InlineData(-1f)]
         [InlineData(0f)]
         [InlineData(1f)]
-        public void CreateWithOneValue(float value)
+        public void CreateWithSingleValue(float value)
         {
-            var expected = new float[Vector2.Size];
-            for (var i = 0; i < Vector2.Size; i++) expected[i] = value;
-
             var result = new Vector2(value).Data;
+            var expected = new[] {value, value};
+
             Assert.Equal(expected, result);
         }
 
         [Theory]
-        [InlineData(-1f, -2f)]
-        [InlineData(0f, 0f)]
-        [InlineData(1f, 2f)]
-        [InlineData(1f, -1f)]
-        public void CreateWithArray(params float[] data)
+        [InlineData(-1f)]
+        [InlineData(0f)]
+        [InlineData(1f)]
+        public void CreateWithVector(float value)
         {
-            var result = new Vector2(data).Data;
-            Assert.Equal(data, result);
-        }
-
-        [Theory]
-        [InlineData(-1f, -2f)]
-        [InlineData(0f, 0f)]
-        [InlineData(1f, 2f)]
-        [InlineData(1f, -1f)]
-        public void CreateWithVector(params float[] data)
-        {
-            var vector = new Vector2(data);
+            var vector = new Vector2(value);
             var result = new Vector2(vector).Data;
+            
             Assert.Equal(vector.Data, result);
         }
 
         [Theory]
-        [InlineData(new float[] { })]
-        [InlineData(0f)]
-        [InlineData(0f, 1f, 2f)]
-        public void CreateWithArray_ThrowsException(params float[] data)
-        {
-            var result = Assert.Throws<Exception>(
-                () => new Vector2(data)
-            );
-
-            Assert.Equal($"Data count should be equal to {Vector2.Size}", result.Message);
-        }
-
-        #endregion
-
-        #region Operations
-
-        [Theory]
         [InlineData(-1f, -2f)]
         [InlineData(0f, 0f)]
         [InlineData(1f, 2f)]
         [InlineData(1f, -1f)]
-        public void AddVector(params float[] data)
+        public void CreateWithValues(float x, float y)
         {
-            var vector1 = new Vector2(data);
-            var vector2 = new Vector2(data);
-
-            var result = vector1.Add(vector2).Data;
-            var expected = vector1.Data.Zip(vector2.Data,
-                (a, b) => a + b
-            );
-
-            Assert.Equal(expected, result);
-        }
-
-        [Theory]
-        [InlineData(-1f, -2f)]
-        [InlineData(0f, 0f)]
-        [InlineData(1f, 2f)]
-        [InlineData(1f, -1f)]
-        public void SubtractVector(params float[] data)
-        {
-            var vector1 = new Vector2(data);
-            var vector2 = new Vector2(data);
-
-            var result = vector1.Subtract(vector2).Data;
-            var expected = vector1.Data.Zip(vector2.Data,
-                (a, b) => a - b
-            );
-
-            Assert.Equal(expected, result);
-        }
-
-        [Theory]
-        [InlineData(0f)]
-        [InlineData(1f)]
-        [InlineData(-1f)]
-        [InlineData(2f)]
-        [InlineData(-2f)]
-        public void MultiplyByNumber(float value)
-        {
-            var vector = new Vector2(_data);
-
-            var result = vector.Multiply(value).Data;
-            var expected = _data.Select(x => x * value);
+            var result = new Vector2(x, y).Data;
+            var expected = new[] {x, y};
 
             Assert.Equal(expected, result);
         }
 
         #endregion
 
-        #region Operators
+        #region Operations With Two Vectors
 
         [Theory]
         [InlineData(-1f, -2f)]
         [InlineData(0f, 0f)]
         [InlineData(1f, 2f)]
         [InlineData(1f, -1f)]
-        public void AddVectorOperator(params float[] data)
+        public void AddTwoVectors(float x, float y)
         {
-            var vector1 = new Vector2(data);
-            var vector2 = new Vector2(data);
+            var left = new Vector2(x, y);
+            var right = new Vector2(x, y);
 
-            var result = (vector1 + vector2).Data;
-            var expected = vector1.Data.Zip(vector2.Data,
-                (a, b) => a + b
-            );
+            var result = (left + right).Data;
+            var expected = new[]
+            {
+                x + x, 
+                y + y
+            };
 
             Assert.Equal(expected, result);
         }
@@ -143,31 +72,129 @@ namespace EndlessEngine.Graphics.Test
         [InlineData(0f, 0f)]
         [InlineData(1f, 2f)]
         [InlineData(1f, -1f)]
-        public void SubtractOperator(params float[] data)
+        public void SubtractTwoVectors(float x, float y)
         {
-            var vector1 = new Vector2(data);
-            var vector2 = new Vector2(data);
+            var left = new Vector2(x, y);
+            var right = new Vector2(x, y);
 
-            var result = (vector1 - vector2).Data;
-            var expected = vector1.Data.Zip(vector2.Data,
-                (a, b) => a - b
-            );
+            var result = (left - right).Data;
+            var expected = new[]
+            {
+                x - x, 
+                y - y
+            };
 
             Assert.Equal(expected, result);
         }
 
         [Theory]
+        [InlineData(-1f, -2f)]
+        [InlineData(0f, 0f)]
+        [InlineData(1f, 2f)]
+        [InlineData(1f, -1f)]
+        public void MultiplyTwoVectors(float x, float y)
+        {
+            var left = new Vector2(x, y);
+            var right = new Vector2(x, y);
+
+            var result = (left * right).Data;
+            var expected = new[]
+            {
+                x * x, 
+                y * y
+            };
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(-1f, -2f)]
+        [InlineData(0f, 0f)]
+        [InlineData(1f, 2f)]
+        [InlineData(1f, -1f)]
+        public void DivideTwoVectors(float x, float y)
+        {
+            var left = new Vector2(x, y);
+            var right = new Vector2(x, y);
+
+            var result = (left * right).Data;
+            var expected = new[]
+            {
+                x * x, 
+                y * y
+            };
+
+            Assert.Equal(expected, result);
+        }
+        
+        #endregion
+
+        #region Operations With Vector And Number
+
+        [Theory]
+        [InlineData(-1f)]
         [InlineData(0f)]
         [InlineData(1f)]
-        [InlineData(-1f)]
-        [InlineData(2f)]
-        [InlineData(-2f)]
-        public void MultiplyByNumberOperator(float value)
+        public void AddVectorAndNumber(float value)
         {
-            var vector = new Vector2(_data);
+            var vector = new Vector2(value);
+            var result = (vector + value).Data;
+            var expected = new[]
+            {
+                value + value,
+                value + value
+            };
 
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(-1f)]
+        [InlineData(0f)]
+        [InlineData(1f)]
+        public void SubtractVectorWithNumber(float value)
+        {
+            var vector = new Vector2(value);
+            var result = (vector - value).Data;
+            var expected = new[]
+            {
+                value - value,
+                value - value
+            };
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(-1f)]
+        [InlineData(0f)]
+        [InlineData(1f)]
+        public void MultiplyVectorByNumber(float value)
+        {
+            var vector = new Vector2(value);
             var result = (vector * value).Data;
-            var expected = _data.Select(x => x * value);
+            var expected = new[]
+            {
+                value * value,
+                value * value
+            };
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(-1f)]
+        [InlineData(0f)]
+        [InlineData(1f)]
+        public void DivideVectorByNumber(float value)
+        {
+            var vector = new Vector2(value);
+            var result = (vector / value).Data;
+            var expected = new[]
+            {
+                value / value,
+                value / value
+            };
 
             Assert.Equal(expected, result);
         }

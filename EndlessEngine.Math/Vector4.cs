@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace EndlessEngine.Math
 {
-    public struct Vector4
+    public struct Vector4 : IEquatable<Vector4>
     {
         public static int Size => 4;
 
@@ -176,6 +176,27 @@ namespace EndlessEngine.Math
                 left.Z / right,
                 left.W / right
             );
+        }
+
+        #endregion
+
+        #region IEquatable Implementation
+
+        public bool Equals(Vector4 other)
+        {
+            return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Vector4 left, Vector4 right)
+        {
+            return left.Equals(right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Vector4 left, Vector4 right)
+        {
+            return !left.Equals(right);
         }
 
         #endregion

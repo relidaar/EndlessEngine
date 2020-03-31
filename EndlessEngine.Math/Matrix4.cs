@@ -546,7 +546,7 @@ namespace EndlessEngine.Math
                 M41 = left.M41 * right.M11 + left.M42 * right.M21 + left.M43 * right.M31 + left.M44 * right.M41,
                 M42 = left.M41 * right.M12 + left.M42 * right.M22 + left.M43 * right.M32 + left.M44 * right.M42,
                 M43 = left.M41 * right.M13 + left.M42 * right.M23 + left.M43 * right.M33 + left.M44 * right.M43,
-                M44 = left.M41 * right.M14 + left.M42 * right.M24 + left.M43 * right.M33 + left.M44 * right.M44
+                M44 = left.M41 * right.M14 + left.M42 * right.M24 + left.M43 * right.M34 + left.M44 * right.M44
             };
         }
 

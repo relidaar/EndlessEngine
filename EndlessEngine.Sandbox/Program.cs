@@ -18,13 +18,14 @@ namespace EndlessEngine.Sandbox
             renderer.Init();
             
             var texture = Graphics.CreateTexture("assets/textures/test.jpg", TextureData.Default);
+            var sprite = new Sprite(texture, 400, 300, 64);
             while (window.IsOpen)
             {
                 renderer.SetClearColor(25, 25, 25);
                 renderer.Clear();
 
                 renderer.SetScene(camera);
-                renderer.Draw(new Vector2(400, 300), new Vector2(64, 64), texture);
+                renderer.Draw(sprite);
 
                 window.Display();
             }

@@ -703,7 +703,7 @@ namespace EndlessEngine.Math
             result.M22 = 2 / (top - bottom);
             result.M24 = -(top + bottom) / (top - bottom);
 
-            result.M32 = -2 / (far - near);
+            result.M33 = -2 / (far - near);
             result.M34 = -(far + near) / (far - near);
 
             return result;

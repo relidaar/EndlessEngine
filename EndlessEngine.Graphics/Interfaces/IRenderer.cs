@@ -19,5 +19,6 @@ namespace EndlessEngine.Graphics.Interfaces
         void Draw(IShader shader, IVertexArray vertexArray, in Matrix4 transform);
         void Draw(in Vector2 position, in Vector2 size, in Color color);
         void Draw(in Vector2 position, in Vector2 size, ITexture texture, float tilingFactor = 1.0f);
+        void Draw(Sprite sprite, float tilingFactor = 1.0f);
     }
 }

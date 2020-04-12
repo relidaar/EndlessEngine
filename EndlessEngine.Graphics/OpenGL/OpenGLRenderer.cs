@@ -164,6 +164,18 @@ namespace EndlessEngine.Graphics.OpenGL
             DrawIndexed(_vertexArray);
         }
 
+        public void Draw(Sprite sprite, float tilingFactor = 1.0f)
+        {
+            var transform = Matrix4.Translated(sprite.Position) * Matrix4.Scaled(sprite.Size);
+            sprite.Texture.Bind();
+
+            _shader.SetUniform(_shaderSettings.TransformUniform, true, transform);
+            _shader.SetUniform(_shaderSettings.TilingFactorUniform, tilingFactor);
+            _shader.SetUniform(_shaderSettings.ColorUniform, new Vector4(1));
+
+            DrawIndexed(_vertexArray);
+        }
+
         private static void DrawIndexed(IVertexArray vertexArray)
         {
             vertexArray.Bind();

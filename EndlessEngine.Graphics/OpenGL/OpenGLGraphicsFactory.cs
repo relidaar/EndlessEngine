@@ -24,19 +24,34 @@ namespace EndlessEngine.Graphics.OpenGL
             return new OpenGLBufferLayout(elements);
         }
 
-        public IWindow CreateWindow(in WindowProperties properties, GraphicsSettings graphicsSettings)
+        public IWindow CreateWindow(in WindowProperties properties, in GraphicsSettings graphicsSettings)
         {
             return new OpenGLWindow(properties, graphicsSettings);
         }
 
-        public IWindow CreateWindow(int width, int height, string title, GraphicsSettings graphicsSettings = null)
+        public IWindow CreateWindow(in WindowProperties properties)
+        {
+            return new OpenGLWindow(properties);
+        }
+
+        public IWindow CreateWindow(int width, int height, string title, in GraphicsSettings graphicsSettings)
         {
             return new OpenGLWindow(width, height, title, graphicsSettings);
         }
 
-        public IRenderer CreateRenderer(ShaderSettings shaderSettings)
+        public IWindow CreateWindow(int width, int height, string title)
+        {
+            return new OpenGLWindow(width, height, title);
+        }
+
+        public IRenderer CreateRenderer(in ShaderSettings shaderSettings)
         {
             return new OpenGLRenderer(this, shaderSettings);
+        }
+
+        public IRenderer CreateRenderer()
+        {
+            return new OpenGLRenderer(this);
         }
 
         public IShader CreateShader(string name, string vertexShaderPath, string fragmentShaderPath)
@@ -49,12 +64,12 @@ namespace EndlessEngine.Graphics.OpenGL
             return new OpenGLShaderLibrary();
         }
 
-        public ITexture CreateTexture(string path, TextureData textureData)
+        public ITexture CreateTexture(string path, in TextureData textureData)
         {
             return new OpenGLTexture(path, textureData);
         }
 
-        public ITexture CreateTexture(uint width, uint height, object data, TextureData textureData)
+        public ITexture CreateTexture(uint width, uint height, object data, in TextureData textureData)
         {
             return new OpenGLTexture(width, height, data, textureData);
         }

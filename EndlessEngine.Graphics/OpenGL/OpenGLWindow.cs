@@ -10,14 +10,43 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLWindow : IWindow
     {
-        private readonly NativeWindow _instance;
+        private NativeWindow _instance;
 
-        public OpenGLWindow(int width, int height, string title, GraphicsSettings graphicsSettings = null)
-            : this(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings)
+        public OpenGLWindow(int width, int height, string title, in GraphicsSettings graphicsSettings)
         {
+            Init(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings);
         }
 
-        public OpenGLWindow(in WindowProperties properties, GraphicsSettings graphicsSettings = null)
+        public OpenGLWindow(int width, int height, string title)
+        {
+            GraphicsSettings graphicsSettings;
+            using (var r = new StreamReader(Paths.GraphicsSettingsPath))
+            {
+                var json = r.ReadToEnd();
+                graphicsSettings = JsonConvert.DeserializeObject<GraphicsSettings>(json);
+            }
+            
+            Init(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings);
+        }
+
+        public OpenGLWindow(in WindowProperties properties, in GraphicsSettings graphicsSettings)
+        {
+            Init(properties, graphicsSettings);
+        }
+
+        public OpenGLWindow(in WindowProperties properties)
+        {
+            GraphicsSettings graphicsSettings;
+            using (var r = new StreamReader(Paths.GraphicsSettingsPath))
+            {
+                var json = r.ReadToEnd();
+                graphicsSettings = JsonConvert.DeserializeObject<GraphicsSettings>(json);
+            }
+            
+            Init(properties, graphicsSettings);
+        }
+
+        private void Init(in WindowProperties properties, in GraphicsSettings graphicsSettings)
         {
             if (!Glfw.Init())
             {
@@ -26,13 +55,6 @@ namespace EndlessEngine.Graphics.OpenGL
             }
 
             Gl.Initialize();
-
-            if (graphicsSettings == null)
-                using (var r = new StreamReader(Paths.GraphicsSettingsPath))
-                {
-                    var json = r.ReadToEnd();
-                    graphicsSettings = JsonConvert.DeserializeObject<GraphicsSettings>(json);
-                }
 
             Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
             Glfw.WindowHint(Hint.ContextVersionMajor, graphicsSettings.ApiVersionMajor);
@@ -60,8 +82,8 @@ namespace EndlessEngine.Graphics.OpenGL
                 properties.Title, properties.Width, properties.Height);
         }
 
-        public int Width { get; }
-        public int Height { get; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
         public bool IsOpen => !Glfw.WindowShouldClose(_instance);
 
         public void Display()

@@ -11,7 +11,7 @@ namespace EndlessEngine.Graphics.OpenGL
         private readonly uint _id;
         private string _path;
 
-        public OpenGLTexture(string path, TextureData textureData)
+        public OpenGLTexture(string path, in TextureData textureData)
         {
             _path = path ?? throw new ArgumentNullException();
 
@@ -58,7 +58,7 @@ namespace EndlessEngine.Graphics.OpenGL
             }
         }
 
-        public OpenGLTexture(uint width, uint height, object data, TextureData textureData)
+        public OpenGLTexture(uint width, uint height, object data, in TextureData textureData)
         {
             Width = (int) width;
             Height = (int) height;

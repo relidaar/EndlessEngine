@@ -1,4 +1,6 @@
-﻿namespace EndlessEngine.Graphics
+﻿using System.Runtime.CompilerServices;
+
+namespace EndlessEngine.Graphics
 {
     public class Color
     {
@@ -53,7 +55,7 @@
         {
         }
 
-        public Color(Color color)
+        public Color(in Color color)
             : this(color.R, color.G, color.B, color.A)
         {
         }
@@ -62,68 +64,144 @@
 
         #region Operations
 
-        public Color Add(Color color)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color Add(in Color left, in Color right)
         {
-            return new Color(R + color.R, G + color.G, B + color.B, A + color.A);
+            return left + right;
         }
 
-        public Color Add(int n)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color Add(in Color left, int right)
         {
-            return new Color(R + n, G + n, B + n, A + n);
+            return left + right;
         }
 
-        public Color Subtract(Color color)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color Subtract(in Color left, in Color right)
         {
-            return new Color(R - color.R, G - color.G, B - color.B, A - color.A);
+            return left - right;
         }
 
-        public Color Subtract(int n)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color Subtract(in Color left, int right)
         {
-            return new Color(R - n, G - n, B - n, A - n);
+            return left - right;
         }
 
-        public Color Multiply(int n)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color Multiply(in Color left, in Color right)
         {
-            return new Color(R * n, G * n, B * n, A * n);
+            return left * right;
         }
 
-        public Color Divide(int n)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color Multiply(in Color left, int right)
         {
-            return new Color(R * n, G * n, B * n, A * n);
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color Divide(in Color left, in Color right)
+        {
+            return left / right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color Divide(in Color left, int right)
+        {
+            return left / right;
         }
 
         #endregion
 
         #region Operators
-
-        public static Color operator +(Color color1, Color color2)
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color operator +(in Color left, in Color right)
         {
-            return color1.Add(color2);
+            return new Color(
+                left.R + right.R, 
+                left.G + right.G, 
+                left.B + right.B, 
+                left.A + right.A
+                );
         }
-
-        public static Color operator +(Color color, int n)
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color operator +(in Color left, int right)
         {
-            return color.Add(n);
+            return new Color(
+                left.R + right, 
+                left.G + right, 
+                left.B + right, 
+                left.A + right
+            );
         }
-
-        public static Color operator -(Color color1, Color color2)
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color operator -(in Color left, in Color right)
         {
-            return color1.Subtract(color2);
+            return new Color(
+                left.R - right.R, 
+                left.G - right.G, 
+                left.B - right.B, 
+                left.A - right.A
+            );
         }
-
-        public static Color operator -(Color color, int n)
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color operator -(in Color left, int right)
         {
-            return color.Subtract(n);
+            return new Color(
+                left.R - right, 
+                left.G - right, 
+                left.B - right, 
+                left.A - right
+            );
         }
-
-        public static Color operator *(Color color, int n)
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color operator *(in Color left, in Color right)
         {
-            return color.Multiply(n);
+            return new Color(
+                left.R * right.R, 
+                left.G * right.G, 
+                left.B * right.B, 
+                left.A * right.A
+            );
         }
-
-        public static Color operator /(Color color, int n)
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color operator *(in Color left, int right)
         {
-            return color.Divide(n);
+            return new Color(
+                left.R * right, 
+                left.G * right, 
+                left.B * right, 
+                left.A * right
+            );
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color operator /(in Color left, in Color right)
+        {
+            return new Color(
+                left.R / right.R, 
+                left.G / right.G, 
+                left.B / right.B, 
+                left.A / right.A
+            );
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color operator /(in Color left, int right)
+        {
+            return new Color(
+                left.R / right, 
+                left.G / right, 
+                left.B / right, 
+                left.A / right
+            );
         }
 
         #endregion

@@ -1,8 +1,9 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace EndlessEngine.Graphics
 {
-    public class Color
+    public struct Color : IEquatable<Color>
     {
         public (int r, int g, int b, int a) Values => (R, G, B, A);
         public int[] ValuesArray => new[] {R, G, B, A};
@@ -204,6 +205,28 @@ namespace EndlessEngine.Graphics
             );
         }
 
+        #endregion
+        
+        #region IEquatable Implementation
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(Color other)
+        {
+            return R == other.R && G == other.G && B == other.B && A == other.A;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Color left, Color right)
+        {
+            return left.Equals(right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Color left, Color right)
+        {
+            return !left.Equals(right);
+        }
+        
         #endregion
     }
 }

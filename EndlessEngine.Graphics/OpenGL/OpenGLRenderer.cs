@@ -16,12 +16,15 @@ namespace EndlessEngine.Graphics.OpenGL
         private IShader _shader;
         private IVertexArray _vertexArray;
 
-        public OpenGLRenderer(IGraphicsFactory factory, ShaderSettings shaderSettings = null)
+        public OpenGLRenderer(IGraphicsFactory factory, in ShaderSettings shaderSettings)
         {
             _factory = factory;
-
             _shaderSettings = shaderSettings;
-            if (_shaderSettings != null) return;
+        }
+
+        public OpenGLRenderer(IGraphicsFactory factory)
+        {
+            _factory = factory;
             
             using (var r = new StreamReader(Paths.ShaderSettingsPath))
             {
@@ -94,7 +97,7 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
-        public void SetClearColor(Color color)
+        public void SetClearColor(in Color color)
         {
             var (r, g, b, a) = color.ToNormalized();
             Gl.ClearColor(r, g, b, a);
@@ -125,7 +128,7 @@ namespace EndlessEngine.Graphics.OpenGL
             shader.SetUniform(_shaderSettings.ViewProjectionUniform, true, camera.ViewProjectionMatrix);
         }
 
-        public void Draw(IShader shader, IVertexArray vertexArray, Matrix4 transform)
+        public void Draw(IShader shader, IVertexArray vertexArray, in Matrix4 transform)
         {
             if (shader == null || vertexArray == null)
                 throw new ArgumentNullException();
@@ -136,7 +139,7 @@ namespace EndlessEngine.Graphics.OpenGL
             DrawIndexed(vertexArray);
         }
 
-        public void Draw(Vector2 position, Vector2 size, Color color)
+        public void Draw(in Vector2 position, in Vector2 size, in Color color)
         {
             var (r, g, b, a) = color.ToNormalized();
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
@@ -149,10 +152,22 @@ namespace EndlessEngine.Graphics.OpenGL
             DrawIndexed(_vertexArray);
         }
 
-        public void Draw(Vector2 position, Vector2 size, ITexture texture, float tilingFactor = 1.0f)
+        public void Draw(in Vector2 position, in Vector2 size, ITexture texture, float tilingFactor = 1.0f)
         {
             var transform = Matrix4.Translated(position) * Matrix4.Scaled(size);
             texture.Bind();
+
+            _shader.SetUniform(_shaderSettings.TransformUniform, true, transform);
+            _shader.SetUniform(_shaderSettings.TilingFactorUniform, tilingFactor);
+            _shader.SetUniform(_shaderSettings.ColorUniform, new Vector4(1));
+
+            DrawIndexed(_vertexArray);
+        }
+
+        public void Draw(Sprite sprite, float tilingFactor = 1.0f)
+        {
+            var transform = Matrix4.Translated(sprite.Position) * Matrix4.Scaled(sprite.Size);
+            sprite.Texture.Bind();
 
             _shader.SetUniform(_shaderSettings.TransformUniform, true, transform);
             _shader.SetUniform(_shaderSettings.TilingFactorUniform, tilingFactor);

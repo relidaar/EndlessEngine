@@ -8,7 +8,7 @@ namespace EndlessEngine.Graphics
         public static readonly string ShaderSettingsPath = $"{ResourcesPath}shader.settings.json";
     }
     
-    public class GraphicsSettings
+    public struct GraphicsSettings
     {
         public int ApiVersionMajor;
         public int ApiVersionMinor;
@@ -19,7 +19,7 @@ namespace EndlessEngine.Graphics
         public bool Decorated;
     }
     
-    public class ShaderSettings
+    public struct ShaderSettings
     {
         public string ShaderName;
         public string VertexShaderFilename;

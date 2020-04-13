@@ -6,12 +6,19 @@
         IIndexBuffer CreateIndexBuffer(params int[] indices);
         IVertexArray CreateVertexArray();
         IBufferLayout CreateBufferLayout(params BufferElement[] elements);
-        IWindow CreateWindow(in WindowProperties properties, GraphicsSettings graphicsSettings = null);
-        IWindow CreateWindow(int width, int height, string title, GraphicsSettings graphicsSettings = null);
-        IRenderer CreateRenderer(ShaderSettings shaderSettings = null);
+        
+        IWindow CreateWindow(in WindowProperties properties, in GraphicsSettings graphicsSettings);
+        IWindow CreateWindow(in WindowProperties properties);
+        IWindow CreateWindow(int width, int height, string title, in GraphicsSettings graphicsSettings);
+        IWindow CreateWindow(int width, int height, string title);
+        
+        IRenderer CreateRenderer(in ShaderSettings shaderSettings);
+        IRenderer CreateRenderer();
+        
         IShader CreateShader(string name, string vertexShaderPath, string fragmentShaderPath);
         IShaderLibrary CreateShaderLibrary();
-        ITexture CreateTexture(string path, TextureData textureData);
-        ITexture CreateTexture(uint width, uint height, object data, TextureData textureData);
+        
+        ITexture CreateTexture(string path, in TextureData textureData);
+        ITexture CreateTexture(uint width, uint height, object data, in TextureData textureData);
     }
 }

@@ -1,231 +1,269 @@
-﻿using System;
-using System.Linq;
-using EndlessEngine.Math;
+﻿using System.ComponentModel;
+using OpenGL;
 using Xunit;
 
-namespace EndlessEngine.Graphics.Test
+namespace EndlessEngine.Math.Test
 {
     public class Matrix2Tests
     {
-        private static Vector2[] CreateVectors(float[] data)
-        {
-            var vectors = new Vector2[Matrix2.Size.m];
-            for (int i = 0, j = 0; i < Matrix2.Size.m; i++, j += Matrix2.Size.n)
-                vectors[i] = new Vector2(data[j..(j + Matrix2.Size.n)]);
-
-            return vectors;
-        }
-
-        private static float[,] CreateMatrix(float[] data)
-        {
-            var matrix = new float[Matrix2.Size.m, Matrix2.Size.n];
-            for (int i = 0, index = 0; i < Matrix2.Size.m; i++)
-            for (var j = 0; j < Matrix2.Size.n; j++, index++)
-                matrix[i, j] = data[index];
-
-            return matrix;
-        }
-
         #region Constructors
-
+        
         [Theory]
-        [InlineData(1f)]
-        [InlineData(0f)]
         [InlineData(-1f)]
-        public void CreateWithOneValue(float value)
+        [InlineData(0f)]
+        [InlineData(1f)]
+        public void CreateWithSingleValue(float value)
         {
-            var expected = new float[Matrix2.Size.m, Matrix2.Size.n];
-            for (var i = 0; i < Matrix2.Size.m; i++)
-            for (var j = 0; j < Matrix2.Size.n; j++)
-                expected[i, j] = value;
-
             var result = new Matrix2(value).Matrix;
+            var expected = new[,] { {value, value}, {value, value} };
+
+            Assert.Equal(expected , result);
+        }
+        
+        [Theory]
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 0f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+        public void CreateWithFourValues(
+            float m11, float m12,
+            float m21, float m22)
+        {
+            var result = new Matrix2(m11, m12, 
+                                     m21, m22).Matrix;
+            var expected = new[,] {{m11, m12}, {m21, m22}};
+            
             Assert.Equal(expected, result);
         }
-
+        
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
-        public void CreateWithArrayOfVectors(params float[] data)
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 0f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+        public void CreateWithMatrix(float m11, float m12, 
+                                     float m21, float m22)
         {
-            var vectors = CreateVectors(data);
-            var result = new Matrix2(vectors).Array;
-
-            Assert.Equal(data, result);
+            var expected = new Matrix2(m11, m12, 
+                                       m21, m22);
+            var result = new Matrix2(expected);
+            
+            Assert.Equal(expected.Matrix, result.Matrix );
         }
-
-        [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
-        public void CreateWithMatrix(params float[] data)
-        {
-            var vectors = CreateVectors(data);
-            var vector = new Matrix2(vectors);
-            var result = new Matrix2(vector).Array;
-
-            Assert.Equal(data, result);
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        [InlineData(3)]
-        public void CreateWithArrayOfVectors_ThrowsException(int count)
-        {
-            var data = new Vector2[count];
-            var result = Assert.Throws<Exception>(
-                () => new Matrix2(data)
-            );
-
-            Assert.Equal($"Data count should be equal to {Matrix2.Size.m}", result.Message);
-        }
-
         #endregion
 
         #region Operations
 
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
-        public void AddMatrix(params float[] data)
-        {
-            var vectors = CreateVectors(data);
-            var matrix1 = new Matrix2(vectors);
-            var matrix2 = new Matrix2(vectors);
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 0f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
 
-            var result = matrix1.Add(matrix2);
-
-            var expected = data.Select(x => x + x);
-
-            Assert.Equal(expected, result.Array);
+        public void TransposeMatrix2(float m11, float m12, 
+                                     float m21, float m22)
+        { 
+            var matrix = new Matrix2(m11, m12,
+                m21, m22);
+            var result = matrix.Transpose().Matrix;
+            var expected = new[,] {{m11, m21}, {m12, m22}};;
+            Assert.Equal(expected, result );
         }
 
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
-        public void SubtractMatrix(params float[] data)
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 0f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+
+        public void NegateMatrix2(float m11, float m12,
+            float m21, float m22)
         {
-            var vectors = CreateVectors(data);
-            var matrix1 = new Matrix2(vectors);
-            var matrix2 = new Matrix2(vectors);
-
-            var result = matrix1.Subtract(matrix2);
-
-            var expected = data.Select(x => x - x);
-
-            Assert.Equal(expected, result.Array);
+            var matrix = new Matrix2(m11, m12,
+                m21, m22);
+            var result = matrix.Negate().Matrix;
+            var expected = new[,] {{-m11, -m12}, {-m21, -m22}};;
+            Assert.Equal(expected, result );
         }
-
-        [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
-        public void MultiplyMatrix(params float[] data)
-        {
-            var vectors = CreateVectors(data);
-            var matrix1 = new Matrix2(vectors);
-            var matrix2 = new Matrix2(vectors);
-
-            var result = matrix1.Multiply(matrix2);
-
-            var matrix = CreateMatrix(data);
-            var expected = MatrixOperations.Multiply(matrix, matrix);
-
-            Assert.Equal(expected, result.Matrix);
-        }
-
-        [Theory]
-        [InlineData(1f)]
-        [InlineData(0f)]
-        [InlineData(-1f)]
-        public void MultiplyByNumber(float value)
-        {
-            var expected = new float[Matrix2.Size.m, Matrix2.Size.n];
-            for (var i = 0; i < Matrix2.Size.n; i++)
-            for (var j = 0; j < Matrix2.Size.n; j++)
-                expected[i, j] = value * value;
-
-            var matrix = new Matrix2(value);
-            var result = matrix.Multiply(value);
-
-            Assert.Equal(expected, result.Matrix);
-        }
-
+        
         #endregion
 
         #region Operators
 
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
-        public void AddMatrixOperator(params float[] data)
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 0f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+
+        public void AddTwoMatrices(float m11, float m12, float m21, float m22)
         {
-            var vectors = CreateVectors(data);
-            var matrix1 = new Matrix2(vectors);
-            var matrix2 = new Matrix2(vectors);
-
-            var result = matrix1 + matrix2;
-
-            var expected = data.Select(x => x + x);
-
-            Assert.Equal(expected, result.Array);
+            var matrix1 = new Matrix2(m11, m12,
+                m21, m22);
+            var matrix2 = new Matrix2(m11, m12,
+                m21, m22);
+            var expected = new[,] {{m11 + m11, m12 + m12}, {m21 + m21, m22 + m22}};
+            var result = (matrix1 + matrix2).Matrix;
+            Assert.Equal(expected, result);
         }
 
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
-        public void SubtractMatrixOperator(params float[] data)
+        [InlineData(5f, -1f, -2f, -3f, -5f)]
+        [InlineData(1f, 0f, 0f, -1f, 0f)]
+        [InlineData(-2f, 1f, 2f, -5f, 0f)]
+        [InlineData(0f, 1f, -1f, 0f, -1f)]
+
+        public void AddMatrixAndNumber(float number, float m11, float m12, float m21, float m22)
         {
-            var vectors = CreateVectors(data);
-            var matrix1 = new Matrix2(vectors);
-            var matrix2 = new Matrix2(vectors);
-
-            var result = matrix1 - matrix2;
-
-            var expected = data.Select(x => x - x);
-
-            Assert.Equal(expected, result.Array);
+            var matrix = new Matrix2(m11, m12,
+                                     m21, m22);
+            var expected = new[,] {{m11 + number, m12 + number}, {m21 + number, m22 + number}};
+            var result = (matrix + number).Matrix;
+            Assert.Equal(expected, result);
         }
 
         [Theory]
-        [InlineData(-1f, -2f, -3f, -4f)]
-        [InlineData(1f, 2f, 3f, 4f)]
-        [InlineData(0f, 0f, 0f, 0f)]
-        public void MultiplyMatrixOperator(params float[] data)
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 0f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+
+        public void SubtractTwoMatrices(float m11, float m12, float m21, float m22)
         {
-            var vectors = CreateVectors(data);
-            var matrix1 = new Matrix2(vectors);
-            var matrix2 = new Matrix2(vectors);
+            var matrix1 = new Matrix2(m11, m12,
+                m21, m22);
+            var matrix2 = new Matrix2(m11, m12,
+                m21, m22);
+            var expected = new[,] {{m11 - m11, m12 - m12}, {m21 - m21, m22 - m22}};
+            var result = (matrix1 - matrix2).Matrix;
+            Assert.Equal(expected, result);
+        }
+        
+        [Theory]
+        [InlineData(5f, -1f, -2f, -3f, -5f)]
+        [InlineData(1f, 0f, 0f, -1f, 0f)]
+        [InlineData(-2f, 1f, 2f, -5f, 0f)]
+        [InlineData(0f, 1f, -1f, 0f, -1f)]
 
-            var result = matrix1 * matrix2;
+        public void SubtractTwoMatricesAndNumber(float number, float m11, float m12, float m21, float m22)
+        {
+            var matrix = new Matrix2(m11, m12,
+                m21, m22);
+            var expected = new[,] {{m11 - number, m12 - number}, {m21 - number, m22 - number}};
+            var result = (matrix - number).Matrix;
+            Assert.Equal(expected, result);
+        }
+        
+        [Theory]
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 0f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+        
+        public void MultiplyTwoMatrices(float m11, float m12, float m21, float m22)
+        {
+            var matrix1 = new Matrix2(m11, m12,
+                m21, m22);
+            var matrix2 = new Matrix2(m11, m12,
+                m21, m22);
+            var expected = new[,] {{m11 * m11 + m12 * m21, m11 * m12 + m12 * m22}, 
+                                          {m21 * m11 + m22 * m21, m21 * m12 + m22 * m22}};
+            var result = (matrix1 * matrix2).Matrix;
+            Assert.Equal(expected, result);
+        }
+        
+        [Theory]
+        [InlineData(5f, -1f, -2f, -3f, -5f)]
+        [InlineData(1f, 0f, 0f, -1f, 0f)]
+        [InlineData(-2f, 1f, 2f, -5f, 0f)]
+        [InlineData(0f, 1f, -1f, 0f, -1f)]
 
-            var matrix = CreateMatrix(data);
-            var expected = MatrixOperations.Multiply(matrix, matrix);
-
-            Assert.Equal(expected, result.Matrix);
+        public void MultiplyMatrixAndNumber(float number, float m11, float m12, float m21, float m22)
+        {
+            var matrix = new Matrix2(m11, m12,
+                m21, m22);
+            var expected = new[,] {{m11 * number, m12 * number}, {m21 * number, m22 * number}};
+            var result = (matrix * number).Matrix;
+            Assert.Equal(expected, result);
         }
 
         [Theory]
-        [InlineData(1f)]
-        [InlineData(0f)]
-        [InlineData(-1f)]
-        public void MultiplyByNumberOperator(float value)
+        [InlineData(5f, -1f, -2f, -3f, -5f)]
+        [InlineData(1f, 0f, 0f, -1f, 0f)]
+        [InlineData(-2f, 1f, 2f, -5f, 0f)]
+        [InlineData(0f, 1f, -1f, 0f, -1f)]
+
+        public void DivideMatrixAndNumber(float number, float m11, float m12, float m21, float m22)
         {
-            var expected = new float[Matrix2.Size.m, Matrix2.Size.n];
-            for (var i = 0; i < Matrix2.Size.n; i++)
-            for (var j = 0; j < Matrix2.Size.n; j++)
-                expected[i, j] = value * value;
+            var matrix = new Matrix2(m11, m12,
+                m21, m22);
+            var expected = new[,] {{m11 / number, m12 / number}, {m21 / number, m22 / number}};
+            var result = (matrix / number).Matrix;
+            Assert.Equal(expected, result);
+        }
+        
+        #endregion
 
-            var matrix = new Matrix2(value);
-            var result = matrix * value;
+        #region IEquatable Implementation
 
-            Assert.Equal(expected, result.Matrix);
+        [Theory]
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 0f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+
+        public void TwoMatricesAreEqual_True(float m11, float m12, float m21, float m22)
+        {
+            var matrix1 = new Matrix2(m11, m12,
+                m21, m22);
+            var matrix2 = new Matrix2(m11, m12,
+                m21, m22);
+            Assert.True(matrix1 == matrix2);
+        }
+
+        [Theory]
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 2f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+
+        public void TwoMatricesAreEqual_False(float m11, float m12, float m21, float m22)
+        {
+            var matrix1 = new Matrix2(m11, m12,
+                m21, m22);
+            var matrix2 = new Matrix2(m22, m12,
+                m21, m11);
+            Assert.False(matrix1 == matrix2);
+        }
+        
+        [Theory]
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 2f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -1f, 0f, -1f)]
+        
+        public void TwoMatricesAreNotEqual_True(float m11, float m12, float m21, float m22)
+        {
+            var matrix1 = new Matrix2(m11, m12,
+                m21, m22);
+            var matrix2 = new Matrix2(m11, m12,
+                m21, m22);
+            Assert.False(matrix1 != matrix2);
+        }
+
+        [Theory]
+        [InlineData(-1f, -2f, -3f, -5f)]
+        [InlineData(0f, 0f, -1f, 2f)]
+        [InlineData(1f, 2f, -5f, 0f)]
+        [InlineData(1f, -2f, 0f, -1f)]
+
+        public void TwoMatricesAreNotEqual_False(float m11, float m12, float m21, float m22)
+        {
+            var matrix1 = new Matrix2(m11, m12,
+                m21, m22);
+            var matrix2 = new Matrix2(m12, m22,
+                m21, m11);
+            Assert.True(matrix1 != matrix2);
         }
 
         #endregion

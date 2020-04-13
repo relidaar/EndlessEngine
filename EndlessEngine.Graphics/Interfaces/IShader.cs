@@ -17,12 +17,12 @@ namespace EndlessEngine.Graphics.Interfaces
         void SetUniform(string name, int v1, int v2, int v3);
         void SetUniform(string name, int v1, int v2, int v3, int v4);
 
-        void SetUniform(string name, Vector2 vertex);
-        void SetUniform(string name, Vector3 vertex);
-        void SetUniform(string name, Vector4 vertex);
+        void SetUniform(string name, in Vector2 vertex);
+        void SetUniform(string name, in Vector3 vertex);
+        void SetUniform(string name, in Vector4 vertex);
 
-        void SetUniform(string name, bool transpose, Matrix2 matrix);
-        void SetUniform(string name, bool transpose, Matrix3 matrix);
-        void SetUniform(string name, bool transpose, Matrix4 matrix);
+        void SetUniform(string name, bool transpose, in Matrix2 matrix);
+        void SetUniform(string name, bool transpose, in Matrix3 matrix);
+        void SetUniform(string name, bool transpose, in Matrix4 matrix);
     }
 }

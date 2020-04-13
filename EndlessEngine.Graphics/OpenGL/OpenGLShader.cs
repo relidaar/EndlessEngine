@@ -133,37 +133,37 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.Uniform4(location, v1, v2, v3, v4);
         }
 
-        public void SetUniform(string name, Vector2 vector)
+        public void SetUniform(string name, in Vector2 vector)
         {
             var location = GetUniformLocation(name);
             Gl.Uniform2(location, vector.Data as float[]);
         }
 
-        public void SetUniform(string name, Vector3 vector)
+        public void SetUniform(string name, in Vector3 vector)
         {
             var location = GetUniformLocation(name);
             Gl.Uniform3(location, vector.Data as float[]);
         }
 
-        public void SetUniform(string name, Vector4 vector)
+        public void SetUniform(string name, in Vector4 vector)
         {
             var location = GetUniformLocation(name);
             Gl.Uniform4(location, vector.Data as float[]);
         }
 
-        public void SetUniform(string name, bool transpose, Matrix2 matrix)
+        public void SetUniform(string name, bool transpose, in Matrix2 matrix)
         {
             var location = GetUniformLocation(name);
             Gl.UniformMatrix2(location, transpose, matrix.Array);
         }
 
-        public void SetUniform(string name, bool transpose, Matrix3 matrix)
+        public void SetUniform(string name, bool transpose, in Matrix3 matrix)
         {
             var location = GetUniformLocation(name);
             Gl.UniformMatrix3(location, transpose, matrix.Array);
         }
 
-        public void SetUniform(string name, bool transpose, Matrix4 matrix)
+        public void SetUniform(string name, bool transpose, in Matrix4 matrix)
         {
             var location = GetUniformLocation(name);
             Gl.UniformMatrix4(location, transpose, matrix.Array);

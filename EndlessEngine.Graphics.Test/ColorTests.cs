@@ -1,8 +1,7 @@
 using System.Linq;
-using EndlessEngine.Graphics;
 using Xunit;
 
-namespace EndlessEngine.Math.Test
+namespace EndlessEngine.Graphics.Test
 {
     public class ColorTests
     {

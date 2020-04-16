@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessEngine.Math.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessEngine.Math", "EndlessEngine.Math\EndlessEngine.Math.csproj", "{0BA8F835-A2FC-42D9-AE01-ED061418BCF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessEngine.Graphics.Test", "EndlessEngine.Graphics.Test\EndlessEngine.Graphics.Test.csproj", "{5D3918EC-56DF-4168-92CF-17504D83FDCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{0BA8F835-A2FC-42D9-AE01-ED061418BCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BA8F835-A2FC-42D9-AE01-ED061418BCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BA8F835-A2FC-42D9-AE01-ED061418BCF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D3918EC-56DF-4168-92CF-17504D83FDCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D3918EC-56DF-4168-92CF-17504D83FDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D3918EC-56DF-4168-92CF-17504D83FDCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D3918EC-56DF-4168-92CF-17504D83FDCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,5 +62,6 @@ Global
 		{BB2EB622-6797-434B-B215-C8F222E41176} = {83808C12-F53D-468A-AD21-3EE291651D69}
 		{63F268EF-96EF-48CA-A014-775BCD9B901E} = {83808C12-F53D-468A-AD21-3EE291651D69}
 		{0BA8F835-A2FC-42D9-AE01-ED061418BCF7} = {0F44F3E8-990D-4F59-8CFF-125941C62826}
+		{5D3918EC-56DF-4168-92CF-17504D83FDCE} = {83808C12-F53D-468A-AD21-3EE291651D69}
 	EndGlobalSection
 EndGlobal

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
 using EndlessEngine.Core;
+using EndlessEngine.Graphics.Events;
 using EndlessEngine.Graphics.Interfaces;
 using GLFW;
 using Newtonsoft.Json;
 using OpenGL;
+using Exception = System.Exception;
+using MouseButton = EndlessEngine.Graphics.Interfaces.MouseButton;
 
 namespace EndlessEngine.Graphics.OpenGL
 {
@@ -82,6 +85,63 @@ namespace EndlessEngine.Graphics.OpenGL
 
             Log.Instance.Info("Creating window \"{0}\" ({1}, {2})",
                 properties.Title, properties.Width, properties.Height);
+
+            Glfw.SetKeyCallback(_instance,
+                (window, key, code, state, mods) =>
+                {
+                    var keyCode = (Key) code;
+                    if (Enum.IsDefined(typeof(Key), keyCode))
+                    {
+                        throw new Exception("Undefined key");
+                    }
+
+                    switch (state)
+                    {
+                        case InputState.Release:
+                            OnEvent?.Invoke(_instance, new KeyReleasedEvent(keyCode));
+                            break;
+                        case InputState.Press:
+                            OnEvent?.Invoke(_instance, new KeyPressedEvent(keyCode, 0));
+                            break;
+                        case InputState.Repeat:
+                            OnEvent?.Invoke(_instance, new KeyPressedEvent(keyCode, 1));
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(state), state, null);
+                    }
+                });
+            
+            Glfw.SetMouseButtonCallback(_instance,
+                (window, button, state, modifiers) =>
+                {
+                    var buttonCode = (MouseButton) button;
+                    if (!Enum.IsDefined(typeof(MouseButton), buttonCode))
+                    {
+                        throw new Exception("Undefined Mouse Button");
+                    }
+                    
+                    switch (state)
+                    {
+                        case InputState.Release:
+                            OnEvent?.Invoke(_instance, new MouseButtonReleased(buttonCode));
+                            break;
+                        case InputState.Press:
+                            OnEvent?.Invoke(_instance, new MouseButtonPressed(buttonCode));
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(state), state, null);
+                    }
+                });
+
+            Glfw.SetScrollCallback(_instance, (window, xOffset, yOffset) =>
+            {
+                OnEvent?.Invoke(_instance, new MouseScrolledEvent((float) xOffset, (float) yOffset));
+            });
+
+            Glfw.SetCursorPositionCallback(_instance, (window, x, y) =>
+            {
+                OnEvent?.Invoke(_instance, new MouseMovedEvent((float) x, (float) y));;
+            });
         }
 
         public int Width { get; private set; }

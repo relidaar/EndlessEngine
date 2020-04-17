@@ -10,7 +10,9 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLWindow : IWindow
     {
-        private NativeWindow _instance;
+        private NativeWindow _instance;       
+        
+        public event EventHandler<IEvent> OnEvent;
 
         public OpenGLWindow(int width, int height, string title, in GraphicsSettings graphicsSettings)
         {
@@ -97,7 +99,7 @@ namespace EndlessEngine.Graphics.OpenGL
             _instance?.Dispose();
             Glfw.Terminate();
         }
-
+        
         public void Dispose()
         {
             Close();

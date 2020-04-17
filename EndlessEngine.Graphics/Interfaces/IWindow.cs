@@ -10,5 +10,7 @@ namespace EndlessEngine.Graphics.Interfaces
         bool IsOpen { get; }
         void Display();
         void Close();
+
+        event EventHandler<IEvent> OnEvent;
     }
 }

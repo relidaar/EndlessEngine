@@ -79,69 +79,51 @@ namespace EndlessEngine.Graphics.OpenGL
 
             Width = properties.Width;
             Height = properties.Height;
-            
+
             Glfw.MakeContextCurrent(_instance);
             _instance.CenterOnScreen();
 
             Log.Instance.Info("Creating window \"{0}\" ({1}, {2})",
                 properties.Title, properties.Width, properties.Height);
 
-            Glfw.SetKeyCallback(_instance,
-                (window, key, code, state, mods) =>
+            _instance.KeyAction += (sender, args) =>
+            {
+                switch (args.State)
                 {
-                    var keyCode = (Key) code;
-                    if (Enum.IsDefined(typeof(Key), keyCode))
-                    {
-                        throw new Exception("Undefined key");
-                    }
-
-                    switch (state)
-                    {
-                        case InputState.Release:
-                            OnEvent?.Invoke(_instance, new KeyReleasedEvent(keyCode));
-                            break;
-                        case InputState.Press:
-                            OnEvent?.Invoke(_instance, new KeyPressedEvent(keyCode, 0));
-                            break;
-                        case InputState.Repeat:
-                            OnEvent?.Invoke(_instance, new KeyPressedEvent(keyCode, 1));
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(state), state, null);
-                    }
-                });
+                    case InputState.Release:
+                        OnEvent?.Invoke(sender, new KeyReleasedEvent((Key) args.Key));
+                        break;
+                    case InputState.Press:
+                        OnEvent?.Invoke(sender, new KeyPressedEvent((Key) args.Key, 0));
+                        break;
+                    case InputState.Repeat:
+                        OnEvent?.Invoke(sender, new KeyPressedEvent((Key) args.Key, 1));
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            };
             
-            Glfw.SetMouseButtonCallback(_instance,
-                (window, button, state, modifiers) =>
+            _instance.MouseButton += (sender, args) =>
+            {
+                switch (args.Action)
                 {
-                    var buttonCode = (MouseButton) button;
-                    if (!Enum.IsDefined(typeof(MouseButton), buttonCode))
-                    {
-                        throw new Exception("Undefined Mouse Button");
-                    }
-                    
-                    switch (state)
-                    {
-                        case InputState.Release:
-                            OnEvent?.Invoke(_instance, new MouseButtonReleased(buttonCode));
-                            break;
-                        case InputState.Press:
-                            OnEvent?.Invoke(_instance, new MouseButtonPressed(buttonCode));
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(state), state, null);
-                    }
-                });
+                    case InputState.Release:
+                        OnEvent?.Invoke(sender, new MouseButtonReleased((MouseButton) args.Button));
+                        break;
+                    case InputState.Press:
+                        OnEvent?.Invoke(sender, new MouseButtonPressed((MouseButton) args.Button));
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            };
 
-            Glfw.SetScrollCallback(_instance, (window, xOffset, yOffset) =>
-            {
-                OnEvent?.Invoke(_instance, new MouseScrolledEvent((float) xOffset, (float) yOffset));
-            });
+            _instance.MouseScroll += (sender, args) =>
+                OnEvent?.Invoke(sender, new MouseScrolledEvent((float) args.X, (float) args.Y));
 
-            Glfw.SetCursorPositionCallback(_instance, (window, x, y) =>
-            {
-                OnEvent?.Invoke(_instance, new MouseMovedEvent((float) x, (float) y));;
-            });
+            _instance.MouseMoved += (sender, args) =>
+                OnEvent?.Invoke(sender, new MouseMovedEvent((float) args.X, (float) args.Y));
         }
 
         public int Width { get; private set; }

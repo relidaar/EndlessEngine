@@ -10,27 +10,6 @@ namespace EndlessEngine.Sandbox
     {
         private static readonly IGraphicsFactory Graphics = new OpenGLGraphicsFactory();
 
-        public void OnEvent(object sender, IEvent e)
-        {
-            switch (e.Type)
-            {
-                case EventType.KeyPressed:
-                    break;
-                case EventType.KeyReleased:
-                    break;
-                case EventType.MouseButtonPressed:
-                    break;
-                case EventType.MouseButtonReleased:
-                    break;
-                case EventType.MouseMoved:
-                    break;
-                case EventType.MouseScrolled:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         private static void Main(string[] args)
         {
             using var window = Graphics.CreateWindow(800, 600, "EndlessEngine");

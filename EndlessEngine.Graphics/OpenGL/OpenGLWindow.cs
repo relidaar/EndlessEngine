@@ -6,7 +6,6 @@ using EndlessEngine.Graphics.Interfaces;
 using GLFW;
 using Newtonsoft.Json;
 using OpenGL;
-using Exception = System.Exception;
 using MouseButton = EndlessEngine.Graphics.Interfaces.MouseButton;
 
 namespace EndlessEngine.Graphics.OpenGL
@@ -85,6 +84,18 @@ namespace EndlessEngine.Graphics.OpenGL
 
             Log.Instance.Info("Creating window \"{0}\" ({1}, {2})",
                 properties.Title, properties.Width, properties.Height);
+
+            _instance.Closed += (sender, args) =>
+                OnEvent?.Invoke(sender, new WindowCloseEvent());
+
+            _instance.PositionChanged += (sender, args) =>
+                OnEvent?.Invoke(sender, new WindowMovedEvent());
+
+            _instance.SizeChanged += (sender, args) =>
+                OnEvent?.Invoke(sender, new WindowResizeEvent(args.Size.Width, args.Size.Height));
+
+            _instance.FocusChanged += (sender, args) =>
+                OnEvent?.Invoke(sender, new WindowFocusEvent());
 
             _instance.KeyAction += (sender, args) =>
             {

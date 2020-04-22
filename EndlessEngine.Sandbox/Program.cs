@@ -22,26 +22,21 @@ namespace EndlessEngine.Sandbox
             var texture = Graphics.CreateTexture("assets/textures/test.jpg", TextureData.Default);
             var sprite = new Sprite(texture, 400, 300, 64);
 
-            window.OnEvent += (sender, e) =>
+            window.OnKeyPressed += (sender, e) =>
             {
-                switch (e.Type)
+                switch (e.Key)
                 {
-                    case EventType.KeyPressed:
-                        switch (((KeyPressedEvent) e).Key)
-                        {
-                           case Key.A:
-                               sprite.Position.X -= 10;
-                               break;
-                           case Key.D:
-                               sprite.Position.X += 10;
-                               break;
-                           case Key.W:
-                               sprite.Position.Y += 10;
-                               break;
-                           case Key.S:
-                               sprite.Position.Y -= 10;
-                               break;
-                        }
+                    case Key.A:
+                        sprite.Position.X -= 10;
+                        break;
+                    case Key.D:
+                        sprite.Position.X += 10;
+                        break;
+                    case Key.W:
+                        sprite.Position.Y += 10;
+                        break;
+                    case Key.S:
+                        sprite.Position.Y -= 10;
                         break;
                 }
             };

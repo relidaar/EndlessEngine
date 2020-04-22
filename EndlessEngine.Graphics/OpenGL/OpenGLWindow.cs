@@ -12,9 +12,27 @@ namespace EndlessEngine.Graphics.OpenGL
 {
     public class OpenGLWindow : IWindow
     {
-        private NativeWindow _instance;       
-        
+        private NativeWindow _instance;
+
+        #region Events
+
         public event EventHandler<IEvent> OnEvent;
+        
+        public event EventHandler<WindowCloseEvent> OnWindowClose;
+        public event EventHandler<WindowMovedEvent> OnWindowMoved;
+        public event EventHandler<WindowResizeEvent> OnWindowResize;
+        public event EventHandler<WindowFocusEvent> OnWindowFocus;
+        
+        public event EventHandler<KeyPressedEvent> OnKeyPressed;
+        public event EventHandler<KeyReleasedEvent> OnKeyReleased;
+        public event EventHandler<KeyTypedEvent> OnKeyTyped;
+        
+        public event EventHandler<MouseButtonPressedEvent> OnMouseButtonPressed;
+        public event EventHandler<MouseButtonReleasedEvent> OnMouseButtonReleased;
+        public event EventHandler<MouseScrolledEvent> OnMouseScrolled;
+        public event EventHandler<MouseMovedEvent> OnMouseMoved;
+
+        #endregion
 
         public OpenGLWindow(int width, int height, string title, in GraphicsSettings graphicsSettings)
         {
@@ -86,16 +104,28 @@ namespace EndlessEngine.Graphics.OpenGL
                 properties.Title, properties.Width, properties.Height);
 
             _instance.Closed += (sender, args) =>
+            {
                 OnEvent?.Invoke(sender, new WindowCloseEvent());
+                OnWindowClose?.Invoke(sender, new WindowCloseEvent());
+            };
 
             _instance.PositionChanged += (sender, args) =>
+            {
                 OnEvent?.Invoke(sender, new WindowMovedEvent());
+                OnWindowMoved?.Invoke(sender, new WindowMovedEvent());
+            };
 
             _instance.SizeChanged += (sender, args) =>
+            {
                 OnEvent?.Invoke(sender, new WindowResizeEvent(args.Size.Width, args.Size.Height));
+                OnWindowResize?.Invoke(sender, new WindowResizeEvent(args.Size.Width, args.Size.Height));
+            };
 
             _instance.FocusChanged += (sender, args) =>
+            {
                 OnEvent?.Invoke(sender, new WindowFocusEvent());
+                OnWindowFocus?.Invoke(sender, new WindowFocusEvent());
+            };
 
             _instance.KeyAction += (sender, args) =>
             {
@@ -103,12 +133,15 @@ namespace EndlessEngine.Graphics.OpenGL
                 {
                     case InputState.Release:
                         OnEvent?.Invoke(sender, new KeyReleasedEvent((Key) args.Key));
+                        OnKeyReleased?.Invoke(sender, new KeyReleasedEvent((Key) args.Key));
                         break;
                     case InputState.Press:
                         OnEvent?.Invoke(sender, new KeyPressedEvent((Key) args.Key, 0));
+                        OnKeyPressed?.Invoke(sender, new KeyPressedEvent((Key) args.Key, 0));
                         break;
                     case InputState.Repeat:
                         OnEvent?.Invoke(sender, new KeyPressedEvent((Key) args.Key, 1));
+                        OnKeyPressed?.Invoke(sender, new KeyPressedEvent((Key) args.Key, 1));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -120,10 +153,12 @@ namespace EndlessEngine.Graphics.OpenGL
                 switch (args.Action)
                 {
                     case InputState.Release:
-                        OnEvent?.Invoke(sender, new MouseButtonReleased((MouseButton) args.Button));
+                        OnEvent?.Invoke(sender, new MouseButtonReleasedEvent((MouseButton) args.Button));
+                        OnMouseButtonReleased?.Invoke(sender, new MouseButtonReleasedEvent((MouseButton) args.Button));
                         break;
                     case InputState.Press:
-                        OnEvent?.Invoke(sender, new MouseButtonPressed((MouseButton) args.Button));
+                        OnEvent?.Invoke(sender, new MouseButtonPressedEvent((MouseButton) args.Button));
+                        OnMouseButtonPressed?.Invoke(sender, new MouseButtonPressedEvent((MouseButton) args.Button));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -131,10 +166,16 @@ namespace EndlessEngine.Graphics.OpenGL
             };
 
             _instance.MouseScroll += (sender, args) =>
+            {
                 OnEvent?.Invoke(sender, new MouseScrolledEvent((float) args.X, (float) args.Y));
+                OnMouseScrolled?.Invoke(sender, new MouseScrolledEvent((float) args.X, (float) args.Y));
+            };
 
             _instance.MouseMoved += (sender, args) =>
+            {
                 OnEvent?.Invoke(sender, new MouseMovedEvent((float) args.X, (float) args.Y));
+                OnMouseMoved?.Invoke(sender, new MouseMovedEvent((float) args.X, (float) args.Y));
+            };
         }
 
         public int Width { get; private set; }

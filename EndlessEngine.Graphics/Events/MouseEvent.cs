@@ -30,24 +30,24 @@ namespace EndlessEngine.Graphics.Events
         }
     }
     
-    public class MouseButtonPressed : IMouseButtonEvent
+    public class MouseButtonPressedEvent : IMouseButtonEvent
     {
         public EventType Type { get; }
         public MouseButton Button { get; }
 
-        public MouseButtonPressed(MouseButton button)
+        public MouseButtonPressedEvent(MouseButton button)
         {
             Type = EventType.MouseButtonPressed;
             Button = button;
         }
     }
     
-    public class MouseButtonReleased : IMouseButtonEvent
+    public class MouseButtonReleasedEvent : IMouseButtonEvent
     {
         public EventType Type { get; }
         public MouseButton Button { get; }
 
-        public MouseButtonReleased(MouseButton button)
+        public MouseButtonReleasedEvent(MouseButton button)
         {
             Type = EventType.MouseButtonReleased;
             Button = button;

@@ -6,8 +6,8 @@ namespace EndlessEngine.Graphics
     public class Sprite
     {
         public ITexture Texture { get; private set; }
-        public Vector2 Position { get; private set; }
-        public Vector2 Size { get; private set; }
+        public Vector2 Position;
+        public Vector2 Size;
 
         public Sprite(ITexture texture, int x, int y, int width, int height)
             : this(texture, new Vector2(x, y), new Vector2(width, height))

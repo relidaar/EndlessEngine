@@ -1,4 +1,5 @@
-﻿using EndlessEngine.Core;
+﻿using System;
+using EndlessEngine.Core;
 
 namespace EndlessEngine.Graphics
 {
@@ -12,7 +13,7 @@ namespace EndlessEngine.Graphics
 
         public BufferElement(ShaderDataType type, string name, bool normalized = false)
         {
-            Name = name;
+            Name = name ?? throw new ArgumentNullException();
             Type = type;
             Size = ShaderDataTypeSize(type);
             Offset = 0;

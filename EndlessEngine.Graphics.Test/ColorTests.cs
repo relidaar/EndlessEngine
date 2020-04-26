@@ -292,5 +292,41 @@ namespace EndlessEngine.Graphics.Test
         }
 
         #endregion
+
+        #region IEquatable Implementation
+
+        [Fact]
+        public void TwoColorsAreEqual_True()
+        {
+            var left = new Color(1);
+            var right = new Color(1);
+            Assert.True(left == right);
+        }
+
+        [Fact]
+        public void TwoColorsAreEqual_False()
+        {
+            var left = new Color(1);
+            var right = new Color(2);
+            Assert.False(left == right);
+        }
+
+        [Fact]
+        public void TwoColorsAreNotEqual_True()
+        {
+            var left = new Color(1);
+            var right = new Color(2);
+            Assert.True(left != right);
+        }
+
+        [Fact]
+        public void TwoColorsAreNotEqual_False()
+        {
+            var left = new Color(1);
+            var right = new Color(1);
+            Assert.False(left != right);
+        }
+        
+        #endregion
     }
 }

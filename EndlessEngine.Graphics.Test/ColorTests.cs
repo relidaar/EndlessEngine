@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 
@@ -164,6 +165,31 @@ namespace EndlessEngine.Graphics.Test
             var result = Color.Divide(color, value).ValuesArray;
             var expected = new int[4];
             for (var i = 0; i < expected.Length; i++) expected[i] = Color.Mod(1 / value, 256);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData(255)]
+        [InlineData(1)]
+        public void GetNormalized(int value)
+        {
+            var v = value / 255.0f;
+            var expected = (v, v, v, v);
+            var result = new Color(value).ToNormalized();
+
+            Assert.Equal(expected, result);
+        }
+
+
+        [Theory]
+        [InlineData(255)]
+        [InlineData(1)]
+        public void Normalize(int value)
+        {
+            var v = value / 255.0f;
+            var expected = (v, v, v, v);
+            var result = Color.Normalize(value, value, value, value);
 
             Assert.Equal(expected, result);
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using EndlessEngine.Core;
 using EndlessEngine.Graphics.Interfaces;
@@ -32,7 +32,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void Add(IVertexBuffer vertexBuffer)
         {
-            if (vertexBuffer == null)
+            if (vertexBuffer?.Layout == null)
                 throw new ArgumentNullException();
 
             Bind();

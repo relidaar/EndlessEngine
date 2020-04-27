@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EndlessEngine.Graphics.Interfaces;
 
 namespace EndlessEngine.Graphics.OpenGL
@@ -9,7 +10,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public OpenGLBufferLayout(params BufferElement[] elements)
         {
-            _elements = elements;
+            _elements = elements ?? throw new ArgumentNullException();
             CalculateOffsetAndStride();
         }
 

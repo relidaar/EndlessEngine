@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using EndlessEngine.Core;
 using EndlessEngine.Graphics.Interfaces;
@@ -17,6 +17,7 @@ namespace EndlessEngine.Graphics.OpenGL
             _id = Gl.CreateVertexArray();
         }
 
+        public IEnumerable<IVertexBuffer> VertexBuffers => _vertexBuffers;
         public IIndexBuffer IndexBuffer { get; private set; }
 
         public void Bind()
@@ -67,7 +68,7 @@ namespace EndlessEngine.Graphics.OpenGL
             IndexBuffer = indexBuffer;
         }
 
-        private static VertexAttribType ToOpenGLDataType(ShaderDataType type)
+        public static VertexAttribType ToOpenGLDataType(ShaderDataType type)
         {
             switch (type)
             {

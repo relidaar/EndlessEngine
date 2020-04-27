@@ -18,13 +18,13 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public OpenGLRenderer(IGraphicsFactory factory, in ShaderSettings shaderSettings)
         {
-            _factory = factory;
+            _factory = factory ?? throw new ArgumentNullException();
             _shaderSettings = shaderSettings;
         }
 
         public OpenGLRenderer(IGraphicsFactory factory)
         {
-            _factory = factory;
+            _factory = factory ?? throw new ArgumentNullException();
             
             using (var r = new StreamReader(Paths.ShaderSettingsPath))
             {
@@ -166,6 +166,9 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void Draw(Sprite sprite, float tilingFactor = 1.0f)
         {
+            if (sprite == null)
+                throw new ArgumentNullException();
+
             var transform = Matrix4.Translated(sprite.Position) * Matrix4.Scaled(sprite.Size);
             sprite.Texture.Bind();
 

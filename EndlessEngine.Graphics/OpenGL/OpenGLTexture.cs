@@ -13,8 +13,14 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public OpenGLTexture(string path, in TextureData textureData)
         {
-            _path = path ?? throw new ArgumentNullException();
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentNullException();
 
+            if (File.Exists(path))
+                throw new FileNotFoundException();
+
+            _path = path;
+            
             using (var stream = File.OpenRead(path))
             {
                 var image = ImageResult.FromStream(stream, ColorComponents.RedGreenBlueAlpha);
@@ -60,6 +66,12 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public OpenGLTexture(int width, int height, object data, in TextureData textureData)
         {
+            if (width < 0 || height < 0)
+                throw new ArgumentOutOfRangeException();
+
+            if (data == null)
+                throw new ArgumentNullException();
+
             Width = width;
             Height = height;
 

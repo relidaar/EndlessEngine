@@ -58,10 +58,10 @@ namespace EndlessEngine.Graphics.OpenGL
             }
         }
 
-        public OpenGLTexture(uint width, uint height, object data, in TextureData textureData)
+        public OpenGLTexture(int width, int height, object data, in TextureData textureData)
         {
-            Width = (int) width;
-            Height = (int) height;
+            Width = width;
+            Height = height;
 
             var (internalFormat, pixelFormat) = ToOpenGLFormat(textureData.Format);
             var minFilter = ToOpenGLFormat(textureData.MinFilter);

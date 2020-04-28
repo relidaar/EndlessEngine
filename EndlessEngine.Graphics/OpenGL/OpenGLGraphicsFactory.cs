@@ -69,7 +69,7 @@ namespace EndlessEngine.Graphics.OpenGL
             return new OpenGLTexture(path, textureData);
         }
 
-        public ITexture CreateTexture(uint width, uint height, object data, in TextureData textureData)
+        public ITexture CreateTexture(int width, int height, object data, in TextureData textureData)
         {
             return new OpenGLTexture(width, height, data, textureData);
         }

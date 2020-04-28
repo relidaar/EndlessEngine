@@ -26,7 +26,9 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public IShader Load(string name, string vertexShaderPath, string fragmentShaderPath)
         {
-            if (name == null || vertexShaderPath == null || fragmentShaderPath == null)
+            if (string.IsNullOrWhiteSpace(name) || 
+                string.IsNullOrWhiteSpace(vertexShaderPath) || 
+                string.IsNullOrWhiteSpace(fragmentShaderPath))
                 throw new ArgumentNullException();
 
             var shader = new OpenGLShader(name, vertexShaderPath, fragmentShaderPath);
@@ -36,8 +38,11 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public IShader Get(string name)
         {
-            if (name == null)
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException();
+            
+            if (!_shaders.ContainsKey(name))
+                throw new KeyNotFoundException();
 
             return _shaders[name];
         }

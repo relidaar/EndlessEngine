@@ -12,6 +12,9 @@ namespace EndlessEngine.Graphics.Test.OpenGLTests
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new OpenGLWindow(-1, -1, "Test", new GraphicsSettings()));
+            
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new OpenGLWindow(-1, -1, "Test"));
         }
 
         [Theory]
@@ -22,6 +25,9 @@ namespace EndlessEngine.Graphics.Test.OpenGLTests
         {
             Assert.Throws<ArgumentNullException>(() =>
                 new OpenGLWindow(0, 0, title, new GraphicsSettings()));
+            
+            Assert.Throws<ArgumentNullException>(() =>
+                new OpenGLWindow(0, 0, title));
         }
     }
 }

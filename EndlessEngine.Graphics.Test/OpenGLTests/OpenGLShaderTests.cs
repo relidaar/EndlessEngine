@@ -7,54 +7,52 @@ namespace EndlessEngine.Graphics.Test.OpenGLTests
 {
     public class OpenGLShaderTests
     {
-        [Fact]
-        public void CreateWithNullReferenceParameters()
+        [Theory]
+        [InlineData(null, "test", "test")]
+        [InlineData("test", null, "test")]
+        [InlineData("test", "test", null)]
+        
+        [InlineData(null, null, "test")]
+        [InlineData(null, "test", null)]
+        [InlineData("test", null, null)]
+        
+        [InlineData(null, null, null)]
+        public void CreateWithNullReferenceParameters(string name, string path1, string path2)
         {
             Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader(null, "", ""));
-            
+                new OpenGLShader(name, path1, path2));
+        }
+        
+        [Theory]
+        [InlineData("", "test", "test")]
+        [InlineData("test", "", "test")]
+        [InlineData("test", "test", "")]
+
+        [InlineData("", "", "test")]
+        [InlineData("", "test", "")]
+        [InlineData("test", "", "")]
+
+        [InlineData("", "", "")]
+        public void CreateWithEmptyStringParameters(string name, string path1, string path2)
+        {
             Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("", null, ""));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("", "", null));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader(null, null, ""));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("", null, null));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader(null, "", null));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader(null, null, null));
+                new OpenGLShader(name, path1, path2));
         }
 
-        [Fact]
-        public void CreateWithEmptyStringParameters()
+        [Theory]
+        [InlineData(" ", "test", "test")]
+        [InlineData("test", " ", "test")]
+        [InlineData("test", "test", " ")]
+
+        [InlineData(" ", " ", "test")]
+        [InlineData(" ", "test", " ")]
+        [InlineData("test", " ", " ")]
+
+        [InlineData(" ", " ", " ")]
+        public void CreateWithWhitespaceStringParameters(string name, string path1, string path2)
         {
             Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("", "path1", "path2"));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("test", "", "path2"));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("test", "path1", ""));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("test", "", ""));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("", "path1", ""));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("", "", "path2"));
-            
-            Assert.Throws<ArgumentNullException>(() => 
-                new OpenGLShader("", "", ""));
+                new OpenGLShader(name, path1, path2));
         }
 
         [Fact]

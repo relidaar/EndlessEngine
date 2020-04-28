@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using EndlessEngine.Graphics.OpenGL;
 using Xunit;
 
@@ -15,7 +16,14 @@ namespace EndlessEngine.Graphics.Test.OpenGLTests
             Assert.Throws<ArgumentNullException>(() => 
                 new OpenGLTexture(path, TextureData.Default));
         }
-
+    
+        [Fact]
+        public void CreateWithNonexistentImage()
+        {
+            Assert.Throws<FileNotFoundException>(() => 
+                new OpenGLTexture("test", TextureData.Default));
+        }
+        
         [Fact]
         public void CreateWithNullReferenceObject()
         {

@@ -1,4 +1,5 @@
-﻿using EndlessEngine.Graphics.Interfaces;
+﻿using System;
+using EndlessEngine.Graphics.Interfaces;
 using EndlessEngine.Math;
 
 namespace EndlessEngine.Graphics
@@ -21,7 +22,10 @@ namespace EndlessEngine.Graphics
         
         public Sprite(ITexture texture, in Vector2 position, in Vector2 size)
         {
-            Texture = texture;
+            if (size.X < 0 || size.Y < 0)
+                throw new ArgumentOutOfRangeException();
+            
+            Texture = texture ?? throw new ArgumentNullException();
             Position = position;
             Size = size;
         }

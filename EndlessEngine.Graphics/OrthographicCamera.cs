@@ -1,4 +1,5 @@
-﻿using EndlessEngine.Graphics.Interfaces;
+﻿using System;
+using EndlessEngine.Graphics.Interfaces;
 using EndlessEngine.Math;
 
 namespace EndlessEngine.Graphics
@@ -9,8 +10,13 @@ namespace EndlessEngine.Graphics
         private float _rotation;
 
         public OrthographicCamera(int width, int height)
-            : this(0, width, 0, height)
         {
+            if (width < 0 || height < 0)
+                throw new ArgumentOutOfRangeException();
+            
+            ProjectionMatrix = Matrix4.Orthographic(0, width, 0, height);
+            ViewMatrix = Matrix4.Identity;
+            ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
         }
 
         public OrthographicCamera(float left, float right, float bottom, float top)

@@ -19,6 +19,6 @@
         IShaderLibrary CreateShaderLibrary();
         
         ITexture CreateTexture(string path, in TextureData textureData);
-        ITexture CreateTexture(uint width, uint height, object data, in TextureData textureData);
+        ITexture CreateTexture(int width, int height, object data, in TextureData textureData);
     }
 }

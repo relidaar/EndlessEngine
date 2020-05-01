@@ -8,7 +8,7 @@ namespace EndlessEngine.Graphics.Interfaces
         Matrix4 ViewMatrix { get; }
         Matrix4 ViewProjectionMatrix { get; }
         
-        float Rotation { get; }
-        Vector3 Position { get; }
+        float Rotation { get; set; }
+        Vector3 Position { get; set; }
     }
 }

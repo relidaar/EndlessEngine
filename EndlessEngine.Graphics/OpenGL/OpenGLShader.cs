@@ -15,8 +15,13 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public OpenGLShader(string name, string vertexShaderPath, string fragmentShaderPath)
         {
-            if (name == null || vertexShaderPath == null || fragmentShaderPath == null)
+            if (string.IsNullOrWhiteSpace(name) || 
+                string.IsNullOrWhiteSpace(vertexShaderPath) || 
+                string.IsNullOrWhiteSpace(fragmentShaderPath))
                 throw new ArgumentNullException();
+
+            if (File.Exists(vertexShaderPath) || File.Exists(fragmentShaderPath))
+                throw new FileNotFoundException();
 
             Name = name;
 

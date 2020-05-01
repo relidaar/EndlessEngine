@@ -17,6 +17,7 @@ namespace EndlessEngine.Graphics.OpenGL
             _id = Gl.CreateVertexArray();
         }
 
+        public IEnumerable<IVertexBuffer> VertexBuffers => _vertexBuffers;
         public IIndexBuffer IndexBuffer { get; private set; }
 
         public void Bind()
@@ -31,7 +32,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public void Add(IVertexBuffer vertexBuffer)
         {
-            if (vertexBuffer == null)
+            if (vertexBuffer?.Layout == null)
                 throw new ArgumentNullException();
 
             Bind();
@@ -67,7 +68,7 @@ namespace EndlessEngine.Graphics.OpenGL
             IndexBuffer = indexBuffer;
         }
 
-        private static VertexAttribType ToOpenGLDataType(ShaderDataType type)
+        public static VertexAttribType ToOpenGLDataType(ShaderDataType type)
         {
             switch (type)
             {

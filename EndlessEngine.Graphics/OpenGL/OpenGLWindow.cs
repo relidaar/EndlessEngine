@@ -36,11 +36,23 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public OpenGLWindow(int width, int height, string title, in GraphicsSettings graphicsSettings)
         {
+            if (width < 0 || height < 0)
+                throw new ArgumentOutOfRangeException();
+
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentNullException();
+
             Init(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings);
         }
 
         public OpenGLWindow(int width, int height, string title)
         {
+            if (width < 0 || height < 0)
+                throw new ArgumentOutOfRangeException();
+
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentNullException();
+            
             GraphicsSettings graphicsSettings;
             using (var r = new StreamReader(Paths.GraphicsSettingsPath))
             {

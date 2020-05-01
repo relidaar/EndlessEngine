@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 
@@ -168,6 +169,31 @@ namespace EndlessEngine.Graphics.Test
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [InlineData(255)]
+        [InlineData(1)]
+        public void GetNormalized(int value)
+        {
+            var v = value / 255.0f;
+            var expected = (v, v, v, v);
+            var result = new Color(value).ToNormalized();
+
+            Assert.Equal(expected, result);
+        }
+
+
+        [Theory]
+        [InlineData(255)]
+        [InlineData(1)]
+        public void Normalize(int value)
+        {
+            var v = value / 255.0f;
+            var expected = (v, v, v, v);
+            var result = Color.Normalize(value, value, value, value);
+
+            Assert.Equal(expected, result);
+        }
+
         #endregion
    
         #region Operators
@@ -291,6 +317,42 @@ namespace EndlessEngine.Graphics.Test
             Assert.Equal(expected, result);
         }
 
+        #endregion
+
+        #region IEquatable Implementation
+
+        [Fact]
+        public void TwoColorsAreEqual_True()
+        {
+            var left = new Color(1);
+            var right = new Color(1);
+            Assert.True(left == right);
+        }
+
+        [Fact]
+        public void TwoColorsAreEqual_False()
+        {
+            var left = new Color(1);
+            var right = new Color(2);
+            Assert.False(left == right);
+        }
+
+        [Fact]
+        public void TwoColorsAreNotEqual_True()
+        {
+            var left = new Color(1);
+            var right = new Color(2);
+            Assert.True(left != right);
+        }
+
+        [Fact]
+        public void TwoColorsAreNotEqual_False()
+        {
+            var left = new Color(1);
+            var right = new Color(1);
+            Assert.False(left != right);
+        }
+        
         #endregion
     }
 }

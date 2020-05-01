@@ -7,6 +7,9 @@ namespace EndlessEngine.Graphics.Interfaces
         string Name { get; }
         void Bind();
         void Unbind();
+
+        #region Uniforms
+        
         void SetUniform(string name, float value);
         void SetUniform(string name, float v1, float v2);
         void SetUniform(string name, float v1, float v2, float v3);
@@ -24,5 +27,7 @@ namespace EndlessEngine.Graphics.Interfaces
         void SetUniform(string name, bool transpose, in Matrix2 matrix);
         void SetUniform(string name, bool transpose, in Matrix3 matrix);
         void SetUniform(string name, bool transpose, in Matrix4 matrix);
+
+        #endregion
     }
 }

@@ -11,7 +11,7 @@ namespace EndlessEngine.Graphics.OpenGL
 
         public OpenGLIndexBuffer(int[] indices)
         {
-            _indices = indices;
+            _indices = indices ?? throw new ArgumentNullException();
             var size = (uint) (indices.Length * sizeof(int));
 
             _id = Gl.GenBuffer();

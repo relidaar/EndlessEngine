@@ -6,7 +6,7 @@
 // Last Modified By : alexs
 // Last Modified On : 05-01-2020
 // ***********************************************************************
-// <copyright file="The Matrix2 as result.cs" company="EndlessEngine.Math">
+// <copyright file="Matrix2.cs" company="EndlessEngine.Math">
 //     Copyright (c) . All rights reserved.
 // </copyright>
 // <summary></summary>

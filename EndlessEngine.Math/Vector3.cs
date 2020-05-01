@@ -187,7 +187,7 @@ namespace EndlessEngine.Math
         }
 
         /// <summary>
-        /// Negates this instance.
+        /// Negates the all vector elements.
         /// </summary>
         /// <returns>Vector3.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

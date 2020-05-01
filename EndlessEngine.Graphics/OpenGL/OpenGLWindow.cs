@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : EndlessEngine.Graphics
+// Author           : alexs
+// Created          : 03-24-2020
+//
+// Last Modified By : alexs
+// Last Modified On : 05-01-2020
+// ***********************************************************************
+// <copyright file="OpenGLWindow.cs" company="EndlessEngine.Graphics">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.IO;
 using EndlessEngine.Core;
 using EndlessEngine.Graphics.Events;
@@ -10,30 +23,91 @@ using MouseButton = EndlessEngine.Graphics.Interfaces.MouseButton;
 
 namespace EndlessEngine.Graphics.OpenGL
 {
+    /// <summary>
+    /// Class OpenGLWindow.
+    /// Implements the <see cref="EndlessEngine.Graphics.Interfaces.IWindow" />
+    /// </summary>
+    /// <seealso cref="EndlessEngine.Graphics.Interfaces.IWindow" />
     public class OpenGLWindow : IWindow
     {
+        /// <summary>
+        /// The window instance
+        /// </summary>
         private NativeWindow _instance;
 
         #region Events
 
+        /// <summary>
+        /// Occurs when [on event].
+        /// </summary>
         public event EventHandler<IEvent> OnEvent;
-        
+
+        /// <summary>
+        /// Occurs when [on window close].
+        /// </summary>
         public event EventHandler<WindowCloseEvent> OnWindowClose;
+        
+        /// <summary>
+        /// Occurs when [on window moved].
+        /// </summary>
         public event EventHandler<WindowMovedEvent> OnWindowMoved;
+        
+        /// <summary>
+        /// Occurs when [on window resize].
+        /// </summary>
         public event EventHandler<WindowResizeEvent> OnWindowResize;
+        
+        /// <summary>
+        /// Occurs when [on window focus].
+        /// </summary>
         public event EventHandler<WindowFocusEvent> OnWindowFocus;
-        
+
+        /// <summary>
+        /// Occurs when [on key pressed].
+        /// </summary>
         public event EventHandler<KeyPressedEvent> OnKeyPressed;
-        public event EventHandler<KeyReleasedEvent> OnKeyReleased;
-        public event EventHandler<KeyTypedEvent> OnKeyTyped;
         
+        /// <summary>
+        /// Occurs when [on key released].
+        /// </summary>
+        public event EventHandler<KeyReleasedEvent> OnKeyReleased;
+        
+        /// <summary>
+        /// Occurs when [on key typed].
+        /// </summary>
+        public event EventHandler<KeyTypedEvent> OnKeyTyped;
+
+        /// <summary>
+        /// Occurs when [on mouse button pressed].
+        /// </summary>
         public event EventHandler<MouseButtonPressedEvent> OnMouseButtonPressed;
+        
+        /// <summary>
+        /// Occurs when [on mouse button released].
+        /// </summary>
         public event EventHandler<MouseButtonReleasedEvent> OnMouseButtonReleased;
+        
+        /// <summary>
+        /// Occurs when [on mouse scrolled].
+        /// </summary>
         public event EventHandler<MouseScrolledEvent> OnMouseScrolled;
+        
+        /// <summary>
+        /// Occurs when [on mouse moved].
+        /// </summary>
         public event EventHandler<MouseMovedEvent> OnMouseMoved;
 
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenGLWindow"/> class.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="graphicsSettings">The graphics settings.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public OpenGLWindow(int width, int height, string title, in GraphicsSettings graphicsSettings)
         {
             if (width < 0 || height < 0)
@@ -45,6 +119,14 @@ namespace EndlessEngine.Graphics.OpenGL
             Init(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenGLWindow"/> class.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="title">The title.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public OpenGLWindow(int width, int height, string title)
         {
             if (width < 0 || height < 0)
@@ -63,11 +145,20 @@ namespace EndlessEngine.Graphics.OpenGL
             Init(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenGLWindow"/> class.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <param name="graphicsSettings">The graphics settings.</param>
         public OpenGLWindow(in WindowProperties properties, in GraphicsSettings graphicsSettings)
         {
             Init(properties, graphicsSettings);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenGLWindow"/> class.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
         public OpenGLWindow(in WindowProperties properties)
         {
             GraphicsSettings graphicsSettings;
@@ -80,6 +171,12 @@ namespace EndlessEngine.Graphics.OpenGL
             Init(properties, graphicsSettings);
         }
 
+        /// <summary>
+        /// Initializes the specified properties.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <param name="graphicsSettings">The graphics settings.</param>
+        /// <exception cref="NullReferenceException">Could not create window</exception>
         private void Init(in WindowProperties properties, in GraphicsSettings graphicsSettings)
         {
             if (!Glfw.Init())
@@ -190,22 +287,45 @@ namespace EndlessEngine.Graphics.OpenGL
             };
         }
 
+        /// <summary>
+        /// Gets the width.
+        /// </summary>
+        /// <value>The width.</value>
         public int Width { get; private set; }
+        
+        /// <summary>
+        /// Gets the height.
+        /// </summary>
+        /// <value>The height.</value>
         public int Height { get; private set; }
+        
+        /// <summary>
+        /// Gets a value indicating whether the window is open.
+        /// </summary>
+        /// <value><c>true</c> if this instance is open; otherwise, <c>false</c>.</value>
         public bool IsOpen => !Glfw.WindowShouldClose(_instance);
 
+        /// <summary>
+        /// Displays the window.
+        /// </summary>
         public void Display()
         {
             Glfw.PollEvents();
             Glfw.SwapBuffers(_instance);
         }
 
+        /// <summary>
+        /// Closes the window.
+        /// </summary>
         public void Close()
         {
             _instance?.Dispose();
             Glfw.Terminate();
         }
-        
+
+        /// <summary>
+        /// Disposes this instance.
+        /// </summary>
         public void Dispose()
         {
             Close();

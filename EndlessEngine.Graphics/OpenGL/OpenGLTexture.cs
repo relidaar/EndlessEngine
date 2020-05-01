@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : EndlessEngine.Graphics
+// Author           : alexs
+// Created          : 03-24-2020
+//
+// Last Modified By : alexs
+// Last Modified On : 05-01-2020
+// ***********************************************************************
+// <copyright file="OpenGLTexture.cs" company="EndlessEngine.Graphics">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.IO;
 using EndlessEngine.Graphics.Interfaces;
 using OpenGL;
@@ -6,11 +19,31 @@ using StbImageSharp;
 
 namespace EndlessEngine.Graphics.OpenGL
 {
+    /// <summary>
+    /// Class OpenGLTexture.
+    /// Implements the <see cref="EndlessEngine.Graphics.Interfaces.ITexture" />
+    /// </summary>
+    /// <seealso cref="EndlessEngine.Graphics.Interfaces.ITexture" />
     public class OpenGLTexture : ITexture
     {
+        /// <summary>
+        /// The identifier
+        /// </summary>
         private readonly uint _id;
+        
+        /// <summary>
+        /// The path
+        /// </summary>
         private string _path;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenGLTexture"/> class.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="textureData">The texture data.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException">Format not supported</exception>
         public OpenGLTexture(string path, in TextureData textureData)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -64,6 +97,15 @@ namespace EndlessEngine.Graphics.OpenGL
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenGLTexture"/> class.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="data">The data.</param>
+        /// <param name="textureData">The texture data.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public OpenGLTexture(int width, int height, object data, in TextureData textureData)
         {
             if (width < 0 || height < 0)
@@ -95,14 +137,29 @@ namespace EndlessEngine.Graphics.OpenGL
             Gl.BindTexture(TextureTarget.Texture2d, 0);
         }
 
+        /// <summary>
+        /// Gets the width.
+        /// </summary>
+        /// <value>The width.</value>
         public int Width { get; }
+        
+        /// <summary>
+        /// Gets the height.
+        /// </summary>
+        /// <value>The height.</value>
         public int Height { get; }
 
+        /// <summary>
+        /// Binds this instance.
+        /// </summary>
         public void Bind()
         {
             Gl.BindTexture(TextureTarget.Texture2d, _id);
         }
 
+        /// <summary>
+        /// Unbinds this instance.
+        /// </summary>
         public void Unbind()
         {
             Gl.BindTexture(TextureTarget.Texture2d, 0);
@@ -110,6 +167,12 @@ namespace EndlessEngine.Graphics.OpenGL
 
         #region Converters
 
+        /// <summary>
+        /// Converts to OpenGL format.
+        /// </summary>
+        /// <param name="format">The format.</param>
+        /// <returns>System.ValueTuple&lt;InternalFormat, PixelFormat&gt;.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Format not supported</exception>
         private static (InternalFormat internalFormat, PixelFormat pixelFormat) ToOpenGLFormat(TextureFormat format)
         {
             switch (format)
@@ -127,6 +190,12 @@ namespace EndlessEngine.Graphics.OpenGL
             }
         }
 
+        /// <summary>
+        /// Converts to OpenGL format.
+        /// </summary>
+        /// <param name="minFilter">The minimum filter.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Format not supported</exception>
         private static int ToOpenGLFormat(TextureMinFilter minFilter)
         {
             switch (minFilter)
@@ -148,6 +217,12 @@ namespace EndlessEngine.Graphics.OpenGL
             }
         }
 
+        /// <summary>
+        /// Converts to OpenGL format.
+        /// </summary>
+        /// <param name="magFilter">The mag filter.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Format not supported</exception>
         private static int ToOpenGLFormat(TextureMagFilter magFilter)
         {
             switch (magFilter)
@@ -161,6 +236,12 @@ namespace EndlessEngine.Graphics.OpenGL
             }
         }
 
+        /// <summary>
+        /// Converts to OpenGL format.
+        /// </summary>
+        /// <param name="wrapMode">The wrap mode.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Format not supported</exception>
         private static int ToOpenGLFormat(TextureWrapMode wrapMode)
         {
             switch (wrapMode)

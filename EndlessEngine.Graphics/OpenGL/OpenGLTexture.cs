@@ -49,7 +49,7 @@ namespace EndlessEngine.Graphics.OpenGL
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentNullException();
 
-            if (File.Exists(path))
+            if (!File.Exists(path))
                 throw new FileNotFoundException();
 
             _path = path;

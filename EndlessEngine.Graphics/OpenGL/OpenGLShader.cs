@@ -53,7 +53,7 @@ namespace EndlessEngine.Graphics.OpenGL
                 string.IsNullOrWhiteSpace(fragmentShaderPath))
                 throw new ArgumentNullException();
 
-            if (File.Exists(vertexShaderPath) || File.Exists(fragmentShaderPath))
+            if (!File.Exists(vertexShaderPath) || !File.Exists(fragmentShaderPath))
                 throw new FileNotFoundException();
 
             Name = name;

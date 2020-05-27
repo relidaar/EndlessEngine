@@ -24,5 +24,10 @@ namespace EndlessEngine.Sandbox
         {
             Camera = new OrthographicCamera(x, y);
         }
+
+        public Simple2DCamera(IWindow window)
+        {
+            Camera = new OrthographicCamera(window.Width, window.Height);
+        }
     }
 }

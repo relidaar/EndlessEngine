@@ -26,7 +26,7 @@ namespace EndlessEngine.Sandbox
             _renderer = graphics.CreateRenderer();
             _renderer.Init();
             
-            _camera = new Simple2DCamera(_window.Width, _window.Height);
+            _camera = new Simple2DCamera(_window);
             
             _obstacles = new List<Obstacle>();
             _player = new Player

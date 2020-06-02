@@ -10,13 +10,12 @@ namespace EndlessEngine.Sandbox
     internal class Game : IDisposable
     {
         private readonly IWindow _window;
-        private readonly Simple2DCamera _camera;
+        private Simple2DCamera _camera;
         private readonly IRenderer _renderer;
         
-        private readonly Player _player;
+        private Player _player;
         private readonly List<Obstacle> _obstacles;
-        
-        private const int Ground = 100;
+        private int Ground;
 
         public Game(int windowWidth, int windowHeight, string windowTitle)
         {
@@ -27,20 +26,21 @@ namespace EndlessEngine.Sandbox
             _renderer.Init();
             
             _camera = new Simple2DCamera(_window);
-            
+
+            Ground = windowHeight / 6;
             _obstacles = new List<Obstacle>();
             _player = new Player
             {
-                X = 100,
-                Y = 150,
-                Width = 64,
-                Height = 64,
+                X = Ground,
+                Y = Ground + (int)(windowWidth / 12.5) / 2,
+                Width = (int)(windowWidth / 12.5),
+                Height = (int)(windowWidth / 12.5),
                 Color = Color.White,
                 
-                RunSpeed = 10,
-                JumpSpeed = 10,
-                FallSpeed = 8,
-                JumpHeight = 200,
+                RunSpeed = Ground / 5,
+                JumpSpeed = Ground / 5,
+                FallSpeed = Ground / 5,
+                JumpHeight = Ground * 2,
                 State = PlayerState.IsFalling
             };
             OnUpdate();
@@ -59,6 +59,28 @@ namespace EndlessEngine.Sandbox
                         }
                         break;
                 }
+            };
+
+            _window.OnWindowResize += (sender, e) =>
+            {
+                _camera = new Simple2DCamera(_window);
+
+                Ground = e.Height / 6;
+                _player = new Player
+                {
+                    X = Ground,
+                    Y = Ground + (int) (e.Width / 12.5) / 2,
+                    Width = (int) (e.Width / 12.5),
+                    Height = (int) (e.Width / 12.5),
+                    Color = Color.White,
+
+                    RunSpeed = Ground / 5,
+                    JumpSpeed = Ground / 5,
+                    FallSpeed = Ground / 5,
+                    JumpHeight = Ground * 2,
+                    State = PlayerState.IsFalling
+                };
+                _obstacles.Clear();
             };
         }
 
@@ -103,13 +125,13 @@ namespace EndlessEngine.Sandbox
                 switch (random.Next(1, 4))
                 {
                     case 1:
-                        _obstacles.Add(Obstacle.Single(10, 100, x, Ground));
+                        _obstacles.Add(Obstacle.Single(Ground / 10, Ground, x, Ground));
                         break;
                     case 2:
-                        _obstacles.AddRange(Obstacle.Multiple(10, 100, x, Ground, 2));
+                        _obstacles.AddRange(Obstacle.Multiple(Ground / 10, Ground, x, Ground, 2));
                         break;
                     case 3:                            
-                        _obstacles.AddRange(Obstacle.Multiple(10, 100, x, Ground, 3));
+                        _obstacles.AddRange(Obstacle.Multiple(Ground / 10, Ground, x, Ground, 3));
                         break;
                 }
             }

@@ -44,7 +44,7 @@ namespace EndlessEngine.Sandbox
                     Color = Color.White,
                     Width = width,
                     Height = height,
-                    X = obstacles[i - 1].X + 50,
+                    X = obstacles[i - 1].X + height / 2,
                     Y = y + height / 2
                 };
             }

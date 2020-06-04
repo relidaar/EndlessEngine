@@ -22,9 +22,11 @@ namespace EndlessEngine.Sandbox
         public Game(int windowWidth, int windowHeight, string windowTitle)
         {
             _graphics = new OpenGLGraphicsFactory();
-            _window = _graphics.CreateWindow(windowWidth, windowHeight, windowTitle);
+            _window = _graphics.CreateWindow(windowWidth, windowHeight, windowTitle, false);
             _renderer = _graphics.CreateRenderer();
             _renderer.Init();
+            
+            OnUpdate();
             NewGame();
         }
         
@@ -48,28 +50,6 @@ namespace EndlessEngine.Sandbox
                         break;
                 }
             };
-
-            _window.OnWindowResize += (sender, e) =>
-            {
-                _camera = new Simple2DCamera(_window);
-
-                Ground = e.Height / 6;
-                _player = new Player
-                {
-                    X = Ground,
-                    Y = Ground + (int) (e.Width / 12.5) / 2,
-                    Width = (int) (e.Width / 12.5),
-                    Height = (int) (e.Width / 12.5),
-                    Color = Color.White,
-
-                    RunSpeed = Ground / 5,
-                    JumpSpeed = Ground / 5,
-                    FallSpeed = Ground / 5,
-                    JumpHeight = Ground * 2,
-                    State = PlayerState.IsFalling
-                };
-                _obstacles.Clear();
-            };
         }
 
         private void NewGame()
@@ -81,6 +61,8 @@ namespace EndlessEngine.Sandbox
 
             Ground = _window.Height / 6;
             _obstacles = new List<Obstacle>();
+            
+            var speed = Ground / 7;
             _player = new Player
             {
                 X = Ground,
@@ -89,14 +71,13 @@ namespace EndlessEngine.Sandbox
                 Height = (int)(_window.Width / 12.5),
                 Color = Color.White,
                 
-                RunSpeed = Ground / 5,
-                JumpSpeed = Ground / 5,
-                FallSpeed = Ground / 5,
-                JumpHeight = Ground * 2,
+                RunSpeed = speed,
+                JumpSpeed = speed,
+                FallSpeed = speed,
+                JumpHeight = Ground * 2 + speed,
                 State = PlayerState.IsFalling
             };
             
-            OnUpdate();
             Run();
         }
 

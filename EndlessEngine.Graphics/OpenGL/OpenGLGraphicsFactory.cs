@@ -65,21 +65,23 @@ namespace EndlessEngine.Graphics.OpenGL
         /// Creates the window.
         /// </summary>
         /// <param name="properties">The window properties.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <param name="graphicsSettings">The graphics settings.</param>
         /// <returns>IWindow.</returns>
-        public IWindow CreateWindow(in WindowProperties properties, in GraphicsSettings graphicsSettings)
+        public IWindow CreateWindow(in WindowProperties properties, bool resizable, in GraphicsSettings graphicsSettings)
         {
-            return new OpenGLWindow(properties, graphicsSettings);
+            return new OpenGLWindow(properties, resizable, graphicsSettings);
         }
 
         /// <summary>
         /// Creates the window.
         /// </summary>
         /// <param name="properties">The window properties.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <returns>IWindow.</returns>
-        public IWindow CreateWindow(in WindowProperties properties)
+        public IWindow CreateWindow(in WindowProperties properties, bool resizable)
         {
-            return new OpenGLWindow(properties);
+            return new OpenGLWindow(properties, resizable);
         }
 
         /// <summary>
@@ -88,11 +90,12 @@ namespace EndlessEngine.Graphics.OpenGL
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="title">The title.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <param name="graphicsSettings">The graphics settings.</param>
         /// <returns>IWindow.</returns>
-        public IWindow CreateWindow(int width, int height, string title, in GraphicsSettings graphicsSettings)
+        public IWindow CreateWindow(int width, int height, string title, bool resizable, in GraphicsSettings graphicsSettings)
         {
-            return new OpenGLWindow(width, height, title, graphicsSettings);
+            return new OpenGLWindow(width, height, title, resizable, graphicsSettings);
         }
 
         /// <summary>
@@ -101,10 +104,11 @@ namespace EndlessEngine.Graphics.OpenGL
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="title">The title.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <returns>IWindow.</returns>
-        public IWindow CreateWindow(int width, int height, string title)
+        public IWindow CreateWindow(int width, int height, string title, bool resizable)
         {
-            return new OpenGLWindow(width, height, title);
+            return new OpenGLWindow(width, height, title, resizable);
         }
 
         /// <summary>

@@ -11,10 +11,10 @@ namespace EndlessEngine.Graphics.Test.OpenGLTests
         public void CreateWithNegativeValues()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new OpenGLWindow(-1, -1, "Test", new GraphicsSettings()));
+                new OpenGLWindow(-1, -1, "Test", false, new GraphicsSettings()));
             
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new OpenGLWindow(-1, -1, "Test"));
+                new OpenGLWindow(-1, -1, "Test", false));
         }
 
         [Theory]
@@ -24,10 +24,10 @@ namespace EndlessEngine.Graphics.Test.OpenGLTests
         public void CreateWithIncorrectString(string title)
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new OpenGLWindow(0, 0, title, new GraphicsSettings()));
+                new OpenGLWindow(0, 0, title, false, new GraphicsSettings()));
             
             Assert.Throws<ArgumentNullException>(() =>
-                new OpenGLWindow(0, 0, title));
+                new OpenGLWindow(0, 0, title, false));
         }
     }
 }

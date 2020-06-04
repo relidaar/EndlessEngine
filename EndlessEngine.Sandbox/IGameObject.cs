@@ -11,5 +11,7 @@ namespace EndlessEngine.Sandbox
         
         Vector2 Position { get; }
         Vector2 Size { get; }
+
+        bool IsCollide(IGameObject other);
     }
 }

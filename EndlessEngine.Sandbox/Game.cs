@@ -9,41 +9,23 @@ namespace EndlessEngine.Sandbox
 {
     internal class Game : IDisposable
     {
+        private readonly IGraphicsFactory _graphics;
         private readonly IWindow _window;
         private Simple2DCamera _camera;
         private readonly IRenderer _renderer;
-        
+        private Sprite _gameOver;
+
         private Player _player;
-        private readonly List<Obstacle> _obstacles;
+        private List<Obstacle> _obstacles;
         private int Ground;
 
         public Game(int windowWidth, int windowHeight, string windowTitle)
         {
-            IGraphicsFactory graphics = new OpenGLGraphicsFactory();
-            
-            _window = graphics.CreateWindow(windowWidth, windowHeight, windowTitle);
-            _renderer = graphics.CreateRenderer();
+            _graphics = new OpenGLGraphicsFactory();
+            _window = _graphics.CreateWindow(windowWidth, windowHeight, windowTitle);
+            _renderer = _graphics.CreateRenderer();
             _renderer.Init();
-            
-            _camera = new Simple2DCamera(_window);
-
-            Ground = windowHeight / 6;
-            _obstacles = new List<Obstacle>();
-            _player = new Player
-            {
-                X = Ground,
-                Y = Ground + (int)(windowWidth / 12.5) / 2,
-                Width = (int)(windowWidth / 12.5),
-                Height = (int)(windowWidth / 12.5),
-                Color = Color.White,
-                
-                RunSpeed = Ground / 5,
-                JumpSpeed = Ground / 5,
-                FallSpeed = Ground / 5,
-                JumpHeight = Ground * 2,
-                State = PlayerState.IsFalling
-            };
-            OnUpdate();
+            NewGame();
         }
         
         private void OnUpdate()
@@ -53,10 +35,16 @@ namespace EndlessEngine.Sandbox
                 switch (e.Key)
                 {
                     case Key.Space:
-                        if (_player.State == PlayerState.IsOnGround)
+                        switch (_player.State)
                         {
-                            _player.State = PlayerState.IsJumping;
+                            case PlayerState.IsOnGround:           
+                                _player.State = PlayerState.IsJumping;
+                                break;
+                            case PlayerState.IsDead:
+                                NewGame();
+                                break;
                         }
+
                         break;
                 }
             };
@@ -84,9 +72,41 @@ namespace EndlessEngine.Sandbox
             };
         }
 
+        private void NewGame()
+        {
+            _camera = new Simple2DCamera(_window);
+
+            var gameOverTexture = _graphics.CreateTexture("assets/textures/gameover.png", TextureData.Default);
+            _gameOver = new Sprite(gameOverTexture, 0, 0, _window.Width / 3, _window.Height / 6);
+
+            Ground = _window.Height / 6;
+            _obstacles = new List<Obstacle>();
+            _player = new Player
+            {
+                X = Ground,
+                Y = Ground + (int)(_window.Width / 12.5) / 2,
+                Width = (int)(_window.Width / 12.5),
+                Height = (int)(_window.Width / 12.5),
+                Color = Color.White,
+                
+                RunSpeed = Ground / 5,
+                JumpSpeed = Ground / 5,
+                FallSpeed = Ground / 5,
+                JumpHeight = Ground * 2,
+                State = PlayerState.IsFalling
+            };
+            
+            OnUpdate();
+            Run();
+        }
+
         private void OperatePlayer()
         {
-            if (_player.State == PlayerState.IsDead) return;
+            if (_player.State == PlayerState.IsDead)
+            {
+                _renderer.Draw(_player.Position, _player.Size, _player.Color);
+                return;
+            }
 
             _player.X += _player.RunSpeed;
             switch (_player.State)
@@ -148,6 +168,11 @@ namespace EndlessEngine.Sandbox
 
             foreach (var obstacle in _obstacles)
             {
+                if (obstacle.IsCollide(_player) && _player.State != PlayerState.IsDead)
+                {
+                    _player.State = PlayerState.IsDead;
+                }
+                
                 _renderer.Draw(obstacle.Position, obstacle.Size, obstacle.Color);
             }
         }
@@ -155,20 +180,30 @@ namespace EndlessEngine.Sandbox
         public void Run()
         {
             while (_window.IsOpen)
-            {                
-                _camera.X += _player.RunSpeed;
-                
+            {
                 _renderer.SetClearColor(25, 25, 25);
                 _renderer.Clear();
 
                 _renderer.SetScene(_camera.Camera);
 
-                OperateObstacles();
-                OperatePlayer();
+                OperatePlayer();  
+                OperateObstacles();  
+                
+                if (_player.State == PlayerState.IsDead)
+                {
+                    _gameOver.Position = new Vector2(
+                        _window.Width / 2 + _gameOver.Size.X + _camera.X, 
+                        _window.Height / 2);
+                    _renderer.Draw(_gameOver);
+                }
+                else
+                {
+                    _camera.X += _player.RunSpeed;
+                }
 
                 _renderer.Draw(
-                    new Vector2(_camera.X + _window.Width / 2 - _player.RunSpeed, Ground), 
-                    new Vector2(_window.Width, 1), 
+                    new Vector2(_window.Width / 2 + _camera.X - _player.RunSpeed, Ground), 
+                    new Vector2(_window.Width * 2, 1), 
                     Color.White
                     );
 

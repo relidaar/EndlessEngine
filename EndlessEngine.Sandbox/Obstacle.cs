@@ -80,6 +80,14 @@ namespace EndlessEngine.Sandbox
 
         public Vector2 Position => _position;
         public Vector2 Size => _size;
+        public bool IsCollide(IGameObject other)
+        {
+            return X < other.X + other.Width &&
+                   X + Width > other.X &&
+                   Y < other.Y + other.Height &&
+                   Y + Height > other.Y;
+        }
+
         public Color Color { get; set; }
     }
 }

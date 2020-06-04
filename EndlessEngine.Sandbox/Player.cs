@@ -41,6 +41,14 @@ namespace EndlessEngine.Sandbox
         
         private Vector2 _position;
         private Vector2 _size;
+        
+        public bool IsCollide(IGameObject other)
+        {
+            return X < other.X + other.Width &&
+                   X + Width > other.X &&
+                   Y < other.Y + other.Height &&
+                   Y + Height > other.Y;
+        }
     }
 
     public enum PlayerState

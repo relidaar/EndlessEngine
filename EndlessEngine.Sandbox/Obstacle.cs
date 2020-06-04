@@ -25,7 +25,7 @@ namespace EndlessEngine.Sandbox
             return obstacle;
         }
 
-        public static IEnumerable<Obstacle> Multiple(int width, int height, int x, int y, int n)
+        public static IEnumerable<Obstacle> Multiple(int width, int height, int x, int y, int n, int stride)
         {
             var obstacles = new Obstacle[n];
             obstacles[0] = new Obstacle
@@ -44,7 +44,7 @@ namespace EndlessEngine.Sandbox
                     Color = Color.White,
                     Width = width,
                     Height = height,
-                    X = obstacles[i - 1].X + height / 2,
+                    X = obstacles[i - 1].X + stride,
                     Y = y + height / 2
                 };
             }

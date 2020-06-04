@@ -123,16 +123,17 @@ namespace EndlessEngine.Sandbox
             {                           
                 var random = new Random();
                 var x = random.Next(_camera.X + _window.Width, _camera.X + _window.Width * 2);
+                int width = Ground / 10;
                 switch (random.Next(1, 4))
                 {
                     case 1:
-                        _obstacles.Add(Obstacle.Single(Ground / 10, Ground, x, Ground));
+                        _obstacles.Add(Obstacle.Single(width, Ground, x, Ground));
                         break;
                     case 2:
-                        _obstacles.AddRange(Obstacle.Multiple(Ground / 10, Ground, x, Ground, 2));
+                        _obstacles.AddRange(Obstacle.Multiple(width, Ground, x, Ground, 2, width * 3));
                         break;
                     case 3:                            
-                        _obstacles.AddRange(Obstacle.Multiple(Ground / 10, Ground, x, Ground, 3));
+                        _obstacles.AddRange(Obstacle.Multiple(width, Ground, x, Ground, 3, width * 3));
                         break;
                 }
             }

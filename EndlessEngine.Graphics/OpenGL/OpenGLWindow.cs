@@ -105,10 +105,11 @@ namespace EndlessEngine.Graphics.OpenGL
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="title">The title.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <param name="graphicsSettings">The graphics settings.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public OpenGLWindow(int width, int height, string title, in GraphicsSettings graphicsSettings)
+        public OpenGLWindow(int width, int height, string title, bool resizable, in GraphicsSettings graphicsSettings)
         {
             if (width < 0 || height < 0)
                 throw new ArgumentOutOfRangeException();
@@ -116,7 +117,7 @@ namespace EndlessEngine.Graphics.OpenGL
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentNullException();
 
-            Init(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings);
+            Init(new WindowProperties {Width = width, Height = height, Title = title}, resizable, graphicsSettings);
         }
 
         /// <summary>
@@ -125,9 +126,10 @@ namespace EndlessEngine.Graphics.OpenGL
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="title">The title.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public OpenGLWindow(int width, int height, string title)
+        public OpenGLWindow(int width, int height, string title, bool resizable)
         {
             if (width < 0 || height < 0)
                 throw new ArgumentOutOfRangeException();
@@ -142,24 +144,26 @@ namespace EndlessEngine.Graphics.OpenGL
                 graphicsSettings = JsonConvert.DeserializeObject<GraphicsSettings>(json);
             }
             
-            Init(new WindowProperties {Width = width, Height = height, Title = title}, graphicsSettings);
+            Init(new WindowProperties {Width = width, Height = height, Title = title}, resizable, graphicsSettings);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenGLWindow"/> class.
         /// </summary>
         /// <param name="properties">The properties.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <param name="graphicsSettings">The graphics settings.</param>
-        public OpenGLWindow(in WindowProperties properties, in GraphicsSettings graphicsSettings)
+        public OpenGLWindow(in WindowProperties properties, bool resizable, in GraphicsSettings graphicsSettings)
         {
-            Init(properties, graphicsSettings);
+            Init(properties, resizable, graphicsSettings);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenGLWindow"/> class.
         /// </summary>
         /// <param name="properties">The properties.</param>
-        public OpenGLWindow(in WindowProperties properties)
+        /// <param name="resizable">Is window resizable.</param>
+        public OpenGLWindow(in WindowProperties properties, bool resizable)
         {
             GraphicsSettings graphicsSettings;
             using (var r = new StreamReader(Paths.GraphicsSettingsPath))
@@ -168,16 +172,17 @@ namespace EndlessEngine.Graphics.OpenGL
                 graphicsSettings = JsonConvert.DeserializeObject<GraphicsSettings>(json);
             }
             
-            Init(properties, graphicsSettings);
+            Init(properties, resizable, graphicsSettings);
         }
 
         /// <summary>
         /// Initializes the specified properties.
         /// </summary>
         /// <param name="properties">The properties.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <param name="graphicsSettings">The graphics settings.</param>
         /// <exception cref="NullReferenceException">Could not create window</exception>
-        private void Init(in WindowProperties properties, in GraphicsSettings graphicsSettings)
+        private void Init(in WindowProperties properties, bool resizable, in GraphicsSettings graphicsSettings)
         {
             if (!Glfw.Init())
             {
@@ -208,6 +213,10 @@ namespace EndlessEngine.Graphics.OpenGL
 
             Glfw.MakeContextCurrent(_instance);
             _instance.CenterOnScreen();
+            if (!resizable)
+            {
+                _instance.SetSizeLimits(Width, Height, Width, Height);
+            }
 
             Log.Instance.Info("Creating window \"{0}\" ({1}, {2})",
                 properties.Title, properties.Width, properties.Height);

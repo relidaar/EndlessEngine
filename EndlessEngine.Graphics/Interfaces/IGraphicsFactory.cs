@@ -49,35 +49,39 @@ namespace EndlessEngine.Graphics.Interfaces
         /// Creates the window.
         /// </summary>
         /// <param name="properties">The properties.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <param name="graphicsSettings">The graphics settings.</param>
         /// <returns>IWindow.</returns>
-        IWindow CreateWindow(in WindowProperties properties, in GraphicsSettings graphicsSettings);
+        IWindow CreateWindow(in WindowProperties properties, bool resizable, in GraphicsSettings graphicsSettings);
         
         /// <summary>
         /// Creates the window.
         /// </summary>
         /// <param name="properties">The properties.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <returns>IWindow.</returns>
-        IWindow CreateWindow(in WindowProperties properties);
-        
+        IWindow CreateWindow(in WindowProperties properties, bool resizable);
+
         /// <summary>
         /// Creates the window.
         /// </summary>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="title">The title.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <param name="graphicsSettings">The graphics settings.</param>
         /// <returns>IWindow.</returns>
-        IWindow CreateWindow(int width, int height, string title, in GraphicsSettings graphicsSettings);
-        
+        IWindow CreateWindow(int width, int height, string title, bool resizable, in GraphicsSettings graphicsSettings);
+
         /// <summary>
         /// Creates the window.
         /// </summary>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="title">The title.</param>
+        /// <param name="resizable">Is window resizable.</param>
         /// <returns>IWindow.</returns>
-        IWindow CreateWindow(int width, int height, string title);
+        IWindow CreateWindow(int width, int height, string title, bool resizable);
 
         /// <summary>
         /// Creates the renderer.

@@ -22,13 +22,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="resources\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <ContentWithTargetPath Include="resources\glfw.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>glfw.dll</TargetPath>
+    <Content Include="resources\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>resources\</PackagePath>
+    </Content>
+    <ContentWithTargetPath Include="lib\GLFW\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <TargetPath>%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
     </ContentWithTargetPath>
   </ItemGroup>
-
 </Project>

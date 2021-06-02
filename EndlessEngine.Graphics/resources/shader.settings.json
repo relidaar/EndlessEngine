@@ -1,0 +1,14 @@
+{
+  "ShaderName": "DefaultShader",
+  "VertexShaderFilename": "DefaultVertex.glsl",
+  "FragmentShaderFilename": "DefaultFragment.glsl",
+  
+  "VerticesPosition": "aPosition",
+  "TextureCoordinates": "aTextureCoordinates",
+
+  "ViewProjectionUniform": "uViewProjection",
+  "TransformUniform": "uTransform",
+  "TextureUniform": "uTexture",
+  "ColorUniform": "uColor",
+  "TilingFactorUniform": "uTilingFactor"
+}

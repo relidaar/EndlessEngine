@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+    <LangVersion>8</LangVersion>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EndlessEngine.Graphics\EndlessEngine.Graphics.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="assets\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\textures\gameover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

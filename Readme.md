@@ -1,4 +1,4 @@
-﻿# Endless Engine
+# Endless Engine
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -32,7 +32,7 @@ Endless Engine is a simple cross-platform 2D rendering engine.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/relidaar/EndlessEngine.git
+   git clone https://gitlab.com/relidaar/EndlessEngine.git
    ```
 2. Change your directory
    ```sh
@@ -132,26 +132,26 @@ Distributed under the MIT License. See  [`LICENSE`][license-url] for more inform
 
 Oleksandr Sviatetskyi - alex.sviatetskyi@outlook.com
 
-Project Link: [https://github.com/relidaar/EndlessEngine][project-link]
+Project Link: [https://gitlab.com/relidaar/EndlessEngine][project-link]
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
-[project-link]: https://github.com/relidaar/EndlessEngine
-[project-issues-link]: https://github.com/relidaar/EndlessEngine/issues
+[project-link]: https://gitlab.com/relidaar/EndlessEngine
+[project-issues-link]: https://gitlab.com/relidaar/EndlessEngine/-/issues
 
 [contributors-shield]: https://img.shields.io/github/contributors/relidaar/EndlessEngine?style=for-the-badge
-[contributors-url]: https://github.com/relidaar/EndlessEngine/graphs/contributors
+[contributors-url]: https://gitlab.com/relidaar/EndlessEngine/-/graphs/main
 
 [forks-shield]: https://img.shields.io/github/forks/relidaar/EndlessEngine?style=for-the-badge
-[forks-url]: https://github.com/relidaar/EndlessEngine/network/members
+[forks-url]: https://gitlab.com/relidaar/EndlessEngine/-/forks/
 
 [issues-shield]: https://img.shields.io/github/issues/relidaar/EndlessEngine?style=for-the-badge
-[issues-url]: https://github.com/relidaar/EndlessEngine/issues
+[issues-url]: https://gitlab.com/relidaar/EndlessEngine/-/issues
 
 [license-shield]: https://img.shields.io/github/license/relidaar/EndlessEngine?style=for-the-badge
-[license-url]: https://github.com/relidaar/EndlessEngine/blob/main/LICENSE
+[license-url]: https://gitlab.com/relidaar/EndlessEngine/blob/main/LICENSE
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/oleksandr-sviatetskyi-45424b143/

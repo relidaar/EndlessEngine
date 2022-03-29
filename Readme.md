@@ -141,3 +141,6 @@ Project Link: [https://gitlab.com/relidaar/EndlessEngine][project-link]
 
 [dotnet-shield]: https://img.shields.io/badge/.NET_Core-2.1-brightgreen.svg?style=flat-square
 [dotnet-url]: https://dotnet.microsoft.com/download/dotnet/2.1
+
+[license-shield]: https://img.shields.io/gitlab/license/relidaar/EndlessEngine?style=for-the-badge
+[license-url]: https://gitlab.com/relidaar/EndlessEngine/blob/main/LICENSE

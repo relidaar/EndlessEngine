@@ -130,7 +130,7 @@ Distributed under the MIT License. See  [`LICENSE`][license-url] for more inform
 ## Contact
 [(Back to top)](#table-of-contents)
 
-Oleksandr Sviatetskyi - alex.sviatetskyi@outlook.com
+Oleksandr Sviatetskyi - alex.sviatetskyi@icloud.com
 
 Project Link: [https://gitlab.com/relidaar/EndlessEngine][project-link]
 
@@ -141,10 +141,10 @@ Project Link: [https://gitlab.com/relidaar/EndlessEngine][project-link]
 [project-link]: https://gitlab.com/relidaar/EndlessEngine
 [project-issues-link]: https://gitlab.com/relidaar/EndlessEngine/-/issues
 
-[contributors-shield]: https://img.shields.io/github/contributors/relidaar/EndlessEngine?style=for-the-badge
+[contributors-shield]: https://img.shields.io/gitlab/contributors/relidaar/EndlessEngine?style=for-the-badge
 [contributors-url]: https://gitlab.com/relidaar/EndlessEngine/-/graphs/main
 
-[forks-shield]: https://img.shields.io/github/forks/relidaar/EndlessEngine?style=for-the-badge
+[forks-shield]: https://img.shields.io/gitlab/forks/relidaar/EndlessEngine?style=for-the-badge
 [forks-url]: https://gitlab.com/relidaar/EndlessEngine/-/forks/
 
 [issues-shield]: https://img.shields.io/github/issues/relidaar/EndlessEngine?style=for-the-badge

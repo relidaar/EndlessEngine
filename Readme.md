@@ -130,8 +130,6 @@ Distributed under the MIT License. See  [`LICENSE`][license-url] for more inform
 ## Contact
 [(Back to top)](#table-of-contents)
 
-Oleksandr Sviatetskyi - alex.sviatetskyi@gmail.com
-
 Project Link: [https://github.com/relidaar/EndlessEngine][project-link]
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
